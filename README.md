@@ -16,6 +16,14 @@ The business user describes goals, rules, priorities, exceptions, and acceptance
 npx appgen install
 ```
 
+For repeatable local validation or CI fixtures, use the non-interactive mode:
+
+```bash
+appgen install --yes --engine=codex --project-name "Sales Portal" --user-name "Eduardo"
+```
+
+Use `--engine=claude-code` for Claude Code, or `--engines=codex,claude-code` to install both.
+
 Then open your agent environment and type:
 
 ```text
@@ -31,6 +39,20 @@ appgen scaffold
 appgen loop
 appgen acceptance
 appgen docs
+```
+
+## Testing AppGen
+
+Business validation:
+
+```text
+docs/MVP-TEST-GUIDE.md
+```
+
+Technical validation:
+
+```text
+docs/TECHNICAL-TEST-GUIDE.md
 ```
 
 ## Company Profiles

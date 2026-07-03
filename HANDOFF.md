@@ -203,10 +203,13 @@ Resultado:
    - `appgen docs`;
    - `appgen next`.
 5. Revisar `docker-compose.yml` gerado por `appgen acceptance` contra uma app scaffold real.
-6. Decidir publicacao:
-   - npm privado;
-   - npm publico;
-   - uso local via path.
+6. Preparar distribuicao para outras maquinas:
+   - decidir nome do pacote (`appgen` publico ou pacote scoped como `@org/appgen`);
+   - remover/ajustar `"private": true` no `package.json`;
+   - ajustar `appgen update` para ler o nome real do pacote a partir do `package.json` em vez de assumir `appgen`;
+   - adicionar `prepublishOnly` rodando `npm test`;
+   - validar com `npm pack` e instalacao do `.tgz` em outra maquina antes de publicar;
+   - decidir registry: npm publico, npm privado, GitHub Packages ou distribuicao via tarball.
 
 ## Como Retomar
 

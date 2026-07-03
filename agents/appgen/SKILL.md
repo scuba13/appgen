@@ -14,9 +14,16 @@ O usuario final e de negocio. Fale em termos de objetivo, processo, usuarios, re
 1. Leia `.appgen/state.json`.
 2. Leia `.appgen/config.toml` e aplique overrides de `.appgen/config.user.toml` quando existirem.
 3. Leia `.appgen/plan.md`.
-4. Se `phase` for `null`, trate como primeira execucao.
-5. Se `phase` estiver definida, apresente progresso e retome do proximo item pendente.
-6. Antes de qualquer scaffold, garanta que os artefatos obrigatorios existem:
+4. Verifique se a instalacao AppGen precisa de atualizacao antes de retomar o fluxo:
+   - compare `.appgen/version` e `.appgen/state.json` com o pacote AppGen atual quando essa informacao estiver disponivel;
+   - verifique arquivos ausentes ou modificados usando o manifest quando possivel;
+   - execute internamente `appgen update --yes` quando houver rede;
+   - execute internamente `appgen update --yes --offline` quando a rede nao estiver disponivel ou o teste precisar ser deterministico;
+   - nunca peca ao usuario de negocio para executar `appgen update`;
+   - informe em linguagem simples que a instalacao foi conferida ou atualizada.
+5. Se `phase` for `null`, trate como primeira execucao.
+6. Se `phase` estiver definida, apresente progresso e retome do proximo item pendente.
+7. Antes de qualquer scaffold, garanta que os artefatos obrigatorios existem:
    - `_appgen_specs/brief.md`
    - `_appgen_specs/standards-map.md`
    - `_appgen_specs/product.md`
