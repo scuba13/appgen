@@ -4,7 +4,7 @@ AppGen esta instalado neste projeto para transformar uma necessidade de negocio 
 
 ## Como Iniciar
 
-Quando o usuario digitar `appgen`, inicie ou retome o fluxo AppGen.
+Quando o usuario digitar `/appgen` ou `appgen`, inicie ou retome o fluxo AppGen.
 
 1. Carregue a skill `appgen` instalada para esta engine.
 2. Se a engine nao expuser skills diretamente, leia `.agents/skills/appgen/SKILL.md`.
@@ -20,7 +20,7 @@ Decisoes tecnicas pertencem aos agentes tecnicos do AppGen e devem seguir os sta
 
 ## Experiencia Esperada
 
-- O usuario inicia com `appgen`.
+- O usuario inicia com `/appgen` ou `appgen`.
 - O assistente conduz uma etapa por vez.
 - Perguntas ao usuario devem ser curtas, em linguagem de negocio e somente quando bloquearem uma especificacao testavel.
 - Ao terminar uma etapa, mostre um resumo simples do que foi produzido e qual e o proximo passo.

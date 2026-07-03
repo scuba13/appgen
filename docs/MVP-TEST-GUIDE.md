@@ -4,7 +4,7 @@
 
 Este guia mostra como uma pessoa de negocio usa o AppGen para criar, testar, aprovar ou retomar a geracao de um app corporativo.
 
-Acao esperada: abrir a ferramenta de IA configurada no projeto, digitar `appgen` e seguir as perguntas em linguagem de negocio.
+Acao esperada: abrir a ferramenta de IA configurada no projeto, iniciar o AppGen e seguir as perguntas em linguagem de negocio. No Claude Code, use `/appgen`. No Codex, use `appgen`, `$appgen` ou selecione AppGen no menu de skills quando a interface mostrar essa opcao.
 
 O usuario de negocio nao precisa escolher tecnologia, arquitetura, banco, framework, estrutura de pastas, testes ou CI/CD. Essas decisoes sao tomadas pelos agentes tecnicos do AppGen com base nos standards da empresa.
 
@@ -25,10 +25,11 @@ Isso e importante:
 - instalar AppGen em uma pasta nao instala automaticamente em outras pastas;
 - se a pasta ja tiver AppGen instalado, use `appgen update` antes de continuar.
 
-Depois que a pasta estiver preparada, o uso normal no Claude Code ou Codex comeca somente com:
+Depois que a pasta estiver preparada, o uso normal comeca pela ferramenta de IA:
 
 ```text
-appgen
+Claude Code: /appgen
+Codex: appgen ou $appgen
 ```
 
 ## Preparar A Pasta Do App
@@ -108,34 +109,44 @@ cd ~/Projetos/helpdesk-interno
 
 Depois abra Claude Code ou Codex nessa pasta.
 
-Na conversa com a ferramenta, digite:
+Na conversa com a ferramenta, inicie o AppGen:
 
 ```text
-appgen
+Claude Code:
+  /appgen
+
+Codex:
+  appgen
+  ou
+  $appgen
 ```
 
-Nao use `/appgen`. O gatilho do fluxo e a palavra `appgen`.
+No Codex, voce tambem pode abrir o menu de skills e selecionar AppGen quando a interface mostrar essa opcao.
 
 ## Como Iniciar
 
 1. Abra Claude Code ou Codex na pasta do app.
-2. Digite `appgen`.
+2. Digite `/appgen` no Claude Code, ou `appgen`/`$appgen` no Codex.
 3. Descreva o app que voce quer criar.
 4. Responda apenas perguntas de negocio.
 5. Quando o AppGen apresentar um resumo de etapa, diga algo como `pode seguir`, `continuar` ou `seguir`.
 
-Se voce fechar a ferramenta e voltar depois, abra novamente a mesma pasta e digite `appgen`. O AppGen deve retomar do ponto em que parou.
+Se voce fechar a ferramenta e voltar depois, abra novamente a mesma pasta e use o mesmo gatilho. O AppGen deve retomar do ponto em que parou.
 
 ## O Que Escrever No Primeiro Contato
 
-Voce pode comecar simples:
+Voce pode comecar simples.
+
+No Claude Code:
 
 ```text
-appgen
+/appgen
 
 Quero criar um app chamado Helpdesk Interno.
 Ele deve permitir que colaboradores abram chamados e que a equipe de atendimento acompanhe, priorize e atualize esses chamados.
 ```
+
+No Codex, troque a primeira linha por `appgen` ou `$appgen`.
 
 Se ja souber mais detalhes, inclua:
 
@@ -150,8 +161,10 @@ Se ja souber mais detalhes, inclua:
 
 ## Exemplo Completo
 
+Exemplo no Claude Code:
+
 ```text
-appgen
+/appgen
 
 Quero criar um app corporativo chamado Helpdesk Interno.
 
@@ -186,6 +199,8 @@ Regras:
 - O gestor visualiza indicadores.
 - O app deve ser simples, mas preparado para evoluir.
 ```
+
+No Codex, use o mesmo texto, mas comece com `appgen` ou `$appgen`.
 
 ## Como O AppGen Vai Conduzir
 

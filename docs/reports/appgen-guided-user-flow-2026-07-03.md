@@ -5,7 +5,7 @@
 Validar a experiencia real esperada para uma pessoa usando AppGen:
 
 ```text
-usuario abre a ferramenta de IA -> digita appgen -> segue as perguntas -> testa a app -> aprova
+usuario abre a ferramenta de IA -> usa /appgen, appgen ou $appgen conforme a engine -> segue as perguntas -> testa a app -> aprova
 ```
 
 O usuario nao executa comandos de scaffold, update, acceptance ou docs. Esses comandos aparecem abaixo apenas como acoes internas que o agente AppGen executou durante a simulacao.
@@ -42,13 +42,17 @@ Registrar tarefas pequenas, marcar como concluida, reabrir e remover.
 
 O usuario final teria enviado apenas mensagens de negocio:
 
+Exemplo no Claude Code:
+
 ```text
-appgen
+/appgen
 
 Quero uma app simples chamada Lista Simples.
 Ela deve permitir criar tarefas, marcar como concluida, reabrir e remover.
 Pode ser bem simples, so para validar o fluxo.
 ```
+
+No Codex, a primeira linha seria `appgen` ou `$appgen`.
 
 Depois dos resumos de etapa:
 

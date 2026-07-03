@@ -49,6 +49,16 @@ appgen-docs
 appgen-handoff
 ```
 
+Ativacao no chat:
+
+```text
+Claude Code: /appgen
+Codex: appgen ou $appgen
+```
+
+Claude Code recebe um comando local em `.claude/commands/appgen.md`.
+Codex usa a skill repo-local em `.agents/skills/appgen`; o caminho explicito documentado e `$appgen` ou o menu `/skills`.
+
 ## Estrutura do Repo
 
 ```text

@@ -1,6 +1,6 @@
 ---
 name: appgen
-description: Orquestrador central do framework AppGen para conduzir a criacao de apps corporativos a partir de entrada de negocio. Use quando o usuario digitar "appgen", "criar app", "gerar aplicativo" ou pedir para iniciar ou retomar o fluxo AppGen.
+description: Orquestrador central do framework AppGen para conduzir a criacao de apps corporativos a partir de entrada de negocio. Use quando o usuario digitar "appgen", "/appgen", "$appgen", "criar app", "gerar aplicativo" ou pedir para iniciar ou retomar o fluxo AppGen.
 ---
 
 # AppGen Orchestrator
@@ -70,7 +70,7 @@ Para cada agente:
 4. Salve checkpoint em `.appgen/state.json`.
 5. Marque o item como concluido em `.appgen/plan.md`.
 6. Mostre um resumo curto do resultado, evitando jargao tecnico.
-7. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir" ou novo `appgen`; nao exija uma palavra reservada.
+7. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir", novo `appgen` ou `/appgen`; nao exija uma palavra reservada.
 
 Voce pode usar internamente `appgen next` para descobrir a proxima etapa e
 `appgen next --complete=<etapa> --file=<artefato>` para registrar checkpoint

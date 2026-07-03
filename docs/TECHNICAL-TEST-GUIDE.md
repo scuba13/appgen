@@ -254,7 +254,7 @@ Para testar o fluxo com Claude Code, Codex ou outra engine suportada:
 1. Crie um diretorio limpo fora deste repo.
 2. Rode `appgen install` e selecione a engine desejada.
 3. Abra a ferramenta de IA configurada nesse diretorio.
-4. Digite `appgen`.
+4. Digite `/appgen` no Claude Code, ou `appgen`/`$appgen` no Codex.
 5. Siga o fluxo ate gerar specs suficientes.
 6. Rode `appgen scaffold`.
 7. Rode `appgen acceptance`.
@@ -262,13 +262,18 @@ Para testar o fluxo com Claude Code, Codex ou outra engine suportada:
 9. Registre feedback ou aceite.
 10. Depois do aceite, rode `appgen docs`.
 
-O gatilho no chat e sempre:
+Gatilhos esperados no chat:
 
 ```text
-appgen
+Claude Code:
+  /appgen
+
+Codex:
+  appgen
+  $appgen
 ```
 
-Nao use `/appgen`.
+No Codex, a skill AppGen tambem pode aparecer no menu de skills ou na lista slash da interface, dependendo da superficie usada.
 
 ## 8. Limpeza
 

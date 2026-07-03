@@ -99,6 +99,36 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
   }
 });
 
+test('install --yes creates Claude Code slash command when requested', () => {
+  const projectRoot = makeProject();
+
+  try {
+    runAppgen(projectRoot, [
+      'install',
+      '--yes',
+      '--engine=claude-code',
+      '--project-name',
+      'Support Desk',
+      '--user-name',
+      'Eduardo',
+    ]);
+
+    const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.deepEqual(state.engines, ['claude-code']);
+
+    assert.ok(existsSync(join(projectRoot, 'CLAUDE.md')));
+    assert.ok(existsSync(join(projectRoot, '.claude', 'commands', 'appgen.md')));
+    assert.ok(existsSync(join(projectRoot, '.claude', 'skills', 'appgen', 'SKILL.md')));
+    assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen', 'SKILL.md')));
+    assert.match(
+      readFileSync(join(projectRoot, '.claude', 'commands', 'appgen.md'), 'utf8'),
+      /Inicie ou retome o fluxo AppGen/
+    );
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
 test('scaffold can generate the default app from an installed fixture project', () => {
   const projectRoot = makeProject();
 
@@ -140,7 +170,7 @@ test('update --yes --offline upgrades an old install to the local package versio
     runAppgen(projectRoot, [
       'install',
       '--yes',
-      '--engine=codex',
+      '--engines=codex,claude-code',
       '--project-name',
       'Legacy Portal',
       '--user-name',
@@ -153,6 +183,7 @@ test('update --yes --offline upgrades an old install to the local package versio
     writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
     writeFileSync(join(projectRoot, '.appgen', 'version'), '0.0.1', 'utf8');
     rmSync(join(projectRoot, '.agents', 'skills', 'appgen-docs', 'SKILL.md'), { force: true });
+    rmSync(join(projectRoot, '.claude', 'commands', 'appgen.md'), { force: true });
 
     runAppgen(projectRoot, ['update', '--yes', '--offline']);
 
@@ -161,6 +192,7 @@ test('update --yes --offline upgrades an old install to the local package versio
     assert.equal(updatedState.version, packageJson.version);
     assert.equal(readFileSync(join(projectRoot, '.appgen', 'version'), 'utf8'), packageJson.version);
     assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen-docs', 'SKILL.md')));
+    assert.ok(existsSync(join(projectRoot, '.claude', 'commands', 'appgen.md')));
   } finally {
     cleanup(projectRoot);
   }

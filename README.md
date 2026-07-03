@@ -24,11 +24,14 @@ appgen install --yes --engine=codex --project-name "Sales Portal" --user-name "E
 
 Use `--engine=claude-code` for Claude Code, or `--engines=codex,claude-code` to install both.
 
-Then open your agent environment and type:
+Then open your agent environment and start AppGen:
 
 ```text
-appgen
+Claude Code: /appgen
+Codex: appgen or $appgen
 ```
+
+Codex also exposes installed skills through its skills UI. Depending on the Codex surface, AppGen may appear in the slash menu as an enabled skill; in the CLI, `$appgen` and `/skills` are the documented explicit skill paths.
 
 ## Core Commands
 

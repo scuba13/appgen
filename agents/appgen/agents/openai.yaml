@@ -1,3 +1,4 @@
 interface:
   display_name: "AppGen Orchestrator"
-  short_description: "Coordena o fluxo completo de criacao de app corporativo."
+  short_description: "Inicie com appgen ou $appgen para criar ou retomar um app corporativo."
+  default_prompt: "Inicie ou retome o fluxo AppGen neste projeto."
