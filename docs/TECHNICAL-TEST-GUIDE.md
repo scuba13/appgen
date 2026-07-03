@@ -66,6 +66,66 @@ node /Users/eduardonascimento/Github/appgen/bin/appgen.js install \
   --user-name "Eduardo"
 ```
 
+## 3. Company profile instalado
+
+Sem `--company`, o AppGen usa o company profile default que vem no pacote:
+
+```bash
+npx appgen install
+```
+
+Origem:
+
+```text
+presets/default-web-saas/company/
+```
+
+Destino no projeto alvo:
+
+```text
+.appgen/company/
+```
+
+Exemplo de arquivos instalados:
+
+```text
+.appgen/company/profile.toml
+.appgen/company/standards/backend.md
+.appgen/company/standards/frontend.md
+.appgen/company/standards/security.md
+```
+
+Com `--company`, o AppGen usa o profile local informado em vez do default:
+
+```bash
+appgen install --company ./company-profiles/acme
+```
+
+Origem esperada:
+
+```text
+./company-profiles/acme/profile.toml
+./company-profiles/acme/standards/
+./company-profiles/acme/templates/
+./company-profiles/acme/assets/
+./company-profiles/acme/hooks.yml
+```
+
+Destino continua sendo:
+
+```text
+.appgen/company/
+```
+
+Depois da instalacao, os agentes leem `.appgen/company/` para tomar decisoes tecnicas.
+
+Ordem de resolucao:
+
+1. Decisao explicita aprovada no projeto.
+2. `.appgen/company/`.
+3. Defaults do preset.
+4. Defaults internos do AppGen.
+
 Conferir estrutura comum:
 
 ```bash
@@ -86,7 +146,7 @@ test -f AGENTS.md
 test -f CLAUDE.md
 ```
 
-## 3. Validar scaffold
+## 4. Validar scaffold
 
 No fluxo real, o scaffold deve esperar as specs aprovadas.
 
@@ -109,7 +169,7 @@ test -f app/packages/shared/src/index.ts
 test -f _appgen_work/scaffold-report.md
 ```
 
-## 4. Validar acceptance e docker-compose
+## 5. Validar acceptance e docker-compose
 
 Ainda dentro do projeto temporario:
 
@@ -148,7 +208,7 @@ URLs esperadas:
 - Web: `http://localhost:3000`
 - API health: `http://localhost:3001/health`
 
-## 5. Registrar feedback ou aceite
+## 6. Registrar feedback ou aceite
 
 Feedback tecnico:
 
@@ -187,7 +247,7 @@ test -f _appgen_work/user-acceptance.md
 tail -n 5 _appgen_work/acceptance-history.jsonl
 ```
 
-## 6. Teste guiado com ferramenta de IA
+## 7. Teste guiado com ferramenta de IA
 
 Para testar o fluxo com Claude Code, Codex ou outra engine suportada:
 
@@ -210,7 +270,7 @@ appgen
 
 Nao use `/appgen`.
 
-## 7. Limpeza
+## 8. Limpeza
 
 Depois do teste manual:
 
