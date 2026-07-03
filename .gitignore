@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+.env
+.env.local
+.appgen/
+_appgen_specs/
+_appgen_work/
+app/
+npm-debug.log*
+pnpm-debug.log*

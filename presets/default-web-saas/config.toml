@@ -1,0 +1,29 @@
+[preset]
+name = "default-web-saas"
+version = "1.0.0"
+description = "Preset para apps web corporativos completos, dashboards operacionais e SaaS B2B."
+
+[stack]
+frontend = "nextjs"
+design_system = "ant-design"
+backend = "nestjs"
+database = "postgres"
+orm = "prisma"
+auth = "oidc"
+package_manager = "pnpm"
+monorepo = true
+
+[output]
+app_root = "app"
+
+[scaffold]
+strategy = "preset-static-templates"
+template_dir = "scaffold"
+overwrite_existing_app_root = false
+
+[commands]
+install = "pnpm install"
+lint = "pnpm lint"
+typecheck = "pnpm typecheck"
+test = "pnpm test"
+build = "pnpm build"

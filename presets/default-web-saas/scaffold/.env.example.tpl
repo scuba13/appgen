@@ -1,0 +1,6 @@
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/{{PACKAGE_NAME}}?schema=public"
+OIDC_ISSUER_URL="https://sso.example.com"
+OIDC_CLIENT_ID="{{PACKAGE_NAME}}"
+OIDC_CLIENT_SECRET="replace-me"
+API_PORT="3001"
+NEXT_PUBLIC_API_BASE_URL="http://localhost:3001"

@@ -1,0 +1,45 @@
+{
+  "name": "appgen",
+  "version": "0.1.0",
+  "description": "Corporate app generation framework powered by AI agents and company standards",
+  "private": true,
+  "bin": {
+    "appgen": "bin/appgen.js"
+  },
+  "type": "module",
+  "scripts": {
+    "check": "node --check bin/appgen.js && node --check lib/commands/install.js && node --check lib/commands/scaffold.js && node --check lib/commands/loop.js && node --check lib/commands/acceptance.js && node --check lib/commands/docs.js && node --check lib/runtime/flow.js && node --check lib/runtime/implementation-loop.js",
+    "test": "npm run check"
+  },
+  "keywords": [
+    "app-generation",
+    "corporate-standards",
+    "software-architecture",
+    "ai",
+    "claude",
+    "codex",
+    "gemini",
+    "cursor",
+    "agents"
+  ],
+  "files": [
+    "agents/",
+    "bin/",
+    "docs/",
+    "lib/",
+    "presets/",
+    "templates/",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.20.2"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.0",
+    "ora": "^7.0.1",
+    "semver": "^7.6.0"
+  }
+}

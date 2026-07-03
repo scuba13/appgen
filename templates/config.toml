@@ -1,0 +1,61 @@
+# AppGen - Configuracao do Projeto
+# Arquivo gerenciado pelo instalador. Para customizacoes, edite config.user.toml.
+
+[project]
+name = ""
+version = "1.0.0"
+app_type = ""
+
+[user]
+name = ""
+chat_language = "pt-br"
+doc_language = "Portugues"
+
+[company]
+profile = "default"
+standards_version = "1.0.0"
+profile_source = "preset"
+profile_path = ".appgen/company/profile.toml"
+
+[workflow]
+mode = "final-app"
+
+[stack]
+preset = "default-web-saas"
+frontend = "nextjs"
+design_system = "ant-design"
+backend = "nestjs"
+database = "postgres"
+auth = "oidc"
+package_manager = "pnpm"
+monorepo = true
+
+[output]
+specs = "_appgen_specs"
+work = "_appgen_work"
+app_root = "app"
+
+[quality]
+require_lint = true
+require_tests = true
+require_typecheck = true
+require_build = true
+require_security_review = true
+require_accessibility_review = true
+
+[runtime]
+max_slice_attempts = 3
+max_app_loops = 5
+max_parallel_slices = 1
+stop_on_business_blocker = true
+allow_auto_technical_decision = true
+
+[preset]
+copy_standards = true
+source = "default-web-saas"
+
+[agents]
+installed = []
+
+[engines]
+installed = []

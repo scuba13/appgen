@@ -1,0 +1,23 @@
+{
+  "name": "default-web-saas",
+  "version": "1.0.0",
+  "colors": {
+    "primary": "#1677ff",
+    "success": "#52c41a",
+    "warning": "#faad14",
+    "error": "#ff4d4f",
+    "text": "#1f2328",
+    "background": "#ffffff"
+  },
+  "radius": {
+    "control": 6,
+    "card": 8
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  }
+}

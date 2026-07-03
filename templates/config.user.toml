@@ -1,0 +1,14 @@
+# AppGen - Overrides do Usuario
+# Este arquivo nunca deve ser sobrescrito pelo instalador.
+
+# Exemplo:
+#
+# [output]
+# app_root = "app"
+#
+# [workflow]
+# mode = "full"
+#
+# [stack]
+# preset = "default-web-saas"
+# monorepo = true

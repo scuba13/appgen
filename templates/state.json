@@ -1,0 +1,61 @@
+{
+  "version": "{{VERSION}}",
+  "project": "",
+  "user_name": "",
+  "chat_language": "pt-br",
+  "doc_language": "Portugues",
+  "company_profile": "default",
+  "company_profile_version": "1.0.0",
+  "company_profile_source": "preset",
+  "company_profile_path": ".appgen/company/profile.toml",
+  "workflow_mode": "final-app",
+  "app_type": "",
+  "stack": {
+    "preset": "default-web-saas",
+    "frontend": "nextjs",
+    "design_system": "ant-design",
+    "backend": "nestjs",
+    "database": "postgres",
+    "auth": "oidc",
+    "package_manager": "pnpm",
+    "monorepo": true
+  },
+  "output_folder": "_appgen_specs",
+  "work_folder": "_appgen_work",
+  "app_root": "app",
+  "phase": null,
+  "completed": [],
+  "pending": ["brief", "standards", "product", "architecture", "specs", "scaffold", "slicer", "implementation-loop", "acceptance", "docs", "handoff"],
+  "runtime": {
+    "max_slice_attempts": 3,
+    "max_app_loops": 5,
+    "max_parallel_slices": 1,
+    "stop_on_business_blocker": true,
+    "allow_auto_technical_decision": true
+  },
+  "implementation_loop": {
+    "status": "not_started",
+    "current_slice": null,
+    "iteration": 0,
+    "max_app_loops": 5,
+    "max_slice_attempts": 3,
+    "max_parallel_slices": 1,
+    "open_slices": [],
+    "done_slices": [],
+    "blocked_slices": [],
+    "last_agent": null,
+    "last_report": null
+  },
+  "acceptance": {
+    "status": "not_started",
+    "prepared_at": null,
+    "approved_at": null,
+    "feedback_type": null,
+    "next_step": null,
+    "compose_file": null
+  },
+  "checkpoints": {},
+  "engines": [],
+  "agents": [],
+  "created_files": []
+}

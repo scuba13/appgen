@@ -1,0 +1,10 @@
+# Default company hooks.
+# Real company profiles can replace this file with policy-specific hooks.
+pre_scaffold:
+  - verify-standards-map
+
+pre_implementation_loop:
+  - verify-spec-score
+
+pre_release:
+  - verify-quality-gates

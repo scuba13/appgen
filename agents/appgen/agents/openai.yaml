@@ -1,0 +1,3 @@
+interface:
+  display_name: "AppGen Orchestrator"
+  short_description: "Coordena o fluxo completo de criacao de app corporativo."

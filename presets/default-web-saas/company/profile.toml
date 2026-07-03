@@ -1,0 +1,48 @@
+[company]
+id = "default"
+name = "Default Web SaaS"
+version = "1.0.0"
+owner = "AppGen Platform"
+
+[defaults]
+preset = "default-web-saas"
+language = "pt-br"
+timezone = "America/Sao_Paulo"
+
+[standards]
+backend = "standards/backend.md"
+frontend = "standards/frontend.md"
+database = "standards/database.md"
+api = "standards/api.md"
+design_system = "standards/design-system.md"
+security = "standards/security.md"
+observability = "standards/observability.md"
+testing = "standards/testing.md"
+cicd = "standards/cicd.md"
+deployment = "standards/deployment.md"
+compliance = "standards/compliance.md"
+
+[templates]
+env_example = "templates/env.example.md"
+pull_request = "templates/pull-request.md"
+release_notes = "templates/release-notes.md"
+
+[assets]
+design_tokens = "assets/design-tokens.json"
+logo_guidelines = "assets/logo-guidelines.md"
+
+[quality_gates]
+require_lint = true
+require_typecheck = true
+require_tests = true
+require_build = true
+require_security_review = true
+require_accessibility_review = true
+block_on_high_security = true
+
+[runtime]
+max_slice_attempts = 3
+max_app_loops = 5
+max_parallel_slices = 1
+stop_on_business_blocker = true
+allow_auto_technical_decision = true

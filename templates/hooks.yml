@@ -1,0 +1,37 @@
+schema-version: 1
+
+before-brief: []
+after-brief: []
+
+before-standards: []
+after-standards: []
+
+before-architect: []
+after-architect: []
+
+before-scaffold: []
+after-scaffold:
+  - label: "Instalar dependencias"
+    command: "pnpm install"
+    optional: false
+
+before-coding: []
+after-coding:
+  - label: "Lint"
+    command: "pnpm lint"
+    optional: false
+  - label: "Typecheck"
+    command: "pnpm typecheck"
+    optional: false
+  - label: "Testes"
+    command: "pnpm test"
+    optional: false
+  - label: "Build"
+    command: "pnpm build"
+    optional: false
+
+before-qa: []
+after-qa: []
+
+before-quality: []
+after-quality: []

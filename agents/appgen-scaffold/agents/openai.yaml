@@ -1,0 +1,3 @@
+interface:
+  display_name: "AppGen Scaffold"
+  short_description: "Cria a base fisica do app no app_root."

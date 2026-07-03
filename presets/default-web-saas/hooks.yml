@@ -1,0 +1,20 @@
+schema-version: 1
+
+after-scaffold:
+  - label: "Instalar dependencias"
+    command: "pnpm install"
+    optional: false
+
+after-coding:
+  - label: "Lint"
+    command: "pnpm lint"
+    optional: false
+  - label: "Typecheck"
+    command: "pnpm typecheck"
+    optional: false
+  - label: "Testes"
+    command: "pnpm test"
+    optional: false
+  - label: "Build"
+    command: "pnpm build"
+    optional: false

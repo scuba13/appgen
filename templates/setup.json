@@ -1,0 +1,27 @@
+{
+  "schema-version": 1,
+  "appgen-version": "{{VERSION}}",
+  "installed-at": "{{INSTALLED_AT}}",
+  "project-name": "{{PROJECT_NAME}}",
+  "workflow-mode": "{{WORKFLOW_MODE}}",
+  "preset": "default-web-saas",
+  "company-profile": "{{COMPANY_PROFILE}}",
+  "company-profile-version": "{{COMPANY_PROFILE_VERSION}}",
+  "company-profile-source": "{{COMPANY_PROFILE_SOURCE}}",
+  "company-profile-path": ".appgen/company/profile.toml",
+  "language": "pt-BR",
+  "paths": {
+    "specs-dir": "_appgen_specs",
+    "work-dir": "_appgen_work",
+    "config-dir": ".appgen",
+    "app-root": "app"
+  },
+  "scaffold": {
+    "strategy": "preset-static-templates",
+    "overwrite-existing-app-root": false,
+    "template-variable-format": "{{VARIABLE_NAME}}"
+  },
+  "telemetry": {
+    "enabled": false
+  }
+}

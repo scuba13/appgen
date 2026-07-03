@@ -1,0 +1,3 @@
+interface:
+  display_name: "AppGen Slicer"
+  short_description: "Quebra o app em slices verticais."

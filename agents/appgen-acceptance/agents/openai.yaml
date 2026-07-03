@@ -1,0 +1,2 @@
+name: appgen-acceptance
+description: Prepara preview da app, valida Docker/Compose, coleta aceite do usuario e direciona feedback.

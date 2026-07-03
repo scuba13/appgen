@@ -1,0 +1,3 @@
+interface:
+  display_name: "AppGen Brief"
+  short_description: "Coleta objetivos, regras e restricoes de negocio."
