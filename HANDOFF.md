@@ -68,7 +68,18 @@ lib/         comandos, instalador, runtime e scaffold
 presets/     preset default-web-saas, scaffold e company profile default
 templates/   templates instalados em projetos alvo
 docs/        docs do proprio AppGen
+test/        pastas locais para testes manuais com Claude Code e Codex
 ```
+
+Pastas de teste manual criadas:
+
+```text
+test/claude/
+test/codex/
+```
+
+Essas pastas foram criadas para o usuario executar fluxos reais em cada engine.
+Depois dos testes, analisar os artefatos gerados, logs, estado `.appgen/`, comportamento de ativacao no chat e divergencias entre Claude Code e Codex.
 
 ## Company Profile
 
@@ -202,18 +213,20 @@ Resultado:
 
 ## Proximos Passos Recomendados
 
-1. Rodar um teste real de instalacao a partir deste repo em `/tmp`.
-2. Validar `appgen install` com Codex/Claude instalado no ambiente alvo.
-3. Rodar fluxo guiado ate `scaffold`.
-4. Criar fixtures/testes automatizados para:
+1. Aguardar o usuario rodar os testes manuais em `test/claude/` e `test/codex/`.
+2. Analisar os resultados desses testes, incluindo instalacao, update, ativacao no chat, estado `.appgen/`, specs, scaffold e eventuais erros.
+3. Rodar um teste real de instalacao a partir deste repo em `/tmp`.
+4. Validar `appgen install` com Codex/Claude instalado no ambiente alvo.
+5. Rodar fluxo guiado ate `scaffold`.
+6. Criar fixtures/testes automatizados para:
    - `appgen install`;
    - `appgen scaffold`;
    - `appgen loop`;
    - `appgen acceptance`;
    - `appgen docs`;
    - `appgen next`.
-5. Revisar `docker-compose.yml` gerado por `appgen acceptance` contra uma app scaffold real.
-6. Preparar distribuicao para outras maquinas:
+7. Revisar `docker-compose.yml` gerado por `appgen acceptance` contra uma app scaffold real.
+8. Preparar distribuicao para outras maquinas:
    - decidir nome do pacote (`appgen` publico ou pacote scoped como `@org/appgen`);
    - remover/ajustar `"private": true` no `package.json`;
    - ajustar `appgen update` para ler o nome real do pacote a partir do `package.json` em vez de assumir `appgen`;
