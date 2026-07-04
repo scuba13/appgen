@@ -353,3 +353,40 @@ test('completeStep preserves loop-state when implementation-loop completes', () 
     cleanup(projectRoot);
   }
 });
+
+test('completeStep blocks environment completion while Docker needs attention', () => {
+  const projectRoot = makeProject();
+
+  try {
+    mkdirSync(join(projectRoot, '.appgen'), { recursive: true });
+    writeFileSync(join(projectRoot, '.appgen', 'plan.md'), '- [ ] appgen-environment\n', 'utf8');
+    writeFileSync(
+      join(projectRoot, '.appgen', 'state.json'),
+      JSON.stringify({
+        project: 'Environment Fixture',
+        completed: ['brief', 'standards', 'product', 'architecture'],
+        pending: ['environment', 'specs'],
+        phase: 'environment',
+        environment: {
+          status: 'needs_attention',
+          report: '_appgen_work/environment-report.md',
+          docker: { installed: true },
+          compose: { installed: true },
+          docker_daemon_ready: false,
+        },
+      }, null, 2),
+      'utf8'
+    );
+
+    assert.throws(
+      () => completeStep(projectRoot, 'environment'),
+      /Cannot complete "environment"/
+    );
+
+    const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.deepEqual(state.completed, ['brief', 'standards', 'product', 'architecture']);
+    assert.deepEqual(state.pending, ['environment', 'specs']);
+  } finally {
+    cleanup(projectRoot);
+  }
+});

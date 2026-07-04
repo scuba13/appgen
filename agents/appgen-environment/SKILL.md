@@ -22,8 +22,10 @@ Nesse ponto a arquitetura ja definiu se existe frontend, backend, banco, filas o
    - explique o blocker em linguagem simples;
    - se Docker nao existir, peca autorizacao explicita antes de instalar Docker Desktop;
    - se o daemon nao estiver rodando, oriente abrir Docker Desktop.
-5. Nao instale Node, pnpm, banco ou dependencias globais na maquina do usuario.
-6. Planeje tudo que for possivel para rodar em containers.
+5. Nao marque `appgen-environment` como concluido enquanto `.appgen/state.json` tiver `environment.status` diferente de `ready`.
+6. Nao avance para `appgen-specs` enquanto o ambiente estiver em `needs_attention`, `blocked` ou `failed`.
+7. Nao instale Node, pnpm, banco ou dependencias globais na maquina do usuario.
+8. Planeje tudo que for possivel para rodar em containers.
 
 ## Saidas
 
@@ -39,3 +41,4 @@ _appgen_work/environment-report.md
 - O resto do ambiente deve ser isolado em containers.
 - Nao pedir ao usuario de negocio para escolher tecnologia ou estrutura.
 - Se o ambiente ficar bloqueado, registre blocker e nao esconda o problema.
+- Docker instalado com daemon desligado nao e caso de reinstalacao; a acao correta e abrir Docker Desktop e rodar `node .appgen/bin/appgen.js environment` novamente.

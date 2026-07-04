@@ -203,6 +203,15 @@ Correcao apos teste Codex:
 - correcao: pacote foi versionado para `0.2.0`, instalacoes novas criam `.appgen/bin/appgen.js`, e as skills foram atualizadas para usar `node .appgen/bin/appgen.js ...` em comandos internos;
 - regra daqui para frente: usuario pode chamar AppGen no chat, mas agentes tecnicos devem usar o runner local do projeto, nunca depender do `appgen` global do PATH.
 
+Correcao em andamento apos revisar `test/codex` ate environment:
+
+- problema: `environment.status = needs_attention` com Docker daemon desligado estava sendo marcado como etapa concluida no plano e o fluxo seguia para specs;
+- objetivo: environment so pode concluir quando `environment.status = ready`;
+- `appgen next` e `appgen status` devem priorizar blocker de ambiente antes de sugerir specs;
+- `environment-report.md` deve diferenciar Docker nao instalado de Docker instalado com daemon desligado;
+- quando Docker ja existe, nao sugerir reinstalacao; orientar abrir Docker Desktop e rodar `node .appgen/bin/appgen.js environment`;
+- `appgen environment` deve corrigir states antigos, removendo `environment` de completed e desmarcando o plano se o ambiente continuar bloqueado.
+
 Arquivos principais desse ajuste:
 
 ```text

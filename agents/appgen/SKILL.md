@@ -108,7 +108,8 @@ Nao construa se o usuario apontar que esse resumo esta errado.
 - `appgen-standards` so termina quando `_appgen_specs/standards-map.md` existir.
 - `appgen-product` so termina quando `_appgen_specs/product.md` existir.
 - `appgen-architect` so termina quando os cinco artefatos tecnicos existirem: `target-architecture.md`, `domain-model.md`, `data-model.md`, `api-contracts.md` e `ui-spec.md`.
-- `appgen-environment` so termina quando `_appgen_work/environment-report.md` existir e `.appgen/state.json` registrar `environment`.
+- `appgen-environment` so termina quando `_appgen_work/environment-report.md` existir e `.appgen/state.json` registrar `environment.status = ready`.
+- Se `environment.status` for `needs_attention`, `blocked` ou `failed`, nao avance para `appgen-specs`; mostre a acao concreta do ambiente e retome por `node .appgen/bin/appgen.js environment`.
 - `appgen-specs` so termina quando `_appgen_specs/features/` tiver pelo menos uma spec e `_appgen_specs/quality/spec-score.md` existir.
 - `appgen-scaffold` nao pode iniciar antes das specs de produto, arquitetura e features. Ao terminar, deve registrar `scaffold.tasks` em `.appgen/state.json`.
 - `appgen-slicer` so termina quando `_appgen_specs/feature-slices.md` existir.

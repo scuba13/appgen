@@ -63,6 +63,7 @@
       "version": null
     },
     "docker_daemon_ready": false,
+    "action_plan": null,
     "tasks": []
   },
   "scaffold": {
