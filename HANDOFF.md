@@ -189,10 +189,18 @@ Pontos 3 a 7 implementados:
 - aceite com roteiro: `appgen acceptance` gera `_appgen_work/acceptance-test-guide.md` e registra `acceptance.test_guide` no state;
 - modo retomada: `appgen status` e `appgen next` mostram ultima etapa, proximo passo e acao recomendada.
 
+Ponto 2 implementado depois:
+
+- perguntas iniciais menos tecnicas: `appgen-brief` agora usa `.appgen/artifacts/brief-questionnaire.md`;
+- o roteiro pergunta em blocos de no maximo 5 perguntas sobre problema, usuarios, fluxos, regras, dados, integracoes conhecidas, fora de escopo e aceite;
+- perguntas tecnicas como stack, framework, banco, ORM, arquitetura, CI/CD, deploy e estrutura de pastas ficaram explicitamente proibidas;
+- `brief-template.md`, `templates/commands/appgen.md`, `templates/engines/AGENTS.md`, `templates/engines/CLAUDE.md`, docs e testes foram atualizados.
+
 Arquivos principais desse ajuste:
 
 ```text
 lib/runtime/business-experience.js
+templates/artifacts/brief-questionnaire.md
 lib/commands/next.js
 lib/commands/status.js
 lib/commands/scaffold.js

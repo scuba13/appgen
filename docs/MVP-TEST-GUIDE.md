@@ -261,6 +261,8 @@ O AppGen pode perguntar:
 - o que fica fora do escopo;
 - como saber se o app atendeu ao objetivo.
 
+Na primeira conversa, o AppGen deve usar um roteiro em blocos pequenos. Ele nao precisa fazer todas as perguntas de uma vez: o ideal e perguntar no maximo 5 por rodada, confirmar entendimento e continuar apenas quando faltar informacao importante.
+
 ## Perguntas Que O AppGen Nao Deve Fazer Ao Negocio
 
 O AppGen nao deve pedir que a pessoa de negocio escolha:

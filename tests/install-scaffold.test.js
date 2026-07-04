@@ -79,9 +79,14 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
     assert.ok(existsSync(join(projectRoot, 'AGENTS.md')));
     assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen', 'SKILL.md')));
     assert.ok(existsSync(join(projectRoot, '.appgen', 'company', 'profile.toml')));
+    assert.ok(existsSync(join(projectRoot, '.appgen', 'artifacts', 'brief-questionnaire.md')));
     assert.ok(existsSync(join(projectRoot, '_specs')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work')));
     assert.ok(existsSync(join(projectRoot, '.appgen', '_config', 'files-manifest.json')));
+    assert.match(
+      readFileSync(join(projectRoot, '.appgen', 'artifacts', 'brief-questionnaire.md'), 'utf8'),
+      /Nao Perguntar Ao Usuario De Negocio/
+    );
 
     const status = runAppgen(projectRoot, ['status']);
     assert.match(status.stdout, /Retomada/);

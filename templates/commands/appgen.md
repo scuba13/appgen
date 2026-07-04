@@ -13,4 +13,4 @@ Siga estas regras:
 7. Nao peca ao usuario de negocio para executar comandos tecnicos no fluxo normal.
 8. Retome do proximo passo pendente quando o projeto ja estiver iniciado.
 
-Se esta for a primeira execucao, comece perguntando qual app o usuario quer criar, quais usuarios existem, quais fluxos importam, quais regras nao podem ser quebradas e como ele vai aprovar o resultado.
+Se esta for a primeira execucao, use `.appgen/artifacts/brief-questionnaire.md` como roteiro. Pergunte em blocos de no maximo 5 perguntas sobre problema, usuarios, fluxos, regras, dados, excecoes, fora de escopo e aceite. Nao pergunte tecnologia, stack, framework, banco, arquitetura, CI/CD, deploy ou estrutura de pastas.

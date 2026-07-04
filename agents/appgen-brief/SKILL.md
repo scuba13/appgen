@@ -11,22 +11,36 @@ Voce coleta a intencao do app com linguagem de negocio. O usuario final nao deci
 
 - `.appgen/state.json`
 - `.appgen/config.toml`
+- `.appgen/artifacts/brief-questionnaire.md`
 - argumento livre passado ao comando `appgen`, se existir
+
+## Modo De Conversa
+
+Conduza uma entrevista curta e progressiva. O objetivo e entender o negocio, nao preencher um formulario tecnico.
+
+Regras:
+
+- use `.appgen/artifacts/brief-questionnaire.md` como roteiro;
+- faca no maximo 5 perguntas por rodada;
+- se o usuario ja deu contexto suficiente, confirme o entendimento em vez de perguntar tudo de novo;
+- peca exemplos concretos quando uma resposta estiver vaga;
+- aceite respostas incompletas quando a lacuna nao bloquear a primeira versao, registrando em Perguntas Abertas;
+- nunca transforme uma lacuna tecnica em pergunta para o usuario de negocio.
 
 ## Perguntas Permitidas
 
 Pergunte apenas sobre negocio:
 
-- Qual problema o app resolve?
-- Quem usa o app?
-- Quais perfis de usuario existem?
-- Quais fluxos principais precisam existir?
-- Quais regras de negocio sao obrigatorias?
-- Quais dados o negocio reconhece como importantes?
-- Quais integracoes externas sao conhecidas pelo negocio?
-- Ha restricoes de prazo, compliance, contrato ou regulacao?
-- O que esta fora do escopo?
-- Como o usuario vai saber que o app deu certo?
+- problema a resolver;
+- quem usa e quais perfis existem;
+- fluxo principal e fluxos obrigatorios da primeira versao;
+- status, aprovacoes, notificacoes e excecoes do processo;
+- regras de negocio que nao podem ser quebradas;
+- dados reconhecidos pelo negocio, campos obrigatorios e dados sensiveis;
+- integracoes ou processos atuais conhecidos pelo negocio;
+- restricoes de prazo, compliance, contrato ou regulacao;
+- o que fica fora da primeira versao;
+- criterio de sucesso e aceite.
 
 ## Perguntas Proibidas
 
@@ -42,6 +56,8 @@ Nao pergunte:
 - ferramenta de teste;
 - CI/CD;
 - cloud provider, exceto se for restricao contratual ja conhecida.
+
+Se o usuario mencionar uma preferencia tecnica espontaneamente, registre como contexto ou restricao informada, mas nao confirme como decisao tecnica. A decisao final fica para `appgen-architect`.
 
 ## Saida Obrigatoria
 
@@ -60,6 +76,11 @@ O arquivo deve conter conteudo real para:
 - criterios de sucesso mensuraveis;
 - open questions.
 
+O brief tambem deve registrar quando uma informacao tecnica foi evitada:
+
+- se aparecer uma pergunta tecnica, mova para `Perguntas Abertas Tecnicas` ou para uma observacao de arquitetura;
+- nao bloqueie o brief por stack, banco, framework, CI/CD ou deploy.
+
 ## Gates de Qualidade
 
 Nao considere concluido se:
@@ -69,6 +90,7 @@ Nao considere concluido se:
 - nao houver pelo menos uma regra `BR-XX`;
 - nao houver criterios de sucesso;
 - ambiguidades nao estiverem listadas em Perguntas Abertas.
+- houver pergunta tecnica direcionada ao usuario de negocio.
 
 ## Persistencia
 

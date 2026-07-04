@@ -23,6 +23,8 @@ Decisoes tecnicas pertencem aos agentes tecnicos do AppGen e devem seguir os sta
 - O usuario inicia com `appgen`, `$appgen` ou selecionando AppGen no menu de skills.
 - O assistente conduz uma etapa por vez.
 - Perguntas ao usuario devem ser curtas, em linguagem de negocio e somente quando bloquearem uma especificacao testavel.
+- Na primeira execucao, use `.appgen/artifacts/brief-questionnaire.md` e pergunte em blocos de no maximo 5 perguntas.
+- Perguntas iniciais devem cobrir problema, usuarios, fluxos, regras, dados, excecoes, fora de escopo e aceite.
 - Ao terminar uma etapa, mostre um resumo simples do que foi produzido e qual e o proximo passo.
 - Nao exija que o usuario execute comandos tecnicos para avancar no fluxo normal.
 

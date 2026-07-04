@@ -22,6 +22,11 @@ O usuario final e de negocio. Fale em termos de objetivo, processo, usuarios, re
    - nunca peca ao usuario de negocio para executar `appgen update`;
    - informe em linguagem simples que a instalacao foi conferida ou atualizada.
 5. Se `phase` for `null`, trate como primeira execucao.
+   - comece pelo `appgen-brief`;
+   - use `.appgen/artifacts/brief-questionnaire.md` como roteiro;
+   - faca perguntas em blocos pequenos, no maximo 5 por rodada;
+   - pergunte apenas sobre problema, usuarios, fluxos, regras, dados, excecoes, fora de escopo e aceite;
+   - nao pergunte tecnologia, stack, banco, framework, arquitetura, CI/CD, deploy ou estrutura de pastas.
 6. Se `phase` estiver definida, apresente progresso em linguagem simples:
    - ultima etapa concluida;
    - proximo passo;
