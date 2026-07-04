@@ -83,6 +83,10 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
     assert.ok(existsSync(join(projectRoot, '_appgen_work')));
     assert.ok(existsSync(join(projectRoot, '.appgen', '_config', 'files-manifest.json')));
 
+    const status = runAppgen(projectRoot, ['status']);
+    assert.match(status.stdout, /Retomada/);
+    assert.match(status.stdout, /Proximo passo/);
+
     runAppgen(projectRoot, [
       'install',
       '--yes',
@@ -143,17 +147,19 @@ test('scaffold can generate the default app from an installed fixture project', 
       'Eduardo',
     ]);
 
-    runAppgen(projectRoot, [
+    const scaffold = runAppgen(projectRoot, [
       'scaffold',
       '--allow-missing-specs',
       '--allow-low-score',
     ]);
+    assert.match(scaffold.stdout, /Resumo antes de construir/);
 
     const packageJson = readJson(join(projectRoot, 'app', 'package.json'));
     assert.equal(packageJson.name, 'finance-ops');
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'package.json')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'src', 'main.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'packages', 'shared', 'src', 'index.ts')));
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'build-summary.md')));
     assert.match(
       readFileSync(join(projectRoot, '_appgen_work', 'scaffold-report.md'), 'utf8'),
       /Created files: [1-9]\d*/
@@ -163,6 +169,7 @@ test('scaffold can generate the default app from an installed fixture project', 
     assert.equal(state.scaffold.status, 'completed');
     assert.equal(state.scaffold.current_task, null);
     assert.equal(state.scaffold.report, '_appgen_work/scaffold-report.md');
+    assert.equal(state.scaffold.summary, '_appgen_work/build-summary.md');
     assert.deepEqual(
       state.scaffold.tasks.map(task => task.id),
       ['validate-installation', 'validate-specs', 'generate-files']
@@ -213,6 +220,11 @@ test('environment and preview-validation record container readiness reports', ()
       state.preview_validation.tasks.map(task => task.id),
       ['validate-app-root', 'prepare-compose', 'run-smoke-test']
     );
+
+    runAppgen(projectRoot, ['acceptance']);
+    state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'acceptance-test-guide.md')));
+    assert.equal(state.acceptance.test_guide, '_appgen_work/acceptance-test-guide.md');
   } finally {
     cleanup(projectRoot);
   }

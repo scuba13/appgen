@@ -210,17 +210,19 @@ O AppGen trabalha por etapas. A pessoa de negocio nao precisa chamar agentes pel
 2. Ler os padroes corporativos instalados.
 3. Organizar a especificacao de produto.
 4. Tomar decisoes tecnicas internamente.
-5. Detalhar as funcionalidades para implementacao.
-6. Criar a base do app.
-7. Implementar o app por slices.
-8. Preparar preview local para aceite.
-9. Registrar feedback ou aceite explicito.
-10. Gerar documentacao e handoff.
+5. Conferir ambiente de teste isolado.
+6. Detalhar as funcionalidades para implementacao.
+7. Mostrar um resumo antes de construir.
+8. Criar a base do app.
+9. Implementar o app por slices.
+10. Preparar preview local para aceite.
+11. Seguir roteiro de teste e registrar feedback ou aceite explicito.
+12. Gerar documentacao e handoff.
 
 O fluxo esperado e:
 
 ```text
-brief -> standards -> product -> architecture -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
+brief -> standards -> product -> architecture -> environment -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
 ```
 
 Ao fim de cada etapa, o AppGen deve mostrar:
@@ -229,6 +231,8 @@ Ao fim de cada etapa, o AppGen deve mostrar:
 - quais decisoes foram tomadas;
 - quais duvidas de negocio ainda existem;
 - o que sera feito em seguida.
+
+Antes de criar a base do app, o AppGen deve mostrar um resumo simples com objetivo, usuarios, funcionalidades, regras e telas esperadas. Se esse resumo estiver errado, peca ajuste antes de construir.
 
 Para continuar, responda em linguagem natural:
 
@@ -318,6 +322,7 @@ Antes de aprovar o preview da app, confira:
 ## Como Testar O Preview
 
 Quando a equipe tecnica avisar que o preview esta pronto, abra a URL informada.
+O AppGen deve entregar tambem um roteiro de teste com os fluxos e regras que precisam ser conferidos.
 
 Normalmente a URL local sera:
 

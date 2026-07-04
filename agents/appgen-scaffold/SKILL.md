@@ -34,22 +34,25 @@ Retorne para o agente responsavel pela proxima spec pendente.
 ## Processo
 
 1. Informe ao usuario que a etapa sera acompanhada por tarefas visiveis.
-2. Execute internamente `appgen scaffold`.
-3. Acompanhe as tarefas registradas em `.appgen/state.json` no campo `scaffold.tasks`.
-4. Crie estrutura de pastas definida em `target-architecture.md`.
-5. Crie configs base.
-6. Crie scripts obrigatorios.
-7. Crie arquivos minimos de app.
-8. Crie setup de testes conforme standards.
-9. Crie setup de lint/typecheck/build.
-10. Registre arquivos criados.
-11. Execute ou solicite hooks `after-scaffold`.
+2. Apresente `_appgen_work/build-summary.md` com objetivo, usuarios, funcionalidades, regras e telas esperadas.
+3. Se o usuario disser que o resumo esta incorreto, volte para product/specs antes de construir.
+4. Execute internamente `appgen scaffold` somente quando o resumo estiver alinhado.
+5. Acompanhe as tarefas registradas em `.appgen/state.json` no campo `scaffold.tasks`.
+6. Crie estrutura de pastas definida em `target-architecture.md`.
+7. Crie configs base.
+8. Crie scripts obrigatorios.
+9. Crie arquivos minimos de app.
+10. Crie setup de testes conforme standards.
+11. Crie setup de lint/typecheck/build.
+12. Registre arquivos criados.
+13. Execute ou solicite hooks `after-scaffold`.
 
 ## Saidas
 
 Crie:
 
 ```text
+_appgen_work/build-summary.md
 _appgen_work/scaffold-report.md
 _appgen_work/progress.jsonl
 ```
@@ -69,6 +72,7 @@ scaffold.tasks[]
 - Nao implementar features completas aqui. O scaffold cria base, nao produto final.
 - Registre progresso em JSONL append-only.
 - Nao subir Docker Compose aqui. Preview tecnico pertence ao gate `appgen-preview-validation` dentro do implementation-loop.
+- Mostre tarefas em linguagem de negocio. Prefira "criar base inicial da app" a "gerar estrutura fisica".
 
 ## Handoff
 

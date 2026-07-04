@@ -189,6 +189,7 @@ test -f app/apps/web/package.json
 test -f app/apps/api/package.json
 test -f app/apps/api/src/main.ts
 test -f app/packages/shared/src/index.ts
+test -f _appgen_work/build-summary.md
 test -f _appgen_work/scaffold-report.md
 node -e "const s=require('./.appgen/state.json'); if (!s.scaffold || !Array.isArray(s.scaffold.tasks)) process.exit(1)"
 ```
@@ -196,6 +197,7 @@ node -e "const s=require('./.appgen/state.json'); if (!s.scaffold || !Array.isAr
 Resultado esperado:
 
 - o comando mostra cada tarefa do scaffold;
+- `_appgen_work/build-summary.md` e gerado antes da criacao da base;
 - `.appgen/state.json` registra `scaffold.tasks`;
 - scaffold cria a base fisica, mas nao sobe preview.
 
@@ -241,6 +243,7 @@ Conferir:
 ```bash
 test -f app/docker-compose.yml
 test -f _appgen_work/preview-report.md
+test -f _appgen_work/acceptance-test-guide.md
 test -f _appgen_work/acceptance-history.jsonl
 ```
 

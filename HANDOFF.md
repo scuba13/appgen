@@ -174,6 +174,38 @@ Proximo passo recomendado ao retomar:
 3. Melhorar `implementation-loop` para registrar explicitamente o resultado de `preview_validation` como gate final antes de liberar acceptance.
 4. Revisar a experiencia para pessoa nao tecnica: reduzir decisoes tecnicas expostas, explicar progresso em linguagem de negocio e garantir que erros de ambiente virem instrucoes claras.
 
+## UX Para Usuario Nao Tecnico
+
+Decisao registrada:
+
+- pontos 1 e 2 ficam para discutir depois: instalacao mais guiada e perguntas iniciais menos tecnicas;
+- pontos 3 a 7 foram priorizados para implementacao agora.
+
+Pontos 3 a 7 implementados:
+
+- resumo antes de construir: `appgen next` quando a proxima etapa e `scaffold`, e `appgen scaffold`, geram `_appgen_work/build-summary.md`;
+- progresso em linguagem de negocio: `appgen status`, `appgen next`, `appgen scaffold`, `appgen environment` e `appgen preview-validation` mostram mensagens mais claras para uma pessoa nao tecnica;
+- erros com instrucao clara: bloqueios de Docker explicam que ele e necessario para teste isolado e que instalacao so acontece com autorizacao explicita;
+- aceite com roteiro: `appgen acceptance` gera `_appgen_work/acceptance-test-guide.md` e registra `acceptance.test_guide` no state;
+- modo retomada: `appgen status` e `appgen next` mostram ultima etapa, proximo passo e acao recomendada.
+
+Arquivos principais desse ajuste:
+
+```text
+lib/runtime/business-experience.js
+lib/commands/next.js
+lib/commands/status.js
+lib/commands/scaffold.js
+lib/commands/acceptance.js
+lib/commands/environment.js
+lib/commands/preview-validation.js
+agents/appgen/SKILL.md
+agents/appgen-scaffold/SKILL.md
+agents/appgen-acceptance/SKILL.md
+templates/state.json
+tests/install-scaffold.test.js
+```
+
 ## Acceptance Loop
 
 Antes de docs e handoff existe `appgen-acceptance`. O preview tecnico deve ter sido validado dentro do `implementation-loop` por `appgen-preview-validation`.

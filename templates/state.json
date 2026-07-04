@@ -72,6 +72,7 @@
     "current_task": null,
     "app_root": "app",
     "package_name": null,
+    "summary": null,
     "report": null,
     "tasks": []
   },
@@ -92,6 +93,7 @@
     "approved_at": null,
     "feedback_type": null,
     "next_step": null,
+    "test_guide": null,
     "compose_file": null
   },
   "checkpoints": {},

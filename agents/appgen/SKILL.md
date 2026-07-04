@@ -22,7 +22,11 @@ O usuario final e de negocio. Fale em termos de objetivo, processo, usuarios, re
    - nunca peca ao usuario de negocio para executar `appgen update`;
    - informe em linguagem simples que a instalacao foi conferida ou atualizada.
 5. Se `phase` for `null`, trate como primeira execucao.
-6. Se `phase` estiver definida, apresente progresso e retome do proximo item pendente.
+6. Se `phase` estiver definida, apresente progresso em linguagem simples:
+   - ultima etapa concluida;
+   - proximo passo;
+   - o que sera feito agora;
+   - se houver blocker, qual acao concreta resolve.
 7. Antes de qualquer scaffold, garanta que os artefatos obrigatorios existem:
    - `_appgen_specs/brief.md`
    - `_appgen_specs/standards-map.md`
@@ -79,6 +83,17 @@ quando um agente terminar. Nao peca ao usuario de negocio para executar esses
 comandos no fluxo normal. Etapas validas: `brief`, `standards`, `product`,
 `architecture`, `environment`, `specs`, `scaffold`, `slicer`, `implementation-loop`, `acceptance`, `docs` e `handoff`.
 
+Antes de `appgen-scaffold`, apresente `_appgen_work/build-summary.md` como resumo de negocio:
+
+- objetivo;
+- quem vai usar;
+- o que sera construido;
+- regras importantes;
+- telas esperadas;
+- decisao: seguir para criar a base ou voltar para product/specs.
+
+Nao construa se o usuario apontar que esse resumo esta errado.
+
 ## Gates Obrigatorios
 
 - `appgen-brief` so termina quando `_appgen_specs/brief.md` existir.
@@ -91,6 +106,7 @@ comandos no fluxo normal. Etapas validas: `brief`, `standards`, `product`,
 - `appgen-slicer` so termina quando `_appgen_specs/feature-slices.md` existir.
 - `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md` e o gate `appgen-preview-validation` tiver passado ou registrado blocker de ambiente.
 - `appgen-acceptance` so termina quando `_appgen_work/user-acceptance.md` registrar aceite explicito do usuario. Feedback deve ser preservado em `_appgen_work/user-feedback.md` e `_appgen_work/acceptance-history.jsonl`.
+- `appgen-acceptance` deve entregar `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio antes de pedir aceite.
 - `appgen-docs` so termina quando `app/docs/README.md` e `app/docs/project.html` existirem, ou o equivalente no `app_root` configurado.
 - `appgen-handoff` so termina quando `_appgen_work/handoff.md` existir e nao houver `BLOCKER` aberto em `_appgen_work/quality-report.md`.
 - Se o usuario pedir scaffold antes das specs, explique o bloqueio e continue pela proxima spec pendente.
@@ -121,6 +137,7 @@ Atualize `.appgen/state.json` sem remover campos existentes:
 - Se houver ambiguidade funcional, pergunte ao usuario em linguagem de negocio.
 - Se houver lacuna tecnica, registre em `_appgen_work/decisions.md` e encaminhe para o agente tecnico responsavel.
 - Escreva apenas em `.appgen/`, `_appgen_specs/`, `_appgen_work/` e no `app_root` configurado quando o agente da etapa permitir.
+- Em progresso e erros, fale em linguagem de negocio. Exemplo: "preciso do Docker para testar a app em ambiente isolado" em vez de apenas "Docker not found".
 
 ## Saida Final
 
