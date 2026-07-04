@@ -25,7 +25,7 @@
   "app_root": "app",
   "phase": null,
   "completed": [],
-  "pending": ["brief", "standards", "product", "architecture", "specs", "scaffold", "slicer", "implementation-loop", "acceptance", "docs", "handoff"],
+  "pending": ["brief", "standards", "product", "architecture", "environment", "specs", "scaffold", "slicer", "implementation-loop", "acceptance", "docs", "handoff"],
   "runtime": {
     "max_slice_attempts": 3,
     "max_app_loops": 5,
@@ -45,6 +45,46 @@
     "blocked_slices": [],
     "last_agent": null,
     "last_report": null
+  },
+  "environment": {
+    "status": "not_started",
+    "started_at": null,
+    "completed_at": null,
+    "current_task": null,
+    "report": null,
+    "tools": {},
+    "containers": [],
+    "docker": {
+      "installed": false,
+      "version": null
+    },
+    "compose": {
+      "installed": false,
+      "version": null
+    },
+    "docker_daemon_ready": false,
+    "tasks": []
+  },
+  "scaffold": {
+    "status": "not_started",
+    "started_at": null,
+    "completed_at": null,
+    "current_task": null,
+    "app_root": "app",
+    "package_name": null,
+    "report": null,
+    "tasks": []
+  },
+  "preview_validation": {
+    "status": "not_started",
+    "started_at": null,
+    "completed_at": null,
+    "current_task": null,
+    "app_root": "app",
+    "compose_file": null,
+    "report": null,
+    "checks": [],
+    "tasks": []
   },
   "acceptance": {
     "status": "not_started",

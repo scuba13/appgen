@@ -158,6 +158,61 @@ test('scaffold can generate the default app from an installed fixture project', 
       readFileSync(join(projectRoot, '_appgen_work', 'scaffold-report.md'), 'utf8'),
       /Created files: [1-9]\d*/
     );
+
+    const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.equal(state.scaffold.status, 'completed');
+    assert.equal(state.scaffold.current_task, null);
+    assert.equal(state.scaffold.report, '_appgen_work/scaffold-report.md');
+    assert.deepEqual(
+      state.scaffold.tasks.map(task => task.id),
+      ['validate-installation', 'validate-specs', 'generate-files']
+    );
+    assert.ok(state.scaffold.tasks.every(task => task.status === 'done'));
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
+test('environment and preview-validation record container readiness reports', () => {
+  const projectRoot = makeProject();
+
+  try {
+    runAppgen(projectRoot, [
+      'install',
+      '--yes',
+      '--engine=codex',
+      '--project-name',
+      'Preview Ops',
+      '--user-name',
+      'Eduardo',
+    ]);
+
+    runAppgen(projectRoot, ['environment']);
+    let state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'environment-report.md')));
+    assert.match(state.environment.status, /^(ready|needs_attention)$/);
+    assert.equal(state.environment.report, '_appgen_work/environment-report.md');
+    assert.deepEqual(
+      state.environment.tasks.map(task => task.id),
+      ['detect-tools', 'validate-docker', 'plan-containers']
+    );
+
+    runAppgen(projectRoot, [
+      'scaffold',
+      '--allow-missing-specs',
+      '--allow-low-score',
+    ]);
+    runAppgen(projectRoot, ['preview-validation', '--prepare-only']);
+
+    state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    assert.ok(existsSync(join(projectRoot, 'app', 'docker-compose.yml')));
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'preview-report.md')));
+    assert.match(state.preview_validation.status, /^(ready_for_user_test|needs_attention)$/);
+    assert.equal(state.preview_validation.report, '_appgen_work/preview-report.md');
+    assert.deepEqual(
+      state.preview_validation.tasks.map(task => task.id),
+      ['validate-app-root', 'prepare-compose', 'run-smoke-test']
+    );
   } finally {
     cleanup(projectRoot);
   }

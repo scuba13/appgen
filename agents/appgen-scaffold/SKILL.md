@@ -33,14 +33,17 @@ Retorne para o agente responsavel pela proxima spec pendente.
 
 ## Processo
 
-1. Crie estrutura de pastas definida em `target-architecture.md`.
-2. Crie configs base.
-3. Crie scripts obrigatorios.
-4. Crie arquivos minimos de app.
-5. Crie setup de testes conforme standards.
-6. Crie setup de lint/typecheck/build.
-7. Registre arquivos criados.
-8. Execute ou solicite hooks `after-scaffold`.
+1. Informe ao usuario que a etapa sera acompanhada por tarefas visiveis.
+2. Execute internamente `appgen scaffold`.
+3. Acompanhe as tarefas registradas em `.appgen/state.json` no campo `scaffold.tasks`.
+4. Crie estrutura de pastas definida em `target-architecture.md`.
+5. Crie configs base.
+6. Crie scripts obrigatorios.
+7. Crie arquivos minimos de app.
+8. Crie setup de testes conforme standards.
+9. Crie setup de lint/typecheck/build.
+10. Registre arquivos criados.
+11. Execute ou solicite hooks `after-scaffold`.
 
 ## Saidas
 
@@ -51,12 +54,21 @@ _appgen_work/scaffold-report.md
 _appgen_work/progress.jsonl
 ```
 
+Atualize tambem `.appgen/state.json`:
+
+```text
+scaffold.status
+scaffold.current_task
+scaffold.tasks[]
+```
+
 ## Regras
 
 - Nao apagar arquivos existentes sem confirmacao explicita.
 - Nao criar estrutura fora de `app_root`, `.appgen/`, `_appgen_specs/` e `_appgen_work/`.
 - Nao implementar features completas aqui. O scaffold cria base, nao produto final.
 - Registre progresso em JSONL append-only.
+- Nao subir Docker Compose aqui. Preview tecnico pertence ao gate `appgen-preview-validation` dentro do implementation-loop.
 
 ## Handoff
 
@@ -64,6 +76,6 @@ Ao terminar, informe:
 
 - app_root;
 - resumo em linguagem de negocio do que foi criado;
-- validacoes tecnicas executadas pelo agente, quando possivel;
-- validacoes tecnicas pendentes, sem pedir ao usuario de negocio para executar comandos;
+- arquivos base criados;
+- tarefas registradas;
 - proximo passo recomendado para disponibilizar ou revisar o app.

@@ -15,6 +15,7 @@
 ## Fase 3: Arquitetura e Contratos
 
 - [ ] appgen-architect - Definir arquitetura tecnica seguindo standards
+- [ ] appgen-environment - Verificar Docker/Compose e planejar ambiente containerizado
 
 ## Fase 4: Specs Executaveis
 

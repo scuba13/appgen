@@ -139,14 +139,37 @@ test -d _appgen_work
 Conferir arquivo de entrada por engine:
 
 ```bash
-# Codex, Opencode, Antigravity
+# Codex
 test -f AGENTS.md
 
 # Claude Code
 test -f CLAUDE.md
 ```
 
-## 4. Validar scaffold
+## 4. Validar environment
+
+Depois da arquitetura, o fluxo real verifica o ambiente containerizado minimo.
+Para teste tecnico:
+
+```bash
+node /Users/eduardonascimento/Github/appgen/bin/appgen.js environment
+```
+
+Conferir:
+
+```bash
+test -f _appgen_work/environment-report.md
+node -e "const s=require('./.appgen/state.json'); if (!s.environment || !Array.isArray(s.environment.tasks)) process.exit(1)"
+```
+
+Resultado esperado:
+
+- o comando mostra tarefas de ambiente;
+- `.appgen/state.json` registra `environment.tasks`;
+- se Docker/Compose ou daemon nao estiverem prontos, o status fica `needs_attention`;
+- o agente nao instala Docker sem autorizacao explicita.
+
+## 5. Validar scaffold
 
 No fluxo real, o scaffold deve esperar as specs aprovadas.
 
@@ -167,9 +190,45 @@ test -f app/apps/api/package.json
 test -f app/apps/api/src/main.ts
 test -f app/packages/shared/src/index.ts
 test -f _appgen_work/scaffold-report.md
+node -e "const s=require('./.appgen/state.json'); if (!s.scaffold || !Array.isArray(s.scaffold.tasks)) process.exit(1)"
 ```
 
-## 5. Validar acceptance e docker-compose
+Resultado esperado:
+
+- o comando mostra cada tarefa do scaffold;
+- `.appgen/state.json` registra `scaffold.tasks`;
+- scaffold cria a base fisica, mas nao sobe preview.
+
+## 6. Validar preview-validation
+
+`preview-validation` e gate tecnico dentro do `implementation-loop`. Para teste seguro sem subir containers:
+
+```bash
+node /Users/eduardonascimento/Github/appgen/bin/appgen.js preview-validation --prepare-only
+```
+
+Conferir:
+
+```bash
+test -f app/docker-compose.yml
+test -f _appgen_work/preview-report.md
+node -e "const s=require('./.appgen/state.json'); if (!s.preview_validation || !Array.isArray(s.preview_validation.tasks)) process.exit(1)"
+```
+
+No fluxo real do agente, quando o implementation-loop terminou as slices tecnicas, rode:
+
+```bash
+node /Users/eduardonascimento/Github/appgen/bin/appgen.js preview-validation
+```
+
+Resultado esperado em ambiente com Docker pronto:
+
+- `_appgen_work/preview-report.md` registra `docker compose config`, tentativa de `docker compose up -d --build` e smoke test quando Docker estiver pronto;
+- se Docker Desktop/daemon nao estiver pronto, o status fica `needs_attention`;
+- se falhar por problema tecnico, volte para `appgen-coder`/`appgen-qa`/`appgen-quality`;
+- se passar, siga para `appgen-acceptance`.
+
+## 7. Validar acceptance e docker-compose
 
 Ainda dentro do projeto temporario:
 
@@ -208,7 +267,7 @@ URLs esperadas:
 - Web: `http://localhost:3000`
 - API health: `http://localhost:3001/health`
 
-## 6. Registrar feedback ou aceite
+## 8. Registrar feedback ou aceite
 
 Feedback tecnico:
 

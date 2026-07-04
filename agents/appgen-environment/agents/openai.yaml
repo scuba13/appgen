@@ -1,0 +1,4 @@
+interface:
+  display_name: "AppGen Environment"
+  short_description: "Verifica Docker/Compose e prepara o plano de ambiente containerizado."
+  default_prompt: "Verifique o ambiente containerizado do AppGen neste projeto."

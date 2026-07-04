@@ -28,19 +28,21 @@ Garantir que a app foi testada por uma pessoa e recebeu aceite explicito. Se o u
 ## Processo
 
 1. Resolva `app_root`.
-2. Execute `appgen acceptance --prepare`.
-3. Verifique o relatorio `_appgen_work/preview-report.md`.
-4. Se Docker nao existir:
+2. Verifique `.appgen/state.json` no campo `preview_validation`.
+3. Se `preview_validation.status` nao estiver pronto para teste do usuario, volte para `implementation-loop` e rode `appgen-preview-validation`.
+4. Execute `appgen acceptance --prepare` somente quando precisar atualizar o relatorio de aceite/preview.
+5. Verifique o relatorio `_appgen_work/preview-report.md`.
+6. Se Docker nao existir:
    - detecte o OS;
    - explique a instalacao recomendada;
    - peca autorizacao explicita antes de qualquer tentativa de instalar;
    - se a autorizacao nao vier, registre blocker de ambiente.
-5. Quando preview estiver disponivel, entregue URLs ao usuario:
+7. Quando o preview tecnico estiver validado, entregue URLs ao usuario:
    - Web: `http://localhost:3000`
    - API health: `http://localhost:3001/health`
-6. Peça ao usuario para testar o fluxo principal.
-7. Se o usuario aprovar, registre `appgen acceptance --ok`.
-8. Se o usuario reprovar, registre feedback:
+8. Peça ao usuario para testar o fluxo principal.
+9. Se o usuario aprovar, registre `appgen acceptance --ok`.
+10. Se o usuario reprovar, registre feedback:
    - `appgen acceptance --feedback-type=technical --feedback="..."`
    - `appgen acceptance --feedback-type=business --feedback="..."`
    - `appgen acceptance --feedback-type=environment --feedback="..."`
@@ -85,6 +87,7 @@ app/docker-compose.yml
 ## Gates
 
 - Nao avance para `appgen-docs` sem aceite explicito do usuario.
+- Nao entregue URLs ao usuario se `preview_validation.status` estiver `failed`, `needs_attention`, `blocked_environment` ou sem validacao equivalente em `_appgen_work/preview-report.md`.
 - Nao apague historico de feedback anterior.
 - Se o feedback for funcional, nao trate como bug tecnico.
 - Se o feedback for tecnico, volte para coder/QA/quality conforme o caso.

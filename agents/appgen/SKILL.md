@@ -49,10 +49,11 @@ appgen-brief
 appgen-standards
 appgen-product
 appgen-architect
+appgen-environment
 appgen-specs
 appgen-scaffold
 appgen-slicer
-appgen-coder / appgen-qa / appgen-quality em loop por slice
+appgen-coder / appgen-qa / appgen-quality / appgen-preview-validation em loop por slice
 appgen-acceptance
 appgen-docs
 appgen-handoff
@@ -76,7 +77,7 @@ Voce pode usar internamente `appgen next` para descobrir a proxima etapa e
 `appgen next --complete=<etapa> --file=<artefato>` para registrar checkpoint
 quando um agente terminar. Nao peca ao usuario de negocio para executar esses
 comandos no fluxo normal. Etapas validas: `brief`, `standards`, `product`,
-`architecture`, `specs`, `scaffold`, `slicer`, `implementation-loop`, `acceptance`, `docs` e `handoff`.
+`architecture`, `environment`, `specs`, `scaffold`, `slicer`, `implementation-loop`, `acceptance`, `docs` e `handoff`.
 
 ## Gates Obrigatorios
 
@@ -84,10 +85,11 @@ comandos no fluxo normal. Etapas validas: `brief`, `standards`, `product`,
 - `appgen-standards` so termina quando `_appgen_specs/standards-map.md` existir.
 - `appgen-product` so termina quando `_appgen_specs/product.md` existir.
 - `appgen-architect` so termina quando os cinco artefatos tecnicos existirem: `target-architecture.md`, `domain-model.md`, `data-model.md`, `api-contracts.md` e `ui-spec.md`.
+- `appgen-environment` so termina quando `_appgen_work/environment-report.md` existir e `.appgen/state.json` registrar `environment`.
 - `appgen-specs` so termina quando `_appgen_specs/features/` tiver pelo menos uma spec e `_appgen_specs/quality/spec-score.md` existir.
-- `appgen-scaffold` nao pode iniciar antes das specs de produto, arquitetura e features.
+- `appgen-scaffold` nao pode iniciar antes das specs de produto, arquitetura e features. Ao terminar, deve registrar `scaffold.tasks` em `.appgen/state.json`.
 - `appgen-slicer` so termina quando `_appgen_specs/feature-slices.md` existir.
-- `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md`.
+- `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md` e o gate `appgen-preview-validation` tiver passado ou registrado blocker de ambiente.
 - `appgen-acceptance` so termina quando `_appgen_work/user-acceptance.md` registrar aceite explicito do usuario. Feedback deve ser preservado em `_appgen_work/user-feedback.md` e `_appgen_work/acceptance-history.jsonl`.
 - `appgen-docs` so termina quando `app/docs/README.md` e `app/docs/project.html` existirem, ou o equivalente no `app_root` configurado.
 - `appgen-handoff` so termina quando `_appgen_work/handoff.md` existir e nao houver `BLOCKER` aberto em `_appgen_work/quality-report.md`.
