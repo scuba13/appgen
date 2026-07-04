@@ -63,8 +63,8 @@ Se `app_root` nao for `app`, use o app_root configurado.
 Quando o CLI estiver disponivel, use:
 
 ```bash
-appgen docs
-appgen next --complete=docs --file=app/docs/README.md --file=app/docs/project.html
+node .appgen/bin/appgen.js docs
+node .appgen/bin/appgen.js next --complete=docs --file=app/docs/README.md --file=app/docs/project.html
 ```
 
 ## Gates de Qualidade

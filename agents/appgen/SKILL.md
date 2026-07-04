@@ -17,8 +17,8 @@ O usuario final e de negocio. Fale em termos de objetivo, processo, usuarios, re
 4. Verifique se a instalacao AppGen precisa de atualizacao antes de retomar o fluxo:
    - compare `.appgen/version` e `.appgen/state.json` com o pacote AppGen atual quando essa informacao estiver disponivel;
    - verifique arquivos ausentes ou modificados usando o manifest quando possivel;
-   - execute internamente `appgen update --yes` quando houver rede;
-   - execute internamente `appgen update --yes --offline` quando a rede nao estiver disponivel ou o teste precisar ser deterministico;
+   - execute internamente `node .appgen/bin/appgen.js update --yes` quando houver rede;
+   - execute internamente `node .appgen/bin/appgen.js update --yes --offline` quando a rede nao estiver disponivel ou o teste precisar ser deterministico;
    - nunca peca ao usuario de negocio para executar `appgen update`;
    - informe em linguagem simples que a instalacao foi conferida ou atualizada.
 5. Se `phase` for `null`, trate como primeira execucao.
@@ -82,8 +82,11 @@ Para cada agente:
 6. Mostre um resumo curto do resultado, evitando jargao tecnico.
 7. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir", novo `appgen` ou `/appgen`; nao exija uma palavra reservada.
 
-Voce pode usar internamente `appgen next` para descobrir a proxima etapa e
-`appgen next --complete=<etapa> --file=<artefato>` para registrar checkpoint
+Use o runner local `node .appgen/bin/appgen.js` para todos os comandos internos.
+Nao use o comando global `appgen`, porque ele pode apontar para uma versao antiga no PATH.
+
+Voce pode usar internamente `node .appgen/bin/appgen.js next` para descobrir a proxima etapa e
+`node .appgen/bin/appgen.js next --complete=<etapa> --file=<artefato>` para registrar checkpoint
 quando um agente terminar. Nao peca ao usuario de negocio para executar esses
 comandos no fluxo normal. Etapas validas: `brief`, `standards`, `product`,
 `architecture`, `environment`, `specs`, `scaffold`, `slicer`, `implementation-loop`, `acceptance`, `docs` e `handoff`.

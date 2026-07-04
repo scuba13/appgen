@@ -196,11 +196,19 @@ Ponto 2 implementado depois:
 - perguntas tecnicas como stack, framework, banco, ORM, arquitetura, CI/CD, deploy e estrutura de pastas ficaram explicitamente proibidas;
 - `brief-template.md`, `templates/commands/appgen.md`, `templates/engines/AGENTS.md`, `templates/engines/CLAUDE.md`, docs e testes foram atualizados.
 
+Correcao apos teste Codex:
+
+- problema encontrado: durante `appgen-environment`, o agente tentou rodar `appgen environment`, mas o `appgen` do PATH apontava para uma instalacao global antiga `0.1.0` sem esse comando;
+- causa: o pacote local tinha evoluido sem bump de versao e os agentes usavam comando global;
+- correcao: pacote foi versionado para `0.2.0`, instalacoes novas criam `.appgen/bin/appgen.js`, e as skills foram atualizadas para usar `node .appgen/bin/appgen.js ...` em comandos internos;
+- regra daqui para frente: usuario pode chamar AppGen no chat, mas agentes tecnicos devem usar o runner local do projeto, nunca depender do `appgen` global do PATH.
+
 Arquivos principais desse ajuste:
 
 ```text
 lib/runtime/business-experience.js
 templates/artifacts/brief-questionnaire.md
+lib/installer/writer.js
 lib/commands/next.js
 lib/commands/status.js
 lib/commands/scaffold.js

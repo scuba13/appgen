@@ -51,8 +51,8 @@ _appgen_work/implementation-report.md
 - Nao perguntar decisao tecnica ao usuario de negocio.
 - Se a spec estiver ambigua funcionalmente, registre pergunta aberta.
 - Se houver bloqueio tecnico, registre em implementation-report.
-- Use `appgen loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
-- Use `appgen loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.
+- Use `node .appgen/bin/appgen.js loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
+- Use `node .appgen/bin/appgen.js loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.
 
 ## Handoff
 

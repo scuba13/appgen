@@ -60,7 +60,7 @@ Crie `_appgen_specs/feature-slices.md` com:
 - Cada slice deve gerar valor verificavel.
 - Nao agrupe trabalho horizontal como "criar backend" ou "criar frontend".
 - Use status inicial `todo`.
-- Ao terminar, registre o loop com `appgen loop --init` quando o CLI estiver disponivel.
+- Ao terminar, registre o loop com `node .appgen/bin/appgen.js loop --init` quando o CLI estiver disponivel.
 
 ## Handoff
 

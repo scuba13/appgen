@@ -27,6 +27,7 @@ Decisoes tecnicas pertencem aos agentes tecnicos do AppGen e devem seguir os sta
 - Perguntas iniciais devem cobrir problema, usuarios, fluxos, regras, dados, excecoes, fora de escopo e aceite.
 - Ao terminar uma etapa, mostre um resumo simples do que foi produzido e qual e o proximo passo.
 - Nao exija que o usuario execute comandos tecnicos para avancar no fluxo normal.
+- Quando o agente precisar executar comandos internos do AppGen, use `node .appgen/bin/appgen.js ...`, nao o `appgen` global do PATH.
 
 ## Escrita Permitida
 

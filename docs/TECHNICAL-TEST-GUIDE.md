@@ -66,6 +66,14 @@ node /Users/eduardonascimento/Github/appgen/bin/appgen.js install \
   --user-name "Eduardo"
 ```
 
+Depois de instalar, comandos internos do agente devem usar o runner local do projeto:
+
+```bash
+node .appgen/bin/appgen.js <comando>
+```
+
+Isso evita pegar um `appgen` global antigo no PATH.
+
 ## 3. Company profile instalado
 
 Sem `--company`, o AppGen usa o company profile default que vem no pacote:
@@ -314,15 +322,15 @@ tail -n 5 _appgen_work/acceptance-history.jsonl
 Para testar o fluxo com Claude Code, Codex ou outra engine suportada:
 
 1. Crie um diretorio limpo fora deste repo.
-2. Rode `appgen install` e selecione a engine desejada.
+2. Rode `node /Users/eduardonascimento/Github/appgen/bin/appgen.js install` e selecione a engine desejada.
 3. Abra a ferramenta de IA configurada nesse diretorio.
 4. Digite `/appgen` no Claude Code, ou `appgen`/`$appgen` no Codex.
 5. Siga o fluxo ate gerar specs suficientes.
-6. Rode `appgen scaffold`.
-7. Rode `appgen acceptance`.
+6. Rode `node .appgen/bin/appgen.js scaffold`.
+7. Rode `node .appgen/bin/appgen.js acceptance`.
 8. Teste a app localmente.
 9. Registre feedback ou aceite.
-10. Depois do aceite, rode `appgen docs`.
+10. Depois do aceite, rode `node .appgen/bin/appgen.js docs`.
 
 Gatilhos esperados no chat:
 

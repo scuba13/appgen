@@ -12,5 +12,6 @@ Siga estas regras:
 6. Nao peca ao usuario para escolher stack, framework, banco, ORM, testes, CI/CD ou estrutura de pastas.
 7. Nao peca ao usuario de negocio para executar comandos tecnicos no fluxo normal.
 8. Retome do proximo passo pendente quando o projeto ja estiver iniciado.
+9. Quando precisar executar comandos internos do AppGen, use `node .appgen/bin/appgen.js ...`, nao o `appgen` global do PATH.
 
 Se esta for a primeira execucao, use `.appgen/artifacts/brief-questionnaire.md` como roteiro. Pergunte em blocos de no maximo 5 perguntas sobre problema, usuarios, fluxos, regras, dados, excecoes, fora de escopo e aceite. Nao pergunte tecnologia, stack, framework, banco, arquitetura, CI/CD, deploy ou estrutura de pastas.

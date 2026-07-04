@@ -44,6 +44,33 @@ function runAppgen(cwd, args) {
   return result;
 }
 
+function runInstalledAppgen(cwd, args) {
+  const localCli = join(cwd, '.appgen', 'bin', 'appgen.js');
+  const result = spawnSync(process.execPath, [localCli, ...args], {
+    cwd,
+    encoding: 'utf8',
+    timeout: 30000,
+    env: {
+      ...process.env,
+      CI: '1',
+      FORCE_COLOR: '0',
+      NO_COLOR: '1',
+    },
+  });
+
+  assert.equal(
+    result.status,
+    0,
+    [
+      `local appgen ${args.join(' ')} failed`,
+      `stdout:\n${result.stdout}`,
+      `stderr:\n${result.stderr}`,
+    ].join('\n\n')
+  );
+
+  return result;
+}
+
 function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
@@ -78,6 +105,7 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
 
     assert.ok(existsSync(join(projectRoot, 'AGENTS.md')));
     assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen', 'SKILL.md')));
+    assert.ok(existsSync(join(projectRoot, '.appgen', 'bin', 'appgen.js')));
     assert.ok(existsSync(join(projectRoot, '.appgen', 'company', 'profile.toml')));
     assert.ok(existsSync(join(projectRoot, '.appgen', 'artifacts', 'brief-questionnaire.md')));
     assert.ok(existsSync(join(projectRoot, '_specs')));
@@ -87,6 +115,7 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
       readFileSync(join(projectRoot, '.appgen', 'artifacts', 'brief-questionnaire.md'), 'utf8'),
       /Nao Perguntar Ao Usuario De Negocio/
     );
+    assert.match(runInstalledAppgen(projectRoot, ['--help']).stdout, /environment\s+Verifica Docker/);
 
     const status = runAppgen(projectRoot, ['status']);
     assert.match(status.stdout, /Retomada/);
@@ -265,6 +294,8 @@ test('update --yes --offline upgrades an old install to the local package versio
     assert.equal(readFileSync(join(projectRoot, '.appgen', 'version'), 'utf8'), packageJson.version);
     assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen-docs', 'SKILL.md')));
     assert.ok(existsSync(join(projectRoot, '.claude', 'commands', 'appgen.md')));
+    assert.ok(existsSync(join(projectRoot, '.appgen', 'bin', 'appgen.js')));
+    assert.match(runInstalledAppgen(projectRoot, ['--help']).stdout, /environment\s+Verifica Docker/);
   } finally {
     cleanup(projectRoot);
   }

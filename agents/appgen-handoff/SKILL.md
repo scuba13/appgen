@@ -74,7 +74,7 @@ Crie `_appgen_work/handoff.md` com:
 - Diferencie pendencia tecnica de pendencia de negocio.
 - Inclua comandos concretos.
 - Inclua caminhos dos artefatos principais.
-- Use `appgen loop --event=handoff --agent=appgen-handoff --report=_appgen_work/handoff.md` ao concluir.
+- Use `node .appgen/bin/appgen.js loop --event=handoff --agent=appgen-handoff --report=_appgen_work/handoff.md` ao concluir.
 
 ## Saida Final ao Usuario
 

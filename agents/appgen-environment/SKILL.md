@@ -16,7 +16,7 @@ Nesse ponto a arquitetura ja definiu se existe frontend, backend, banco, filas o
 ## Processo
 
 1. Explique ao usuario que o AppGen vai verificar o ambiente local minimo.
-2. Execute internamente `appgen environment`.
+2. Execute internamente `node .appgen/bin/appgen.js environment`.
 3. Leia `_appgen_work/environment-report.md`.
 4. Se Docker ou Docker Compose nao estiverem prontos:
    - explique o blocker em linguagem simples;
@@ -39,4 +39,3 @@ _appgen_work/environment-report.md
 - O resto do ambiente deve ser isolado em containers.
 - Nao pedir ao usuario de negocio para escolher tecnologia ou estrutura.
 - Se o ambiente ficar bloqueado, registre blocker e nao esconda o problema.
-

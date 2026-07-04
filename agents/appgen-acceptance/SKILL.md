@@ -30,7 +30,7 @@ Garantir que a app foi testada por uma pessoa e recebeu aceite explicito. Se o u
 1. Resolva `app_root`.
 2. Verifique `.appgen/state.json` no campo `preview_validation`.
 3. Se `preview_validation.status` nao estiver pronto para teste do usuario, volte para `implementation-loop` e rode `appgen-preview-validation`.
-4. Execute `appgen acceptance --prepare` somente quando precisar atualizar o relatorio de aceite/preview.
+4. Execute `node .appgen/bin/appgen.js acceptance --prepare` somente quando precisar atualizar o relatorio de aceite/preview.
 5. Verifique o relatorio `_appgen_work/preview-report.md`.
 6. Se Docker nao existir:
    - detecte o OS;
@@ -42,11 +42,11 @@ Garantir que a app foi testada por uma pessoa e recebeu aceite explicito. Se o u
    - Web: `http://localhost:3000`
    - API health: `http://localhost:3001/health`
 9. Peça ao usuario para seguir o roteiro, conferindo fluxo principal e regras importantes.
-10. Se o usuario aprovar, registre `appgen acceptance --ok`.
+10. Se o usuario aprovar, registre `node .appgen/bin/appgen.js acceptance --ok`.
 11. Se o usuario reprovar, registre feedback:
-   - `appgen acceptance --feedback-type=technical --feedback="..."`
-   - `appgen acceptance --feedback-type=business --feedback="..."`
-   - `appgen acceptance --feedback-type=environment --feedback="..."`
+   - `node .appgen/bin/appgen.js acceptance --feedback-type=technical --feedback="..."`
+   - `node .appgen/bin/appgen.js acceptance --feedback-type=business --feedback="..."`
+   - `node .appgen/bin/appgen.js acceptance --feedback-type=environment --feedback="..."`
 
 ## Instalacao de Docker
 

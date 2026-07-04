@@ -25,7 +25,7 @@ Se passar, o implementation-loop pode liberar `appgen-acceptance`.
 ## Processo
 
 1. Confirme que o app ja passou por coder/QA/quality.
-2. Execute internamente `appgen preview-validation`.
+2. Execute internamente `node .appgen/bin/appgen.js preview-validation`.
 3. Leia `_appgen_work/preview-report.md`.
 4. Valide:
    - `docker compose config`;
@@ -50,4 +50,3 @@ app/docker-compose.yml
 - Nao instalar Docker sem autorizacao explicita.
 - Nao tratar erro tecnico como feedback de negocio.
 - Preservar logs e checks no state e no report.
-
