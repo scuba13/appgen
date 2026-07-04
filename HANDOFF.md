@@ -27,7 +27,7 @@ O usuario final e de negocio. Ele decide objetivo, regras, prioridades, excecoes
 ## Fluxo Final
 
 ```text
-brief -> standards -> product -> architecture -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
+brief -> standards -> product -> architecture -> environment -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
 ```
 
 Agentes instalaveis:
@@ -38,6 +38,7 @@ appgen-brief
 appgen-standards
 appgen-product
 appgen-architect
+appgen-environment
 appgen-specs
 appgen-scaffold
 appgen-slicer
@@ -138,7 +139,8 @@ Status implementado nesta sessao:
 - `appgen-scaffold` agora mostra tarefas e registra `scaffold.tasks` em `.appgen/state.json`, mas nao sobe preview;
 - `agents/appgen`, `agents/appgen-scaffold`, `agents/appgen-acceptance`, `docs/TECHNICAL-TEST-GUIDE.md`, `templates/plan.md` e `templates/state.json` foram atualizados para o novo fluxo;
 - `test/` foi adicionado ao `.gitignore` para nao versionar resultados locais dos testes manuais;
-- validacao executada: `npm test` passou com 6/6 testes e `git diff --check` passou.
+- validacao executada: `npm test` passou com 6/6 testes e `git diff --check` passou;
+- commit criado e enviado para `origin/main`: `2b866c2 Add environment and preview validation stages`.
 
 Arquivos relevantes modificados/novos nesta sessao:
 
@@ -170,7 +172,7 @@ Proximo passo recomendado ao retomar:
 1. Rodar teste manual real em `test/claude/` e `test/codex/` com o novo fluxo.
 2. Avaliar se `appgen-environment` deve rodar automaticamente ao final do install ou apenas como etapa do fluxo.
 3. Melhorar `implementation-loop` para registrar explicitamente o resultado de `preview_validation` como gate final antes de liberar acceptance.
-4. Commitar e subir as mudancas desta sessao.
+4. Revisar a experiencia para pessoa nao tecnica: reduzir decisoes tecnicas expostas, explicar progresso em linguagem de negocio e garantir que erros de ambiente virem instrucoes claras.
 
 ## Acceptance Loop
 
