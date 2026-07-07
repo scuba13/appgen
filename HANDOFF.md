@@ -218,6 +218,15 @@ Checkpoint para novo teste Codex:
 - `test/codex/` foi limpo para iniciar um teste do zero;
 - objetivo do proximo teste: instalar AppGen novamente em `test/codex`, rodar o fluxo no Codex ate `appgen-environment`, validar se Docker blocker, `status`, `next`, plano, state e `environment-report.md` ficaram coerentes;
 - comando recomendado para instalar no teste: `node /Users/eduardonascimento/Github/appgen/bin/appgen.js install --yes --engines=codex,claude-code --project-name "teste codex" --user-name "Ale"`;
+
+Correcao apos novo teste Codex:
+
+- problema encontrado: no Codex, o seletor de skills mostrava os agentes AppGen tecnicos, mas nao deixava claro o comando/skill principal `$appgen` do fluxo;
+- decisao: o fluxo principal deve aparecer como `AppGen`/`$appgen`, separado dos agentes de etapa como `appgen-brief`, `appgen-product`, etc.;
+- correcao aplicada: `agents/appgen/SKILL.md` recebeu frontmatter mais completo no padrao do Reversa, com `description` iniciando por "Fluxo principal do AppGen" e gatilho `$appgen` logo no inicio;
+- correcao aplicada: `agents/appgen/agents/openai.yaml` agora usa `display_name: "AppGen"`, `default_prompt: "$appgen"` e `policy.allow_implicit_invocation: true`;
+- versao local ajustada para `0.2.1`, para que instalacoes existentes em `0.2.0` recebam a correcao via `node .appgen/bin/appgen.js update --yes --offline`;
+- cobertura adicionada: teste de instalacao Codex valida que o skill principal instalado em `.agents/skills/appgen` contem `name: appgen`, `$appgen`, `role: orchestrator` e metadata OpenAI de UI.
 - ao usar comandos internos depois do install, preferir `node .appgen/bin/appgen.js ...`.
 
 Arquivos principais desse ajuste:

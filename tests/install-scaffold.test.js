@@ -114,6 +114,15 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
 
     assert.ok(existsSync(join(projectRoot, 'AGENTS.md')));
     assert.ok(existsSync(join(projectRoot, '.agents', 'skills', 'appgen', 'SKILL.md')));
+    const appgenSkill = readFileSync(join(projectRoot, '.agents', 'skills', 'appgen', 'SKILL.md'), 'utf8');
+    assert.match(appgenSkill, /name: appgen/);
+    assert.match(appgenSkill, /Fluxo principal do AppGen/);
+    assert.match(appgenSkill, /\$appgen/);
+    assert.match(appgenSkill, /role: orchestrator/);
+    const appgenOpenAi = readFileSync(join(projectRoot, '.agents', 'skills', 'appgen', 'agents', 'openai.yaml'), 'utf8');
+    assert.match(appgenOpenAi, /display_name: "AppGen"/);
+    assert.match(appgenOpenAi, /short_description: "\$appgen inicia/);
+    assert.match(appgenOpenAi, /allow_implicit_invocation: true/);
     assert.ok(existsSync(join(projectRoot, '.appgen', 'bin', 'appgen.js')));
     assert.ok(existsSync(join(projectRoot, '.appgen', 'company', 'profile.toml')));
     assert.ok(existsSync(join(projectRoot, '.appgen', 'artifacts', 'brief-questionnaire.md')));

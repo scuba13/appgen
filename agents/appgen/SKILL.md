@@ -1,6 +1,13 @@
 ---
 name: appgen
-description: Orquestrador central do framework AppGen para conduzir a criacao de apps corporativos a partir de entrada de negocio. Use quando o usuario digitar "appgen", "/appgen", "$appgen", "criar app", "gerar aplicativo" ou pedir para iniciar ou retomar o fluxo AppGen.
+description: "Fluxo principal do AppGen. Use explicitamente com $appgen, appgen ou /appgen para iniciar ou retomar a criacao de um app corporativo a partir de linguagem de negocio."
+license: MIT
+compatibility: Claude Code, Codex e agentes compativeis com Agent Skills.
+metadata:
+  author: scuba13
+  version: "0.2.1"
+  framework: appgen
+  role: orchestrator
 ---
 
 # AppGen Orchestrator
