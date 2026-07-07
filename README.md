@@ -1,82 +1,141 @@
 # AppGen
 
-AppGen is an agent-driven framework for generating complete corporate web apps from business intent and company standards.
+AppGen e um framework de agentes para gerar apps corporativos completos a partir de linguagem de negocio e padroes da empresa.
 
-The normal flow is:
+A pessoa de negocio descreve objetivo, usuarios, regras, prioridades, excecoes e criterios de aceite. As decisoes tecnicas, como stack, banco, arquitetura, testes, observabilidade e convencoes de deploy, ficam com os agentes tecnicos do AppGen usando o company profile instalado.
+
+## Status Do Projeto
+
+Este repositorio esta em fase de MVP e validacao local. Hoje, o caminho confiavel para testar e instalar a partir da fonte local deste repo.
+
+Distribuicao via `npx appgen install` em outras maquinas ainda depende de publicacao/empacotamento do AppGen. Esse trabalho esta registrado para uma etapa futura.
+
+## Fluxo Principal
+
+O fluxo atual gera mais do que um scaffold:
 
 ```text
-brief -> standards -> product -> architecture -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
+brief -> standards -> product -> architecture -> environment -> specs -> scaffold -> slicer -> implementation-loop -> acceptance -> docs -> handoff
 ```
 
-The business user describes goals, rules, priorities, exceptions, and acceptance criteria. Technical decisions such as framework, database, architecture, testing, observability, and deployment conventions are resolved by AppGen agents using the installed company profile.
+Responsabilidades principais:
 
-## Install In A Project
+- `brief`: entende a necessidade de negocio sem perguntar stack ao usuario.
+- `standards`: aplica o company profile e os standards corporativos.
+- `product`: organiza a especificacao de produto.
+- `architecture`: toma decisoes tecnicas e registra arquitetura, dominio, dados, API e UI.
+- `environment`: valida Docker/Compose e planeja ambiente isolado.
+- `specs`: detalha funcionalidades testaveis.
+- `scaffold`: mostra resumo de negocio antes de criar a base fisica do app.
+- `implementation-loop`: implementa por slices com coder, QA, quality e preview-validation.
+- `acceptance`: entrega roteiro de teste, registra feedback e aceite explicito.
+- `docs`: gera documentacao da app.
+- `handoff`: consolida status, evidencias, riscos e proximos passos.
+
+## Instalar Em Um Projeto
+
+Para validar este repo localmente, primeiro guarde o caminho do clone do AppGen:
 
 ```bash
-npx appgen install
+export APPGEN_REPO="/caminho/para/appgen"
 ```
 
-For repeatable local validation or CI fixtures, use the non-interactive mode:
+Depois crie ou abra uma pasta de app e rode o CLI local:
 
 ```bash
-appgen install --yes --engine=codex --project-name "Sales Portal" --user-name "Eduardo"
+node "$APPGEN_REPO/bin/appgen.js" install
 ```
 
-Use `--engine=claude-code` for Claude Code, or `--engines=codex,claude-code` to install both.
+Modo nao interativo para fixtures e testes:
 
-Then open your agent environment and start AppGen:
+```bash
+node "$APPGEN_REPO/bin/appgen.js" install \
+  --yes \
+  --engines=codex,claude-code \
+  --project-name "Helpdesk Interno" \
+  --user-name "Eduardo"
+```
+
+Use `--engine=codex` para instalar apenas Codex, `--engine=claude-code` para instalar apenas Claude Code, ou `--engines=codex,claude-code` para instalar os dois.
+
+Cada pasta de app precisa receber uma instalacao propria. Instalar AppGen em uma pasta nao instala em outras.
+
+## Ativar No Chat
+
+Depois da instalacao, abra Claude Code ou Codex na mesma pasta do app.
 
 ```text
 Claude Code: /appgen
-Codex: appgen or $appgen
+Codex: appgen ou $appgen
 ```
 
-Codex also exposes installed skills through its skills UI. Depending on the Codex surface, AppGen may appear in the slash menu as an enabled skill; in the CLI, `$appgen` and `/skills` are the documented explicit skill paths.
+No Codex, `$appgen` e o caminho explicito para ativar a skill principal. A skill tambem pode aparecer como `AppGen` no menu de skills, dependendo da superficie usada.
 
-## Core Commands
+## Atualizar Uma Instalacao
+
+Se a pasta ja tem `.appgen/`, atualize antes de continuar:
 
 ```bash
-appgen status
-appgen next
-appgen scaffold
-appgen loop
-appgen acceptance
-appgen docs
+node .appgen/bin/appgen.js update --yes --offline
 ```
 
-## Testing AppGen
+O runner local em `.appgen/bin/appgen.js` evita pegar um `appgen` global antigo no `PATH`. Agentes AppGen devem usar esse runner para comandos internos.
 
-Business validation:
+## Comandos Principais
 
-```text
-docs/MVP-TEST-GUIDE.md
+```bash
+node .appgen/bin/appgen.js status
+node .appgen/bin/appgen.js next
+node .appgen/bin/appgen.js environment
+node .appgen/bin/appgen.js scaffold
+node .appgen/bin/appgen.js loop
+node .appgen/bin/appgen.js preview-validation
+node .appgen/bin/appgen.js acceptance
+node .appgen/bin/appgen.js docs
 ```
 
-Technical validation:
+`status` e `next` mostram retomada, proximo passo e bloqueios. Se o Docker estiver instalado mas o daemon nao estiver ativo, o fluxo deve orientar abrir o Docker Desktop e rodar novamente `environment`, em vez de seguir para specs.
 
-```text
-docs/TECHNICAL-TEST-GUIDE.md
-```
+## Ambiente Isolado
 
-## Company Profiles
+AppGen usa Docker/Docker Compose como base de preview e validacao local.
 
-The default install copies a profile to:
+O comando `environment`:
+
+- detecta Node, Git, Docker e Compose;
+- valida se o Docker daemon esta ativo;
+- planeja containers da app;
+- registra tarefas e resultado em `.appgen/state.json`;
+- gera `_appgen_work/environment-report.md`.
+
+Se Docker nao estiver pronto, o fluxo fica bloqueado em `environment` com uma acao clara. AppGen nao deve instalar Docker silenciosamente.
+
+## Company Profile
+
+O company profile e a fronteira de customizacao por empresa. Sem `--company`, AppGen instala o profile default do pacote em:
 
 ```text
 .appgen/company/
 ```
 
-Use a custom profile with:
+Para usar um profile local:
 
 ```bash
-appgen install --company ./company-profiles/acme
+node "$APPGEN_REPO/bin/appgen.js" install --company ./company-profiles/acme
 ```
 
-The profile controls standards for backend, frontend, database, API, design system, security, observability, testing, CI/CD, deployment, and compliance.
+Ordem de resolucao tecnica:
 
-## Generated App
+1. Decisao explicita aprovada no projeto.
+2. Company profile instalado.
+3. Defaults do preset.
+4. Defaults internos do AppGen.
 
-The default preset generates a monorepo in `app/`:
+Veja mais em `docs/COMPANY-PROFILE.md`.
+
+## App Gerado
+
+O preset default cria um monorepo em `app/`:
 
 ```text
 app/
@@ -86,14 +145,34 @@ app/
   docs/
 ```
 
-The acceptance step can generate `app/docker-compose.yml` for local preview and records all user feedback until explicit approval.
+O scaffold cria a base fisica e registra progresso. A validacao de preview acontece no `implementation-loop`, via `preview-validation`, antes de liberar o aceite da pessoa de negocio.
 
-## Documentation And Handoff
+## Guias De Teste
 
-`appgen docs` creates Markdown docs and an offline-friendly HTML summary in:
+Guia para pessoa de negocio:
 
 ```text
-app/docs/project.html
+docs/MVP-TEST-GUIDE.md
 ```
 
-`appgen-handoff` then consolidates delivery status, validation evidence, feedback history, risks, and next steps.
+Guia tecnico:
+
+```text
+docs/TECHNICAL-TEST-GUIDE.md
+```
+
+Fluxo completo:
+
+```text
+docs/FINAL-FLOW.md
+```
+
+## Desenvolvimento Do AppGen
+
+Na raiz deste repo:
+
+```bash
+npm test
+```
+
+Essa suite valida sintaxe, instalacao, update offline, scaffold, environment, preview-validation e regras de retomada do fluxo.
