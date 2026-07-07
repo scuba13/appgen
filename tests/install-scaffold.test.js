@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { completeStep } from '../lib/runtime/flow.js';
-import { initImplementationLoop } from '../lib/runtime/implementation-loop.js';
+import { initImplementationLoop, updateImplementationLoop } from '../lib/runtime/implementation-loop.js';
 
 const repoRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const cli = join(repoRoot, 'bin', 'appgen.js');
@@ -431,6 +431,48 @@ test('implementation loop init records preview preflight recommendation', () => 
     assert.equal(result.loop.preview_environment.status, 'not_started');
     assert.match(result.loop.preview_environment.recommendation, /preview-validation/);
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'activity-log.md')));
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
+test('implementation loop pauses for user confirmation between slices', () => {
+  const projectRoot = makeProject();
+
+  try {
+    mkdirSync(join(projectRoot, '.appgen'), { recursive: true });
+    writeFileSync(
+      join(projectRoot, '.appgen', 'state.json'),
+      JSON.stringify({
+        project: 'Pause Fixture',
+        work_folder: '_appgen_work',
+        phase: 'implementation-loop',
+        runtime: {
+          pause_between_slices: true,
+        },
+        implementation_loop: {
+          status: 'running',
+          current_slice: 'S001',
+          pause_between_slices: true,
+          open_slices: ['S001', 'S002'],
+          done_slices: [],
+          blocked_slices: [],
+        },
+      }, null, 2),
+      'utf8'
+    );
+
+    const result = updateImplementationLoop(projectRoot, {
+      completeSlice: 'S001',
+      agent: 'appgen-quality',
+      report: '_appgen_work/quality-report.md',
+    });
+
+    assert.equal(result.loop.status, 'waiting_user_decision');
+    assert.equal(result.loop.awaiting_user_decision, true);
+    assert.deepEqual(result.loop.done_slices, ['S001']);
+    assert.deepEqual(result.loop.open_slices, ['S002']);
+    assert.match(result.loop.next_recommended_action, /Pause aqui/);
   } finally {
     cleanup(projectRoot);
   }

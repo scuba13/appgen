@@ -260,6 +260,15 @@ Correcao apos runtime no teste Codex:
 - melhoria aplicada: smoke test do preview aceita tanto `http://localhost:3001/health` quanto `http://localhost:3001/api/v1/health`;
 - versao local ajustada para `0.2.4` para permitir update offline em instalacoes existentes.
 
+Melhoria de controle de contexto entre slices:
+
+- decisao: entre uma slice e outra no `implementation-loop`, o agente deve parar e perguntar se pode seguir, para permitir limpar contexto do Codex/Claude Code sem perder estado;
+- correcao aplicada: runtime do loop agora usa `pause_between_slices: true` por default;
+- quando `loop --complete-slice=<ID>` conclui uma slice e ainda existem slices abertas, o status vira `waiting_user_decision` e `awaiting_user_decision: true`;
+- `appgen-coder` nao deve iniciar nova slice enquanto o loop estiver aguardando confirmacao;
+- `appgen-quality` deve resumir a slice aprovada, apontar `_appgen_work/activity-log.md` e aguardar o usuario pedir para seguir;
+- versao local ajustada para `0.2.5` para permitir update offline em instalacoes existentes.
+
 Arquivos principais desse ajuste:
 
 ```text

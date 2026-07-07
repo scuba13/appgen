@@ -74,6 +74,7 @@ Crie `_appgen_work/quality-report.md` com:
 - Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando a slice estiver aprovada.
 - Use `node .appgen/bin/appgen.js loop --event=quality-failed --slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando houver finding que exige nova rodada.
+- Depois de aprovar uma slice, se ainda houver slices abertas, pare e aguarde o usuario pedir para seguir. Nao inicie automaticamente a proxima slice. Mostre um resumo curto, indique `_appgen_work/activity-log.md`, e recomende limpar contexto quando a conversa estiver grande.
 
 ## Handoff
 
@@ -82,4 +83,5 @@ Ao terminar, informe:
 - resultado geral;
 - blockers;
 - comandos executados;
-- proximo agente: `appgen-handoff` se nao houver blocker.
+- se houve pausa entre slices;
+- proximo agente: `appgen-coder` somente quando o usuario pedir para seguir, ou `appgen-handoff` se nao houver blocker nem slices abertas.

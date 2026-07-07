@@ -159,6 +159,8 @@ O scaffold cria a base fisica e registra progresso. A validacao de preview acont
 
 No inicio do `implementation-loop`, o fluxo recomenda rodar `node .appgen/bin/appgen.js preview-validation` para subir/validar o preview tecnico antes da primeira slice, quando Docker estiver pronto.
 
+Entre uma slice e outra, o AppGen deve parar e pedir confirmacao para seguir. Isso permite limpar o contexto do Codex/Claude Code sem perder estado, porque o progresso fica em `.appgen/state.json`, `_appgen_work/loop-state.json` e `_appgen_work/activity-log.md`.
+
 ## Guias De Teste
 
 Guia para pessoa de negocio:

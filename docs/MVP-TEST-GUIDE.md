@@ -246,6 +246,8 @@ ou
 continuar
 ```
 
+Durante a implementacao por slices, o AppGen deve parar entre uma slice e outra. Quando ele avisar que uma slice terminou, revise o resumo e diga `pode seguir` somente se quiser iniciar a proxima. Se a conversa estiver grande, voce pode limpar/reabrir o contexto antes de continuar; o estado fica salvo na pasta do projeto.
+
 ## Perguntas Que O AppGen Pode Fazer
 
 O AppGen pode perguntar:
