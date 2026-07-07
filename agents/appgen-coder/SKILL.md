@@ -51,6 +51,9 @@ _appgen_work/implementation-report.md
 - Nao perguntar decisao tecnica ao usuario de negocio.
 - Se a spec estiver ambigua funcionalmente, registre pergunta aberta.
 - Se houver bloqueio tecnico, registre em implementation-report.
+- Nao introduza tipos de pacotes transientes sem declarar a dependencia correspondente.
+- Em NestJS, evite importar tipos diretamente de `express` para filtros, guards, decorators ou helpers quando o projeto nao declara `express`/`@types/express`; prefira tipos locais minimos para request/response ou adicione a dependencia explicitamente quando ela fizer parte da API publica do app.
+- Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Use `node .appgen/bin/appgen.js loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
 - Use `node .appgen/bin/appgen.js loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.
 

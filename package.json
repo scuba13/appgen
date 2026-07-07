@@ -1,6 +1,6 @@
 {
   "name": "appgen",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Corporate app generation framework powered by AI agents and company standards",
   "private": true,
   "bin": {

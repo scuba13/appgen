@@ -28,10 +28,13 @@ Voce e o auditor de conformidade tecnica.
    - accessibility review.
 3. Verifique estrutura de pastas.
 4. Verifique dependencias proibidas.
-5. Verifique padroes de API e erros.
-6. Verifique observabilidade minima.
-7. Verifique se findings de QA foram resolvidos ou registrados.
-8. Classifique findings.
+5. Verifique dependencias de tipos:
+   - nenhum arquivo deve importar tipos de pacote nao declarado em `dependencies` ou `devDependencies`;
+   - imports de tipos de `express`, `fastify` ou adaptadores HTTP devem ter dependencia explicita ou ser substituidos por tipos locais minimos quando forem apenas shape interno.
+6. Verifique padroes de API e erros.
+7. Verifique observabilidade minima.
+8. Verifique se findings de QA foram resolvidos ou registrados.
+9. Classifique findings.
 
 ## Saida
 
@@ -68,6 +71,7 @@ Crie `_appgen_work/quality-report.md` com:
 - Nao altere standards para passar auditoria.
 - Nao aceite excecao sem registro.
 - Nao pergunte preferencias tecnicas ao usuario de negocio.
+- Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando a slice estiver aprovada.
 - Use `node .appgen/bin/appgen.js loop --event=quality-failed --slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando houver finding que exige nova rodada.
 

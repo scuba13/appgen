@@ -10,6 +10,8 @@
 - Return stable domain error codes with safe user messages.
 - Define idempotency for critical write operations that can be retried.
 - Give external integrations timeouts, failure handling, and bounded retry when applicable.
+- Declare every runtime or type dependency that application code imports directly.
+- Prefer local minimal HTTP request/response shapes for internal NestJS helpers when only a small adapter surface is needed.
 
 ## Recomendado
 
@@ -23,3 +25,4 @@
 - Return stack traces, ORM errors, or database details to the user.
 - Add circular dependencies between modules.
 - Retry external calls indefinitely.
+- Import Express/Fastify adapter types directly without declaring the matching package and type dependency.

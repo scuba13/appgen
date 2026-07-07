@@ -229,6 +229,16 @@ Correcao apos novo teste Codex:
 - cobertura adicionada: teste de instalacao Codex valida que o skill principal instalado em `.agents/skills/appgen` contem `name: appgen`, `$appgen`, `role: orchestrator` e metadata OpenAI de UI.
 - ao usar comandos internos depois do install, preferir `node .appgen/bin/appgen.js ...`.
 
+Correcao apos typecheck no teste Codex:
+
+- problema observado no fluxo real: o primeiro typecheck encontrou uso de tipos do Express sem dependencia de tipos declarada;
+- decisao: agentes nao devem importar tipos de pacotes transientes sem declarar dependencia explicita;
+- correcao aplicada: `appgen-coder` agora orienta usar tipos locais minimos para request/response em helpers NestJS quando `express`/`@types/express` nao fizer parte da API publica do app;
+- correcao aplicada: `appgen-quality` trata falha de typecheck por tipo ausente ou pacote nao declarado como `BLOCKER` que volta para `appgen-coder`;
+- correcao aplicada: o standard backend default proibe importar tipos Express/Fastify diretamente sem dependencia declarada;
+- versao local ajustada para `0.2.2` para permitir update offline em instalacoes existentes;
+- validacao executada: `pnpm --filter @codex/api typecheck` passou em `test/codex/app`.
+
 Arquivos principais desse ajuste:
 
 ```text
