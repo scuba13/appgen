@@ -5,7 +5,7 @@ license: MIT
 compatibility: Claude Code, Codex e agentes compativeis com Agent Skills.
 metadata:
   author: scuba13
-  version: "0.2.6"
+  version: "0.2.7"
   framework: appgen
   role: orchestrator
 ---
@@ -126,6 +126,7 @@ Nao construa se o usuario apontar que esse resumo esta errado.
 - `appgen-slicer` so termina quando `_appgen_specs/feature-slices.md` existir.
 - Ao iniciar `implementation-loop`, rode `node .appgen/bin/appgen.js loop --init` e, antes da primeira slice, rode `node .appgen/bin/appgen.js preview-validation` para subir/validar o preview tecnico inicial quando Docker estiver pronto. Se falhar por ambiente, registre blocker de ambiente; se falhar por problema tecnico do scaffold, corrija antes de chamar `appgen-coder`.
 - Entre uma slice e outra no `implementation-loop`, pare obrigatoriamente. Depois que `appgen-quality` aprovar uma slice e `node .appgen/bin/appgen.js loop --complete-slice=<ID>` registrar `waiting_user_decision`, apresente resumo da slice, links para `_appgen_work/activity-log.md` e reports, sugira limpar contexto se estiver grande, e aguarde o usuario pedir para seguir antes de iniciar a proxima slice.
+- Durante `implementation-loop`, os reports gerais `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md` e `_appgen_work/quality-report.md` sao acumulados append-only. Nunca substitua conteudo de slices anteriores. Cada slice tambem deve ter reports isolados em `_appgen_work/slices/<SLICE_ID>/`.
 - `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md` e o gate `appgen-preview-validation` tiver passado ou registrado blocker de ambiente.
 - `appgen-acceptance` so termina quando `_appgen_work/user-acceptance.md` registrar aceite explicito do usuario. Feedback deve ser preservado em `_appgen_work/user-feedback.md` e `_appgen_work/acceptance-history.jsonl`.
 - `appgen-acceptance` deve entregar `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio antes de pedir aceite.

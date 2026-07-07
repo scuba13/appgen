@@ -36,12 +36,25 @@ Voce e o agente de QA. Seu foco e comportamento, criterios de aceite e cobertura
 
 ## Saidas
 
-Crie:
+Crie ou atualize os artefatos abaixo:
 
 ```text
 _appgen_work/test-plan.md
 _appgen_work/qa-report.md
+_appgen_work/slices/<SLICE_ID>/test-plan.md
+_appgen_work/slices/<SLICE_ID>/qa-report.md
 ```
+
+`_appgen_work/test-plan.md` e `_appgen_work/qa-report.md` sao relatorios acumulados append-only. Nunca sobrescreva conteudo de slices anteriores.
+
+Para cada slice, grave tambem o relatorio isolado em `_appgen_work/slices/<SLICE_ID>/`. Se o arquivo acumulado ja existir:
+
+1. preserve todo o conteudo existente;
+2. adicione uma nova secao `## Slice <SLICE_ID> - <titulo ou objetivo>`;
+3. se estiver reexecutando a mesma slice, adicione uma subsecao `### Reexecucao <ISO-8601>` dentro da secao da slice;
+4. registre comandos, evidencias e decisoes dessa execucao.
+
+Antes de atualizar um arquivo acumulado, leia o conteudo atual e regrave preservando tudo que ja existia. Nao use uma escrita que substitua o arquivo inteiro apenas com a slice atual.
 
 ## Classificacao de Falhas
 
@@ -57,9 +70,10 @@ _appgen_work/qa-report.md
 - Nao reescrever requisitos de negocio.
 - Nao mascarar falhas de implementacao como lacuna de teste.
 - Quando houver ambiguidade funcional, encaminhe ao usuario de negocio.
+- Nao sobrescreva `_appgen_work/test-plan.md` nem `_appgen_work/qa-report.md` com apenas a slice atual.
 - Sempre que informar resultado de teste, falha, classificacao ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-qa --event=agent-message --message="..." --summary="..."`.
-- Use `node .appgen/bin/appgen.js loop --event=qa-passed --slice=<ID> --agent=appgen-qa --report=_appgen_work/qa-report.md` quando a slice passar em QA.
-- Use `node .appgen/bin/appgen.js loop --event=qa-failed --slice=<ID> --agent=appgen-qa --report=_appgen_work/qa-report.md` quando houver falha.
+- Use `node .appgen/bin/appgen.js loop --event=qa-passed --slice=<ID> --agent=appgen-qa --report=_appgen_work/slices/<ID>/qa-report.md` quando a slice passar em QA.
+- Use `node .appgen/bin/appgen.js loop --event=qa-failed --slice=<ID> --agent=appgen-qa --report=_appgen_work/slices/<ID>/qa-report.md` quando houver falha.
 
 ## Handoff
 

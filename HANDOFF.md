@@ -278,6 +278,16 @@ Melhoria do activity log:
 - `appgen`, `appgen-coder`, `appgen-qa` e `appgen-quality` foram instruidos a registrar mensagens relevantes no log;
 - versao local ajustada para `0.2.6` para permitir update offline em instalacoes existentes.
 
+Correcao dos reports por slice:
+
+- problema observado no teste em `test/codex`: `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md` e `_appgen_work/quality-report.md` ficaram apenas com a slice S003, indicando que agentes estavam sobrescrevendo os arquivos gerais a cada slice;
+- decisao: reports gerais devem ser acumulados append-only, preservando slices anteriores;
+- decisao: cada slice tambem deve ter artefatos isolados em `_appgen_work/slices/<SLICE_ID>/test-plan.md`, `_appgen_work/slices/<SLICE_ID>/qa-report.md` e `_appgen_work/slices/<SLICE_ID>/quality-report.md`;
+- em reexecucao da mesma slice, o agente deve adicionar uma subsecao `### Reexecucao <ISO-8601>` sem apagar a execucao anterior;
+- `appgen-qa`, `appgen-quality` e `appgen` foram atualizados para registrar essa regra;
+- `loop --report` agora deve apontar para o report isolado da slice, mantendo os reports gerais como visao acumulada;
+- versao local ajustada para `0.2.7` para permitir update offline em instalacoes existentes.
+
 Arquivos principais desse ajuste:
 
 ```text
