@@ -417,6 +417,31 @@ Resultado:
 - `git status --short` estava limpo.
 - Commit inicial criado: `74b1329 Initial AppGen extraction`.
 
+## Estado Atual Para Proximo Teste
+
+- ultima correcao aplicada e enviada para `main`: `2c459f1 Keep slice reports append-only`;
+- versao atual do AppGen: `0.2.7`;
+- validacao executada apos a correcao: `npm test` passou com 10 testes;
+- repositorio local ficou limpo apos o push;
+- `test/codex` foi limpo e recriado vazio para um teste do zero;
+- objetivo do proximo teste: rodar a instalacao e o fluxo AppGen novamente em `test/codex`, coletando logs e validando se os reports nao sao mais sobrescritos entre slices.
+
+Contrato importante para validar no proximo teste:
+
+- `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md` e `_appgen_work/quality-report.md` devem ser acumulados append-only;
+- cada slice deve tambem gerar artefatos isolados em `_appgen_work/slices/<SLICE_ID>/`;
+- `appgen-qa` deve usar `_appgen_work/slices/<ID>/qa-report.md` no `loop --report`;
+- `appgen-quality` deve usar `_appgen_work/slices/<ID>/quality-report.md` no `loop --report`;
+- em reexecucao da mesma slice, o agente deve acrescentar `### Reexecucao <ISO-8601>` sem apagar a execucao anterior.
+
+Proxima acao concreta:
+
+1. Entrar em `test/codex`.
+2. Instalar AppGen do repo local conforme o guia.
+3. Abrir Codex na pasta e chamar `/appgen`.
+4. Rodar o fluxo simples ate passar por mais de uma slice.
+5. Conferir `_appgen_work/activity-log.md`, `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md`, `_appgen_work/quality-report.md` e `_appgen_work/slices/`.
+
 ## Proximos Passos Recomendados
 
 1. Aguardar o usuario rodar os testes manuais em `test/claude/` e `test/codex/`.
