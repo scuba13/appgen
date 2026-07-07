@@ -210,7 +210,8 @@ Correcao em andamento apos revisar `test/codex` ate environment:
 - `appgen next` e `appgen status` devem priorizar blocker de ambiente antes de sugerir specs;
 - `environment-report.md` deve diferenciar Docker nao instalado de Docker instalado com daemon desligado;
 - quando Docker ja existe, nao sugerir reinstalacao; orientar abrir Docker Desktop e rodar `node .appgen/bin/appgen.js environment`;
-- `appgen environment` deve corrigir states antigos, removendo `environment` de completed e desmarcando o plano se o ambiente continuar bloqueado.
+- `appgen environment` deve corrigir states antigos, removendo `environment` de completed e desmarcando o plano se o ambiente continuar bloqueado;
+- tasks finalizadas de environment devem registrar `started_at` e `completed_at`; isso agora tem cobertura em `tests/install-scaffold.test.js`.
 
 Arquivos principais desse ajuste:
 

@@ -75,6 +75,15 @@ function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
 
+function assertFinishedTaskTimestamps(tasks) {
+  for (const task of tasks) {
+    if (['done', 'skipped', 'blocked', 'failed'].includes(task.status)) {
+      assert.ok(task.started_at, `${task.id} should have started_at`);
+      assert.ok(task.completed_at, `${task.id} should have completed_at`);
+    }
+  }
+}
+
 test('install --yes creates a Codex-ready AppGen project without prompts', () => {
   const projectRoot = makeProject();
 
@@ -237,6 +246,7 @@ test('environment and preview-validation record container readiness reports', ()
       state.environment.tasks.map(task => task.id),
       ['detect-tools', 'validate-docker', 'plan-containers']
     );
+    assertFinishedTaskTimestamps(state.environment.tasks);
 
     runAppgen(projectRoot, [
       'scaffold',
