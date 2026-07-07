@@ -6,6 +6,7 @@
 - Keep controllers thin; business rules belong in services, use cases, or the application layer.
 - Keep domain rules independent from HTTP, framework, ORM, database, and transport details.
 - Validate every external input before it reaches the domain.
+- Prefer Zod or explicit schema validation for generated endpoints unless the project explicitly declares `class-validator` and `class-transformer`.
 - Enforce authorization on the backend for every private operation.
 - Return stable domain error codes with safe user messages.
 - Define idempotency for critical write operations that can be retried.
@@ -26,3 +27,4 @@
 - Add circular dependencies between modules.
 - Retry external calls indefinitely.
 - Import Express/Fastify adapter types directly without declaring the matching package and type dependency.
+- Enable NestJS `ValidationPipe` globally without declaring and using `class-validator`/`class-transformer`.

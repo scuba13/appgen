@@ -5,7 +5,7 @@ license: MIT
 compatibility: Claude Code, Codex e agentes compativeis com Agent Skills.
 metadata:
   author: scuba13
-  version: "0.2.3"
+  version: "0.2.4"
   framework: appgen
   role: orchestrator
 ---
@@ -85,9 +85,10 @@ Para cada agente:
 2. Ative o skill correspondente ou leia `.agents/skills/<agente>/SKILL.md` integralmente.
 3. Gere o artefato esperado da etapa antes de considerar o agente concluido.
 4. Salve checkpoint em `.appgen/state.json`.
-5. Marque o item como concluido em `.appgen/plan.md`.
-6. Mostre um resumo curto do resultado, evitando jargao tecnico.
-7. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir", novo `appgen` ou `/appgen`; nao exija uma palavra reservada.
+5. Registre um resumo do que aconteceu em `_appgen_work/activity-log.md`, incluindo agente, acao, comandos relevantes, reports gerados, bloqueios e proximo passo.
+6. Marque o item como concluido em `.appgen/plan.md`.
+7. Mostre um resumo curto do resultado, evitando jargao tecnico.
+8. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir", novo `appgen` ou `/appgen`; nao exija uma palavra reservada.
 
 Use o runner local `node .appgen/bin/appgen.js` para todos os comandos internos.
 Nao use o comando global `appgen`, porque ele pode apontar para uma versao antiga no PATH.
@@ -120,6 +121,7 @@ Nao construa se o usuario apontar que esse resumo esta errado.
 - `appgen-specs` so termina quando `_appgen_specs/features/` tiver pelo menos uma spec e `_appgen_specs/quality/spec-score.md` existir.
 - `appgen-scaffold` nao pode iniciar antes das specs de produto, arquitetura e features. Ao terminar, deve registrar `scaffold.tasks` em `.appgen/state.json`.
 - `appgen-slicer` so termina quando `_appgen_specs/feature-slices.md` existir.
+- Ao iniciar `implementation-loop`, rode `node .appgen/bin/appgen.js loop --init` e, antes da primeira slice, rode `node .appgen/bin/appgen.js preview-validation` para subir/validar o preview tecnico inicial quando Docker estiver pronto. Se falhar por ambiente, registre blocker de ambiente; se falhar por problema tecnico do scaffold, corrija antes de chamar `appgen-coder`.
 - `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md` e o gate `appgen-preview-validation` tiver passado ou registrado blocker de ambiente.
 - `appgen-acceptance` so termina quando `_appgen_work/user-acceptance.md` registrar aceite explicito do usuario. Feedback deve ser preservado em `_appgen_work/user-feedback.md` e `_appgen_work/acceptance-history.jsonl`.
 - `appgen-acceptance` deve entregar `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio antes de pedir aceite.
@@ -153,6 +155,7 @@ Atualize `.appgen/state.json` sem remover campos existentes:
 - Se houver ambiguidade funcional, pergunte ao usuario em linguagem de negocio.
 - Se houver lacuna tecnica, registre em `_appgen_work/decisions.md` e encaminhe para o agente tecnico responsavel.
 - Escreva apenas em `.appgen/`, `_appgen_specs/`, `_appgen_work/` e no `app_root` configurado quando o agente da etapa permitir.
+- Mantenha `_appgen_work/activity-log.md` atualizado. Ele substitui a necessidade de ler a tela do Codex para revisar o que aconteceu no fluxo.
 - Em progresso e erros, fale em linguagem de negocio. Exemplo: "preciso do Docker para testar a app em ambiente isolado" em vez de apenas "Docker not found".
 
 ## Saida Final

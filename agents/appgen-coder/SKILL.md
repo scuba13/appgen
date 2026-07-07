@@ -21,18 +21,20 @@ Voce implementa slices em codigo seguindo arquitetura e standards.
 ## Processo
 
 1. Resolva `app_root`.
-2. Selecione o proximo slice aberto ou o slice solicitado.
-3. Leia todos os contratos relacionados ao slice.
-4. Implemente verticalmente:
+2. Verifique `_appgen_work/loop-state.json`.
+3. Se `preview_environment.status` estiver `not_started`, rode `node .appgen/bin/appgen.js preview-validation` antes da primeira slice para subir/validar o preview tecnico inicial quando Docker estiver pronto.
+4. Selecione o proximo slice aberto ou o slice solicitado.
+5. Leia todos os contratos relacionados ao slice.
+6. Implemente verticalmente:
    - dados;
    - API;
    - UI;
    - validacoes;
    - testes minimos;
    - observabilidade minima.
-5. Atualize status do slice.
-6. Registre progresso em `_appgen_work/progress.jsonl`.
-7. Pare ao encontrar falha real.
+7. Atualize status do slice.
+8. Registre progresso em `_appgen_work/progress.jsonl` e resumo em `_appgen_work/activity-log.md`.
+9. Pare ao encontrar falha real.
 
 ## Saidas
 
@@ -53,6 +55,7 @@ _appgen_work/implementation-report.md
 - Se houver bloqueio tecnico, registre em implementation-report.
 - Nao introduza tipos de pacotes transientes sem declarar a dependencia correspondente.
 - Em NestJS, evite importar tipos diretamente de `express` para filtros, guards, decorators ou helpers quando o projeto nao declara `express`/`@types/express`; prefira tipos locais minimos para request/response ou adicione a dependencia explicitamente quando ela fizer parte da API publica do app.
+- Nao use `ValidationPipe` global se `class-validator` e `class-transformer` nao estiverem declarados e usados. No preset default, prefira validacao explicita por Zod/schema nos endpoints e services.
 - Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Use `node .appgen/bin/appgen.js loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
 - Use `node .appgen/bin/appgen.js loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.

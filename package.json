@@ -1,6 +1,6 @@
 {
   "name": "appgen",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Corporate app generation framework powered by AI agents and company standards",
   "private": true,
   "bin": {
@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "check": "node --check bin/appgen.js && node --check lib/installer/agent-ids.js && node --check lib/installer/writer.js && node --check lib/commands/install.js && node --check lib/commands/update.js && node --check lib/commands/environment.js && node --check lib/commands/scaffold.js && node --check lib/commands/loop.js && node --check lib/commands/preview-validation.js && node --check lib/commands/acceptance.js && node --check lib/commands/docs.js && node --check lib/scaffold/copier.js && node --check lib/runtime/flow.js && node --check lib/runtime/business-experience.js && node --check lib/runtime/implementation-loop.js && node --check lib/runtime/preview.js",
+    "check": "node --check bin/appgen.js && node --check lib/installer/agent-ids.js && node --check lib/installer/writer.js && node --check lib/commands/install.js && node --check lib/commands/update.js && node --check lib/commands/environment.js && node --check lib/commands/scaffold.js && node --check lib/commands/loop.js && node --check lib/commands/preview-validation.js && node --check lib/commands/acceptance.js && node --check lib/commands/docs.js && node --check lib/scaffold/copier.js && node --check lib/runtime/flow.js && node --check lib/runtime/activity-log.js && node --check lib/runtime/business-experience.js && node --check lib/runtime/implementation-loop.js && node --check lib/runtime/preview.js",
     "test": "npm run check && node --test tests/*.test.js"
   },
   "keywords": [

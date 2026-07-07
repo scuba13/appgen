@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { completeStep } from '../lib/runtime/flow.js';
+import { initImplementationLoop } from '../lib/runtime/implementation-loop.js';
 
 const repoRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const cli = join(repoRoot, 'bin', 'appgen.js');
@@ -109,6 +110,7 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
     assert.equal(state.user_name, 'Eduardo');
     assert.deepEqual(state.engines, ['codex']);
     assert.equal(state.output_folder, '_specs');
+    assert.equal(state.activity_log, '_appgen_work/activity-log.md');
     assert.equal(state.workflow_mode, 'final-app');
     assert.equal(state.company_profile, 'default');
 
@@ -213,6 +215,7 @@ test('scaffold can generate the default app from an installed fixture project', 
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'packages', 'shared', 'src', 'index.ts')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'build-summary.md')));
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'activity-log.md')));
     assert.match(
       readFileSync(join(projectRoot, '_appgen_work', 'scaffold-report.md'), 'utf8'),
       /Created files: [1-9]\d*/
@@ -221,6 +224,11 @@ test('scaffold can generate the default app from an installed fixture project', 
     const state = readJson(join(projectRoot, '.appgen', 'state.json'));
     const apiPackageJson = readJson(join(projectRoot, 'app', 'apps', 'api', 'package.json'));
     assert.equal(apiPackageJson.dependencies['@finance-ops/shared'], 'workspace:*');
+    assert.equal(apiPackageJson.dependencies['class-validator'], undefined);
+    assert.equal(apiPackageJson.dependencies['class-transformer'], undefined);
+
+    const apiMain = readFileSync(join(projectRoot, 'app', 'apps', 'api', 'src', 'main.ts'), 'utf8');
+    assert.doesNotMatch(apiMain, /ValidationPipe/);
 
     const apiVitestConfig = readFileSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts'), 'utf8');
     assert.match(apiVitestConfig, /"@finance-ops\/shared"/);
@@ -388,6 +396,41 @@ test('completeStep preserves loop-state when implementation-loop completes', () 
     assert.equal(result.state.implementation_loop.status, 'completed');
     assert.deepEqual(result.state.implementation_loop.done_slices, ['S001']);
     assert.deepEqual(result.state.implementation_loop.open_slices, []);
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
+test('implementation loop init records preview preflight recommendation', () => {
+  const projectRoot = makeProject();
+
+  try {
+    mkdirSync(join(projectRoot, '.appgen'), { recursive: true });
+    mkdirSync(join(projectRoot, '_appgen_specs'), { recursive: true });
+    writeFileSync(
+      join(projectRoot, '.appgen', 'state.json'),
+      JSON.stringify({
+        project: 'Loop Preview Fixture',
+        work_folder: '_appgen_work',
+        output_folder: '_appgen_specs',
+        app_root: 'app',
+        phase: 'slicer',
+        implementation_loop: {
+          status: 'not_started',
+          open_slices: [],
+          done_slices: [],
+          blocked_slices: [],
+        },
+      }, null, 2),
+      'utf8'
+    );
+    writeFileSync(join(projectRoot, '_appgen_specs', 'feature-slices.md'), '- S001 - First slice\n', 'utf8');
+
+    const result = initImplementationLoop(projectRoot);
+
+    assert.equal(result.loop.preview_environment.status, 'not_started');
+    assert.match(result.loop.preview_environment.recommendation, /preview-validation/);
+    assert.ok(existsSync(join(projectRoot, '_appgen_work', 'activity-log.md')));
   } finally {
     cleanup(projectRoot);
   }

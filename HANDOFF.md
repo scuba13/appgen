@@ -249,6 +249,17 @@ Correcao apos testes/build no teste Codex:
 - versao local ajustada para `0.2.3` para permitir update offline em instalacoes existentes;
 - validacoes executadas em `test/codex/app`: `pnpm --filter @codex/api test` passou e `pnpm -r build` passou.
 
+Correcao apos runtime no teste Codex:
+
+- problema observado: API falhou em runtime porque o scaffold usava `ValidationPipe` global do Nest sem instalar `class-validator`/`class-transformer`;
+- decisao: no preset default, validacoes devem ser explicitas por Zod/schema nos endpoints e services, salvo quando o projeto declarar class-validator/class-transformer;
+- correcao aplicada: `apps/api/src/main.ts.tpl` nao instala mais `ValidationPipe` global;
+- correcao aplicada: standard backend proibe habilitar `ValidationPipe` sem as dependencias e uso correspondente;
+- melhoria aplicada: AppGen agora cria `_appgen_work/activity-log.md` como diario Markdown de eventos, comandos, reports, bloqueios e proximos passos, porque nao e viavel capturar literalmente a tela do Codex de dentro do AppGen;
+- melhoria aplicada: `implementation-loop` registra `preview_environment` e recomenda rodar `node .appgen/bin/appgen.js preview-validation` antes da primeira slice para subir/validar o preview tecnico inicial quando Docker estiver pronto;
+- melhoria aplicada: smoke test do preview aceita tanto `http://localhost:3001/health` quanto `http://localhost:3001/api/v1/health`;
+- versao local ajustada para `0.2.4` para permitir update offline em instalacoes existentes.
+
 Arquivos principais desse ajuste:
 
 ```text

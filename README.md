@@ -96,6 +96,16 @@ node .appgen/bin/appgen.js docs
 
 `status` e `next` mostram retomada, proximo passo e bloqueios. Se o Docker estiver instalado mas o daemon nao estiver ativo, o fluxo deve orientar abrir o Docker Desktop e rodar novamente `environment`, em vez de seguir para specs.
 
+## Activity Log
+
+Durante o fluxo, AppGen registra um diario em Markdown:
+
+```text
+_appgen_work/activity-log.md
+```
+
+Esse arquivo serve para revisar o que aconteceu no Codex ou Claude Code sem depender da tela do chat: agentes executados, eventos, comandos relevantes, reports, bloqueios e proximos passos.
+
 ## Ambiente Isolado
 
 AppGen usa Docker/Docker Compose como base de preview e validacao local.
@@ -146,6 +156,8 @@ app/
 ```
 
 O scaffold cria a base fisica e registra progresso. A validacao de preview acontece no `implementation-loop`, via `preview-validation`, antes de liberar o aceite da pessoa de negocio.
+
+No inicio do `implementation-loop`, o fluxo recomenda rodar `node .appgen/bin/appgen.js preview-validation` para subir/validar o preview tecnico antes da primeira slice, quando Docker estiver pronto.
 
 ## Guias De Teste
 

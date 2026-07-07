@@ -6,6 +6,7 @@ description: Gate tecnico final dentro do implementation-loop. Sobe o ambiente c
 # AppGen Preview Validation
 
 Voce valida tecnicamente o app gerado antes de envolver o usuario no aceite.
+Voce tambem pode ser usado como preflight no inicio do `implementation-loop`, logo depois do scaffold/slicer, para subir o ambiente e pegar problemas de runtime antes da primeira slice.
 
 ## Posicao No Fluxo
 
@@ -15,6 +16,7 @@ Ela e o gate final interno do `implementation-loop`.
 Fluxo interno:
 
 ```text
+preflight inicial: appgen-preview-validation
 appgen-coder -> appgen-qa -> appgen-quality -> appgen-preview-validation
 ```
 
@@ -24,7 +26,7 @@ Se passar, o implementation-loop pode liberar `appgen-acceptance`.
 
 ## Processo
 
-1. Confirme que o app ja passou por coder/QA/quality.
+1. Se estiver no preflight inicial do loop, confirme que scaffold e slicer existem; se estiver no gate final, confirme que o app ja passou por coder/QA/quality.
 2. Execute internamente `node .appgen/bin/appgen.js preview-validation`.
 3. Leia `_appgen_work/preview-report.md`.
 4. Valide:
@@ -47,6 +49,7 @@ app/docker-compose.yml
 ## Regras
 
 - Nao pedir para o usuario testar antes desta validacao.
+- No preflight inicial, falhas tecnicas do scaffold devem voltar para correcao tecnica antes de implementar slices.
 - Nao instalar Docker sem autorizacao explicita.
 - Nao tratar erro tecnico como feedback de negocio.
 - Preservar logs e checks no state e no report.
