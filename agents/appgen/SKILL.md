@@ -5,7 +5,7 @@ license: MIT
 compatibility: Claude Code, Codex e agentes compativeis com Agent Skills.
 metadata:
   author: scuba13
-  version: "0.2.5"
+  version: "0.2.6"
   framework: appgen
   role: orchestrator
 ---
@@ -85,7 +85,10 @@ Para cada agente:
 2. Ative o skill correspondente ou leia `.agents/skills/<agente>/SKILL.md` integralmente.
 3. Gere o artefato esperado da etapa antes de considerar o agente concluido.
 4. Salve checkpoint em `.appgen/state.json`.
-5. Registre um resumo do que aconteceu em `_appgen_work/activity-log.md`, incluindo agente, acao, comandos relevantes, reports gerados, bloqueios e proximo passo.
+5. Registre no activity log o que voce acabou de dizer ao usuario e o que aconteceu:
+   - use `node .appgen/bin/appgen.js log --agent=<agente> --event=agent-message --message="mensagem mostrada ao usuario" --summary="resumo objetivo"`;
+   - o campo `--message` deve conter a fala real apresentada ao usuario, nao apenas um evento tecnico;
+   - inclua comandos relevantes, reports gerados, bloqueios e proximo passo no resumo quando houver.
 6. Marque o item como concluido em `.appgen/plan.md`.
 7. Mostre um resumo curto do resultado, evitando jargao tecnico.
 8. Continue para a proxima etapa quando o usuario pedir para seguir. Aceite linguagem natural como "seguir", "continuar", "pode seguir", novo `appgen` ou `/appgen`; nao exija uma palavra reservada.
@@ -156,7 +159,7 @@ Atualize `.appgen/state.json` sem remover campos existentes:
 - Se houver ambiguidade funcional, pergunte ao usuario em linguagem de negocio.
 - Se houver lacuna tecnica, registre em `_appgen_work/decisions.md` e encaminhe para o agente tecnico responsavel.
 - Escreva apenas em `.appgen/`, `_appgen_specs/`, `_appgen_work/` e no `app_root` configurado quando o agente da etapa permitir.
-- Mantenha `_appgen_work/activity-log.md` atualizado. Ele substitui a necessidade de ler a tela do Codex para revisar o que aconteceu no fluxo.
+- Mantenha `_appgen_work/activity-log.md` atualizado com mensagens ao usuario. Ele substitui a necessidade de ler a tela do Codex para revisar o que aconteceu no fluxo.
 - Em progresso e erros, fale em linguagem de negocio. Exemplo: "preciso do Docker para testar a app em ambiente isolado" em vez de apenas "Docker not found".
 
 ## Saida Final

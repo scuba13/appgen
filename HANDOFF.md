@@ -269,6 +269,15 @@ Melhoria de controle de contexto entre slices:
 - `appgen-quality` deve resumir a slice aprovada, apontar `_appgen_work/activity-log.md` e aguardar o usuario pedir para seguir;
 - versao local ajustada para `0.2.5` para permitir update offline em instalacoes existentes.
 
+Melhoria do activity log:
+
+- problema observado: `_appgen_work/activity-log.md` registrava eventos tecnicos, mas nao a fala real do agente para o usuario;
+- decisao: para analise e melhoria do fluxo, o log precisa registrar tambem a mensagem que o agente mostrou ao usuario;
+- correcao aplicada: novo comando `node .appgen/bin/appgen.js log --agent=<agente> --event=agent-message --message="..." --summary="..."`;
+- `activity-log.md` agora cria uma secao `Mensagem Ao Usuario` para essas entradas;
+- `appgen`, `appgen-coder`, `appgen-qa` e `appgen-quality` foram instruidos a registrar mensagens relevantes no log;
+- versao local ajustada para `0.2.6` para permitir update offline em instalacoes existentes.
+
 Arquivos principais desse ajuste:
 
 ```text

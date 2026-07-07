@@ -187,6 +187,39 @@ test('install --yes creates Claude Code slash command when requested', () => {
   }
 });
 
+test('log command records user-facing agent message in activity log', () => {
+  const projectRoot = makeProject();
+
+  try {
+    runAppgen(projectRoot, [
+      'install',
+      '--yes',
+      '--engine=codex',
+      '--project-name',
+      'Log Fixture',
+      '--user-name',
+      'Eduardo',
+    ]);
+
+    runInstalledAppgen(projectRoot, [
+      'log',
+      '--agent=appgen-quality',
+      '--event=agent-message',
+      '--message=Slice S001 concluida. Vou parar aqui para voce decidir se seguimos.',
+      '--summary=Quality aprovou S001 e pausou antes da proxima slice.',
+      '--next-step=aguardar confirmacao',
+    ]);
+
+    const activityLog = readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8');
+    assert.match(activityLog, /Mensagem Ao Usuario/);
+    assert.match(activityLog, /Slice S001 concluida/);
+    assert.match(activityLog, /Quality aprovou S001/);
+    assert.match(activityLog, /next_step: aguardar confirmacao/);
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
 test('scaffold can generate the default app from an installed fixture project', () => {
   const projectRoot = makeProject();
 

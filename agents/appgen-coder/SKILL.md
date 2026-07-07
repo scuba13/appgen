@@ -34,7 +34,7 @@ Voce implementa slices em codigo seguindo arquitetura e standards.
    - testes minimos;
    - observabilidade minima.
 8. Atualize status do slice.
-9. Registre progresso em `_appgen_work/progress.jsonl` e resumo em `_appgen_work/activity-log.md`.
+9. Registre progresso em `_appgen_work/progress.jsonl` e a fala/resumo em `_appgen_work/activity-log.md` usando `node .appgen/bin/appgen.js log --agent=appgen-coder --event=agent-message --message="..." --summary="..."`.
 10. Pare ao encontrar falha real.
 
 ## Saidas
@@ -59,6 +59,7 @@ _appgen_work/implementation-report.md
 - Nao use `ValidationPipe` global se `class-validator` e `class-transformer` nao estiverem declarados e usados. No preset default, prefira validacao explicita por Zod/schema nos endpoints e services.
 - Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Nunca comece uma nova slice se o loop estiver aguardando confirmacao do usuario entre slices.
+- Sempre que informar progresso, bloqueio, comandos executados ou handoff ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log`.
 - Use `node .appgen/bin/appgen.js loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
 - Use `node .appgen/bin/appgen.js loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.
 

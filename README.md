@@ -106,6 +106,12 @@ _appgen_work/activity-log.md
 
 Esse arquivo serve para revisar o que aconteceu no Codex ou Claude Code sem depender da tela do chat: agentes executados, eventos, comandos relevantes, reports, bloqueios e proximos passos.
 
+Agentes devem registrar tambem a mensagem que mostraram ao usuario:
+
+```bash
+node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="mensagem exibida ao usuario" --summary="resumo objetivo"
+```
+
 ## Ambiente Isolado
 
 AppGen usa Docker/Docker Compose como base de preview e validacao local.

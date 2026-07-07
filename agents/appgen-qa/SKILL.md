@@ -57,6 +57,7 @@ _appgen_work/qa-report.md
 - Nao reescrever requisitos de negocio.
 - Nao mascarar falhas de implementacao como lacuna de teste.
 - Quando houver ambiguidade funcional, encaminhe ao usuario de negocio.
+- Sempre que informar resultado de teste, falha, classificacao ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-qa --event=agent-message --message="..." --summary="..."`.
 - Use `node .appgen/bin/appgen.js loop --event=qa-passed --slice=<ID> --agent=appgen-qa --report=_appgen_work/qa-report.md` quando a slice passar em QA.
 - Use `node .appgen/bin/appgen.js loop --event=qa-failed --slice=<ID> --agent=appgen-qa --report=_appgen_work/qa-report.md` quando houver falha.
 

@@ -72,6 +72,7 @@ Crie `_appgen_work/quality-report.md` com:
 - Nao aceite excecao sem registro.
 - Nao pergunte preferencias tecnicas ao usuario de negocio.
 - Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
+- Sempre que informar resultado de auditoria, blocker, excecao, pausa entre slices ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="..." --summary="..."`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando a slice estiver aprovada.
 - Use `node .appgen/bin/appgen.js loop --event=quality-failed --slice=<ID> --agent=appgen-quality --report=_appgen_work/quality-report.md` quando houver finding que exige nova rodada.
 - Depois de aprovar uma slice, se ainda houver slices abertas, pare e aguarde o usuario pedir para seguir. Nao inicie automaticamente a proxima slice. Mostre um resumo curto, indique `_appgen_work/activity-log.md`, e recomende limpar contexto quando a conversa estiver grande.

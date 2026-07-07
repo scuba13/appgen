@@ -15,6 +15,7 @@ const commands = {
   update:             () => import('../lib/commands/update.js'),
   status:             () => import('../lib/commands/status.js'),
   next:               () => import('../lib/commands/next.js'),
+  log:                () => import('../lib/commands/log.js'),
   environment:        () => import('../lib/commands/environment.js'),
   loop:               () => import('../lib/commands/loop.js'),
   'preview-validation': () => import('../lib/commands/preview-validation.js'),
@@ -51,6 +52,7 @@ if (!command || command === '--help' || command === '-h') {
     update             Atualiza os agentes para a última versão
     status             Mostra o estado atual da geração do app
     next               Mostra ou atualiza o próximo passo do fluxo AppGen
+    log                Registra mensagem/resumo do agente no activity-log.md
     environment        Verifica Docker/Compose e planeja ambiente containerizado
     loop               Mostra ou atualiza o loop de implementação por slices
     preview-validation Sobe preview local e roda smoke test antes do aceite
