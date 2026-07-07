@@ -213,6 +213,13 @@ Correcao em andamento apos revisar `test/codex` ate environment:
 - `appgen environment` deve corrigir states antigos, removendo `environment` de completed e desmarcando o plano se o ambiente continuar bloqueado;
 - tasks finalizadas de environment devem registrar `started_at` e `completed_at`; isso agora tem cobertura em `tests/install-scaffold.test.js`.
 
+Checkpoint para novo teste Codex:
+
+- `test/codex/` foi limpo para iniciar um teste do zero;
+- objetivo do proximo teste: instalar AppGen novamente em `test/codex`, rodar o fluxo no Codex ate `appgen-environment`, validar se Docker blocker, `status`, `next`, plano, state e `environment-report.md` ficaram coerentes;
+- comando recomendado para instalar no teste: `node /Users/eduardonascimento/Github/appgen/bin/appgen.js install --yes --engines=codex,claude-code --project-name "teste codex" --user-name "Ale"`;
+- ao usar comandos internos depois do install, preferir `node .appgen/bin/appgen.js ...`.
+
 Arquivos principais desse ajuste:
 
 ```text
