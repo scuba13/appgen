@@ -14,6 +14,7 @@
     "prisma:migrate": "prisma migrate dev"
   },
   "dependencies": {
+    "@{{PACKAGE_NAME}}/shared": "workspace:*",
     "@nestjs/common": "^10.3.10",
     "@nestjs/core": "^10.3.10",
     "@nestjs/platform-express": "^10.3.10",

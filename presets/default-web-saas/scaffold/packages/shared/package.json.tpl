@@ -2,13 +2,13 @@
   "name": "@{{PACKAGE_NAME}}/shared",
   "private": true,
   "version": "0.1.0",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "build": "tsc --noEmit"
+    "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "zod": "^3.23.8"

@@ -239,6 +239,16 @@ Correcao apos typecheck no teste Codex:
 - versao local ajustada para `0.2.2` para permitir update offline em instalacoes existentes;
 - validacao executada: `pnpm --filter @codex/api typecheck` passou em `test/codex/app`.
 
+Correcao apos testes/build no teste Codex:
+
+- problema observado: Vitest na API nao resolvia `@codex/shared` em specs;
+- correcao aplicada: scaffold da API agora cria `vitest.config.ts` com alias para `packages/shared/src/index.ts`;
+- problema observado: runtime CommonJS da API precisava consumir `@<package>/shared` compilado, nao o `src/index.ts`;
+- correcao aplicada: scaffold do pacote shared agora emite `dist`, gera declarations, usa `module: "CommonJS"` e aponta `main`/`types` para `dist`;
+- correcao aplicada: scaffold da API agora declara `@<package>/shared` como dependencia `workspace:*`;
+- versao local ajustada para `0.2.3` para permitir update offline em instalacoes existentes;
+- validacoes executadas em `test/codex/app`: `pnpm --filter @codex/api test` passou e `pnpm -r build` passou.
+
 Arquivos principais desse ajuste:
 
 ```text

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Claude Code, Codex e agentes compativeis com Agent Skills.
 metadata:
   author: scuba13
-  version: "0.2.2"
+  version: "0.2.3"
   framework: appgen
   role: orchestrator
 ---

@@ -210,6 +210,7 @@ test('scaffold can generate the default app from an installed fixture project', 
     assert.equal(packageJson.name, 'finance-ops');
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'package.json')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'src', 'main.ts')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'packages', 'shared', 'src', 'index.ts')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'build-summary.md')));
     assert.match(
@@ -218,6 +219,25 @@ test('scaffold can generate the default app from an installed fixture project', 
     );
 
     const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    const apiPackageJson = readJson(join(projectRoot, 'app', 'apps', 'api', 'package.json'));
+    assert.equal(apiPackageJson.dependencies['@finance-ops/shared'], 'workspace:*');
+
+    const apiVitestConfig = readFileSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts'), 'utf8');
+    assert.match(apiVitestConfig, /"@finance-ops\/shared"/);
+    assert.match(apiVitestConfig, /\.\.\/\.\.\/packages\/shared\/src\/index\.ts/);
+
+    const sharedPackageJson = readJson(join(projectRoot, 'app', 'packages', 'shared', 'package.json'));
+    assert.equal(sharedPackageJson.main, 'dist/index.js');
+    assert.equal(sharedPackageJson.types, 'dist/index.d.ts');
+    assert.equal(sharedPackageJson.scripts.build, 'tsc --project tsconfig.json');
+
+    const sharedTsconfig = readJson(join(projectRoot, 'app', 'packages', 'shared', 'tsconfig.json'));
+    assert.equal(sharedTsconfig.compilerOptions.module, 'CommonJS');
+    assert.equal(sharedTsconfig.compilerOptions.moduleResolution, 'Node');
+    assert.equal(sharedTsconfig.compilerOptions.outDir, 'dist');
+    assert.equal(sharedTsconfig.compilerOptions.noEmit, false);
+    assert.equal(sharedTsconfig.compilerOptions.declaration, true);
+
     assert.equal(state.scaffold.status, 'completed');
     assert.equal(state.scaffold.current_task, null);
     assert.equal(state.scaffold.report, '_appgen_work/scaffold-report.md');
