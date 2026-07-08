@@ -1,3 +1,3 @@
 interface:
-  display_name: "AppGen QA"
+  display_name: "appgen-qa"
   short_description: "Valida comportamento, aceite e cobertura de testes."

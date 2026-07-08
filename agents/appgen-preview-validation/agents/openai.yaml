@@ -1,4 +1,4 @@
 interface:
-  display_name: "AppGen Preview Validation"
+  display_name: "appgen-preview-validation"
   short_description: "Sobe containers e valida web/API antes do aceite do usuario."
   default_prompt: "Valide tecnicamente o preview containerizado antes do aceite."

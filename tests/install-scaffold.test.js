@@ -124,9 +124,12 @@ test('install --yes creates a Codex-ready AppGen project without prompts', () =>
     assert.match(appgenSkill, /reports gerais .*append-only/);
     assert.match(appgenSkill, /_appgen_work\/slices\/<SLICE_ID>/);
     const appgenOpenAi = readFileSync(join(projectRoot, '.agents', 'skills', 'appgen', 'agents', 'openai.yaml'), 'utf8');
-    assert.match(appgenOpenAi, /display_name: "AppGen"/);
+    assert.match(appgenOpenAi, /display_name: "appgen"/);
     assert.match(appgenOpenAi, /short_description: "\$appgen inicia/);
     assert.match(appgenOpenAi, /allow_implicit_invocation: true/);
+    const qualityOpenAi = readFileSync(join(projectRoot, '.agents', 'skills', 'appgen-quality', 'agents', 'openai.yaml'), 'utf8');
+    assert.match(qualityOpenAi, /display_name: "appgen-quality"/);
+    assert.doesNotMatch(qualityOpenAi, /display_name: "AppGen Quality"/);
     const qaSkill = readFileSync(join(projectRoot, '.agents', 'skills', 'appgen-qa', 'SKILL.md'), 'utf8');
     assert.match(qaSkill, /_appgen_work\/slices\/<SLICE_ID>\/test-plan\.md/);
     assert.match(qaSkill, /_appgen_work\/slices\/<SLICE_ID>\/qa-report\.md/);

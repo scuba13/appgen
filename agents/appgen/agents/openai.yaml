@@ -1,5 +1,5 @@
 interface:
-  display_name: "AppGen"
+  display_name: "appgen"
   short_description: "$appgen inicia ou retoma o fluxo principal para criar um app corporativo."
   default_prompt: "$appgen"
 
