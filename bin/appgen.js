@@ -45,7 +45,7 @@ if (!command || command === '--help' || command === '-h') {
 
   appgen v${pkg.version}
 
-  Uso: npx appgen <comando>
+  Uso: npx appgen-ai <comando>
 
   Comandos:
     install            Instala o AppGen no projeto atual
@@ -80,7 +80,7 @@ if (command === '--version' || command === '-v') {
 
 if (!commands[command]) {
   console.error(`\n  Comando desconhecido: "${command}"`);
-  console.error('  Execute "npx appgen --help" para ver os comandos disponíveis.\n');
+  console.error('  Execute "npx appgen-ai --help" para ver os comandos disponíveis.\n');
   process.exit(1);
 }
 

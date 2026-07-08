@@ -79,7 +79,7 @@ Isso evita pegar um `appgen` global antigo no PATH.
 Sem `--company`, o AppGen usa o company profile default que vem no pacote:
 
 ```bash
-npx appgen install
+npx appgen-ai install
 ```
 
 Origem:

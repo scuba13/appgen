@@ -46,20 +46,20 @@ cd ~/Projetos/helpdesk-interno
 Se essa pasta ainda nao tem AppGen instalado, rode:
 
 ```bash
-npx appgen install
+npx appgen-ai install
 ```
 
 Se essa pasta ja tem AppGen instalado, rode:
 
 ```bash
-npx appgen update
+npx appgen-ai update
 ```
 
 Use `install` para uma pasta nova. Use `update` quando a pasta ja tiver `.appgen/`.
 
 ## Como Responder A Instalacao
 
-Durante `npx appgen install`, o AppGen faz algumas perguntas iniciais.
+Durante `npx appgen-ai install`, o AppGen faz algumas perguntas iniciais.
 
 Respostas sugeridas para um teste simples:
 
@@ -99,7 +99,7 @@ Depois que a instalacao terminar, continue sempre na mesma pasta.
 
 ## Abrir Claude Code Ou Codex
 
-Abra a ferramenta escolhida apontando para a mesma pasta onde voce rodou `npx appgen install`.
+Abra a ferramenta escolhida apontando para a mesma pasta onde voce rodou `npx appgen-ai install`.
 
 Exemplo:
 

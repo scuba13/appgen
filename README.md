@@ -6,9 +6,7 @@ A pessoa de negocio descreve objetivo, usuarios, regras, prioridades, excecoes e
 
 ## Status Do Projeto
 
-Este repositorio esta em fase de MVP e validacao local. Hoje, o caminho confiavel para testar e instalar a partir da fonte local deste repo.
-
-Distribuicao via `npx appgen install` em outras maquinas ainda depende de publicacao/empacotamento do AppGen. Esse trabalho esta registrado para uma etapa futura.
+Este repositorio esta em fase de MVP e validacao local. Para instalar a versao publicada em uma pasta de app, use `npx appgen-ai install`.
 
 ## Fluxo Principal
 
