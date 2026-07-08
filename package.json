@@ -1,12 +1,11 @@
 {
   "name": "appgen-ai",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Corporate app generation framework powered by AI agents and company standards",
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "appgen": "bin/appgen.js",
     "appgen-ai": "bin/appgen.js"
   },
   "type": "module",
