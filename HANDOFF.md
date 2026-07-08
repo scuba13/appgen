@@ -442,6 +442,114 @@ Proxima acao concreta:
 4. Rodar o fluxo simples ate passar por mais de uma slice.
 5. Conferir `_appgen_work/activity-log.md`, `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md`, `_appgen_work/quality-report.md` e `_appgen_work/slices/`.
 
+## Atualizacao 2026-07-08 - Publicacao npm e teste real
+
+Esta secao supera o bloco anterior que citava `test/codex` e versao `0.2.7`.
+
+Status atual:
+
+- pacote npm publico publicado como `appgen-ai`;
+- nome `appgen` no npm ja existia e pertence a outro maintainer, entao nao foi usado;
+- versao publicada atual: `appgen-ai@0.2.9`;
+- `latest` no npm aponta para `0.2.9`;
+- bin publico do pacote e somente `appgen-ai`, apontando para `bin/appgen.js`;
+- comando real para usuario final em pasta comum:
+
+```bash
+npx appgen-ai install
+```
+
+Validacao executada:
+
+- `npm test` passou com 10/10 testes;
+- `npm publish --dry-run` passou antes das publicacoes;
+- `appgen-ai@0.2.8` foi publicado e validado;
+- `appgen-ai@0.2.9` foi publicado depois para corrigir nomes exibidos no seletor de skills do Codex;
+- consulta ao registry confirmou:
+
+```text
+version = '0.2.9'
+dist-tags = { latest: '0.2.9' }
+```
+
+Teste real fora do repo:
+
+```text
+/Users/eduardonascimento/Github/AppGenTest/codex
+```
+
+Comando usado:
+
+```bash
+npx appgen-ai@0.2.8 install --yes --engines=codex,claude-code --project-name "teste codex" --user-name "Ale"
+```
+
+Depois a instalacao foi atualizada para `0.2.9`:
+
+```bash
+npx appgen-ai@0.2.9 update --yes --offline
+```
+
+Resultado confirmado na pasta de teste:
+
+```text
+.appgen/version = 0.2.9
+node .appgen/bin/appgen.js --version = 0.2.9
+```
+
+Correcao de UX no seletor do Codex:
+
+- antes, algumas skills apareciam como `AppGen Quality`, `AppGen Scaffold`, `AppGen Slicer`, etc.;
+- outras apareciam como `appgen-acceptance`, `appgen-docs`, etc.;
+- decisao: padronizar tudo sem camel case, no formato `appgen-*`;
+- `agents/*/agents/openai.yaml` agora usa `display_name` em lowercase, por exemplo:
+
+```text
+display_name: "appgen"
+display_name: "appgen-quality"
+display_name: "appgen-scaffold"
+display_name: "appgen-slicer"
+display_name: "appgen-standards"
+```
+
+Na pasta de teste externa, foi confirmado:
+
+```text
+display_name: "appgen"
+display_name: "appgen-quality"
+display_name: "appgen-scaffold"
+display_name: "appgen-slicer"
+display_name: "appgen-standards"
+```
+
+Commits enviados para `main`:
+
+```text
+252a9d1 Prepare npm package as appgen-ai
+88a97c6 Publish appgen-ai 0.2.8
+a4d49c0 Normalize Codex skill display names
+```
+
+Observacao sobre Git:
+
+- `origin` local esta configurado como SSH (`git@github.com:scuba13/appgen.git`);
+- nesta rede, SSH para `github.com:22` falha com `Connection refused`;
+- pushes foram feitos via HTTPS explicito:
+
+```bash
+git push https://github.com/scuba13/appgen.git main
+```
+
+- confirmacao do remoto via HTTPS mostrou `origin/main` em `a4d49c0`;
+- `git status -sb` ficou `main...origin/main`.
+
+Proxima acao recomendada:
+
+1. Reabrir Codex em `/Users/eduardonascimento/Github/AppGenTest/codex`.
+2. Verificar se o seletor mostra as skills como `appgen`, `appgen-quality`, `appgen-scaffold`, etc.
+3. Chamar `appgen` ou `$appgen` no chat e continuar o fluxo manual.
+4. Se precisar reinstalar do zero, usar uma pasta fora de `/Users/eduardonascimento/Github/appgen` para evitar o `npx` resolver o `package.json` do repo pai.
+
 ## Proximos Passos Recomendados
 
 1. Aguardar o usuario rodar os testes manuais em `test/claude/` e `test/codex/`.
