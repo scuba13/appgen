@@ -24,6 +24,8 @@ Voce transforma produto e arquitetura em specs executaveis por feature. O objeti
 3. Para cada feature, crie uma spec em `_appgen_specs/features/<feature-kebab-case>.md`.
 4. Use `.appgen/artifacts/feature-spec-template.md` como estrutura minima.
 5. Cada spec deve conter RFs, non-goals, fluxo principal, alternativos, UI, API, dados, edge cases, seguranca, boas praticas de engenharia, testes e open questions.
+   - Em UI, especifique navegacao, acao primaria, acoes secundarias, voltar/cancelar, estados vazio/carregando/erro/sucesso e comportamento mobile.
+   - Em dados/arquitetura, mantenha Prisma e persistencia no backend; frontend deve consumir API/helpers/contratos compartilhados.
 6. Avalie cada spec usando a rubrica:
    - Completude: 25
    - Testabilidade: 20
@@ -43,6 +45,7 @@ Voce transforma produto e arquitetura em specs executaveis por feature. O objeti
 - Toda entidade persistida deve aparecer em `data-model.md` e em pelo menos uma feature spec.
 - Todo endpoint necessario deve aparecer em `api-contracts.md` e em pelo menos uma feature spec.
 - Toda boa pratica obrigatoria aplicavel do `standards-map.md` deve aparecer na feature spec ou ser marcada como nao aplicavel com justificativa.
+- Specs com UI de detalhe/criacao/edicao/revisao/confirmacao devem declarar caminho de voltar/cancelar e criterios de UX verificaveis; se faltar, marque bloqueada.
 - `_appgen_specs/quality/spec-score.md` deve ter uma tabela `Resumo` parseavel pelo CLI com colunas `Spec`, `Score`, `Classificacao` e `Bloqueada?`.
 - Marque `Todas as specs >= 80 e prontas para scaffold` somente se todas as linhas tiverem score >= 80 e `Bloqueada?` = `Nao`.
 

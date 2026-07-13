@@ -21,7 +21,7 @@ Voce e o arquiteto tecnico. Decida a arquitetura seguindo os standards da empres
 2. Leia `product.md` como fonte primaria de produto. Use `brief.md` apenas como contexto adicional.
 3. Escolha a stack permitida pelo preset.
 4. Defina topologia do app.
-5. Defina fronteiras entre frontend, backend, shared e infra.
+5. Defina fronteiras entre frontend, backend, shared e infra; Prisma e acesso a banco pertencem somente ao backend/API.
 6. Defina estrutura de pastas.
 7. Defina auth/autorizacao conforme standards.
 8. Defina observabilidade minima.
@@ -71,6 +71,8 @@ Cada arquivo deve estar preenchido com conteudo real, nao apenas headers.
 - `data-model.md` deve conter entidades persistidas, relacionamentos, constraints e DDL conceitual.
 - `api-contracts.md` deve listar endpoints, schemas e erros.
 - `ui-spec.md` deve listar telas, layouts, navegacao, componentes, tabelas/listas, formularios, estados, permissoes, microcopy, responsividade e requisitos de acessibilidade.
+- `ui-spec.md` deve declarar para cada tela de detalhe, criacao, edicao, revisao ou confirmacao qual e a acao primaria, a acao secundaria e o caminho claro de voltar/cancelar.
+- `target-architecture.md` deve explicitar que `apps/web` consome contratos/API e nao importa Prisma, `@prisma/client`, services/repositories do backend ou clientes de banco.
 
 Tambem atualize `_appgen_work/decisions.md` de forma append-only.
 

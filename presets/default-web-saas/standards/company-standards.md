@@ -37,7 +37,7 @@
 - Icones da PoC: Ant Design Icons.
 - Backend padrao: NestJS.
 - Banco relacional padrao: PostgreSQL.
-- ORM padrao: Prisma.
+- ORM padrao: Prisma somente no backend/API.
 - Validacao de dados: Zod.
 - Testes unitarios: Vitest.
 - Testes E2E: Playwright.
@@ -72,6 +72,7 @@
 - Definir fronteiras explicitas entre modulos.
 - Usar variaveis de ambiente tipadas e validadas na inicializacao.
 - Nao acessar banco diretamente a partir da UI.
+- Nao importar Prisma, `@prisma/client`, repositories ou clientes de banco em `apps/web`.
 
 ### RECOMENDADO
 
@@ -85,6 +86,7 @@
 - Colocar regra de negocio em handlers HTTP sem camada de aplicacao.
 - Colocar secrets em arquivos versionados.
 - Criar acoplamento circular entre modulos.
+- Acoplar frontend a infraestrutura de persistencia do backend.
 
 ## Estrutura de Pastas
 

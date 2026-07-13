@@ -34,12 +34,14 @@ Voce e o auditor de conformidade tecnica.
 5. Verifique dependencias de tipos:
    - nenhum arquivo deve importar tipos de pacote nao declarado em `dependencies` ou `devDependencies`;
    - imports de tipos de `express`, `fastify` ou adaptadores HTTP devem ter dependencia explicita ou ser substituidos por tipos locais minimos quando forem apenas shape interno.
+   - `apps/web` nao pode importar Prisma, `@prisma/client`, services/repositories do backend ou clientes de banco.
 6. Verifique padroes de API e erros.
 7. Verifique observabilidade minima.
 8. Verifique qualidade de experiencia quando a slice tocar UI:
    - navegacao principal clara;
    - hierarquia visual e densidade adequadas para o dominio;
    - estados vazio, carregando e erro quando aplicaveis;
+   - acoes primarias/secundarias visiveis e caminho de voltar/cancelar em fluxos secundarios;
    - responsividade desktop/mobile sem sobreposicao;
    - labels, foco e navegacao por teclado basicos;
    - nenhum placeholder ou tela rudimentar entregue como fluxo final.
@@ -108,6 +110,8 @@ Use esta estrutura por slice:
 - Para slices com UI, ausencia de evidencia visual/browser e pelo menos `MEDIUM`; se a UI foi alterada e nao ha Playwright, screenshot ou validacao equivalente de navegador do comportamento visivel, trate como `HIGH`.
 - Quando `test:e2e` existir no `package.json`, rode `pnpm test:e2e` ou registre blocker/justificativa objetiva. HTTP 200 isolado nao substitui browser evidence para tela alterada.
 - Nao aprove UI que pareca apenas scaffold tecnico se a spec exige experiencia de usuario final.
+- Nao aprove frontend que acesse persistencia diretamente ou traga Prisma para `apps/web`; isso e `BLOCKER` por quebra de fronteira.
+- Para UI, ausencia de voltar/cancelar em detalhe/criacao/edicao/revisao/confirmacao e no minimo `HIGH`; se bloquear o usuario no fluxo, trate como `BLOCKER`.
 - Sempre que informar resultado de auditoria, blocker, excecao, pausa entre slices ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="..." --summary="..." --slice=<ID> --command="<comando>" --file=<arquivo> --decision="<decisao>"`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/slices/<ID>/quality-report.md` quando a slice estiver aprovada.
 - Use `node .appgen/bin/appgen.js loop --event=quality-failed --slice=<ID> --agent=appgen-quality --report=_appgen_work/slices/<ID>/quality-report.md` quando houver finding que exige nova rodada.

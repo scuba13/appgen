@@ -434,6 +434,9 @@ test('scaffold can generate the default app from an installed fixture project', 
     assert.equal(packageJson.scripts['test:e2e:install'], 'playwright install chromium');
     assert.equal(packageJson.devDependencies['@playwright/test'], '^1.49.1');
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'package.json')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'layout.tsx')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'globals.css')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'page.tsx')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'src', 'main.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'packages', 'shared', 'src', 'index.ts')));
@@ -467,6 +470,20 @@ test('scaffold can generate the default app from an installed fixture project', 
     );
 
     const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    const webPackageJson = readJson(join(projectRoot, 'app', 'apps', 'web', 'package.json'));
+    const webPage = readFileSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'page.tsx'), 'utf8');
+    const webSource = [
+      webPage,
+      readFileSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'lib', 'http.ts'), 'utf8'),
+      JSON.stringify(webPackageJson),
+    ].join('\n');
+    assert.equal(webPackageJson.dependencies['@prisma/client'], undefined);
+    assert.equal(webPackageJson.devDependencies.prisma, undefined);
+    assert.doesNotMatch(webSource, /@prisma\/client|PrismaClient|PrismaService|prisma/i);
+    assert.match(webPage, /Voltar/);
+    assert.match(webPage, /Cancelar/);
+    assert.match(webPage, /Nova solicitacao/);
+
     const apiPackageJson = readJson(join(projectRoot, 'app', 'apps', 'api', 'package.json'));
     assert.equal(apiPackageJson.dependencies['@finance-ops/shared'], 'workspace:*');
     assert.equal(apiPackageJson.dependencies['class-validator'], undefined);

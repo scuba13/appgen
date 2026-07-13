@@ -33,6 +33,14 @@ Voce implementa slices em codigo seguindo arquitetura e standards.
    - validacoes;
    - testes minimos;
    - observabilidade minima.
+   Para slices com UI, entregue uma tela usavel, nao apenas controles soltos:
+   - navegacao principal visivel;
+   - titulo e contexto da tela;
+   - acao primaria clara;
+   - acoes secundarias relevantes;
+   - `Voltar`, `Cancelar` ou caminho equivalente em detalhe/criacao/edicao/revisao/confirmacao;
+   - estados vazio, carregando, erro e sucesso quando aplicaveis;
+   - responsividade desktop/mobile sem sobreposicao.
 8. Reaproveite os helpers do scaffold antes de criar padroes novos:
    - backend: `apps/api/src/common/logger.ts`, `apps/api/src/common/app-error.ts`, `apps/api/src/common/http-error.filter.ts`;
    - frontend: `apps/web/src/lib/logger.ts`, `apps/web/src/lib/api-error.ts`, `apps/web/src/lib/http.ts`, `apps/web/src/app/error.tsx`.
@@ -85,6 +93,9 @@ _appgen_work/slices/<SLICE_ID>/dev-log.md
 - Use `AppError` para erro esperado de dominio/validacao/permissao no backend e preserve `code` estavel para o frontend tratar.
 - Use `appLogger.decision`, `appLogger.info`, `appLogger.warn` e `appLogger.failure` nos pontos de decisao relevantes; nao adicione `console.log` solto.
 - Use `fetchJson` no frontend para chamadas API novas, preservando `x-correlation-id` entre web e API.
+- Nunca importe Prisma, `@prisma/client`, services/repositories do backend ou clientes de banco em `apps/web`; persistencia fica no backend/API e o frontend usa `fetchJson`/contratos compartilhados.
+- Nao entregue UI com botoes sem destino, navegacao falsa ou tela sem caminho de volta quando o usuario entra em um fluxo secundario.
+- Evite telas com aparencia de scaffold cru: substitua placeholders por microcopy de negocio, cards/tabelas/formularios coerentes e hierarquia visual clara.
 - Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Nunca comece uma nova slice se o loop estiver aguardando confirmacao do usuario entre slices.
 - Sempre que informar progresso, bloqueio, comandos executados ou handoff ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log` incluindo `--slice=<ID>`, um `--file=` para cada arquivo relevante, um `--command=` para cada comando executado e `--decision=` para decisoes tecnicas relevantes.

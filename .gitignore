@@ -5,7 +5,7 @@ node_modules/
 .appgen/
 _appgen_specs/
 _appgen_work/
-app/
-test/
+/app/
+/test/
 npm-debug.log*
 pnpm-debug.log*

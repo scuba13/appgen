@@ -32,6 +32,8 @@ Voce e o agente de QA. Seu foco e comportamento, criterios de aceite e cobertura
    - contratos de API;
    - validacoes de dados;
    - navegacao principal;
+   - caminhos de voltar/cancelar em detalhe, criacao, edicao, revisao e confirmacao;
+   - acoes primarias e secundarias visiveis;
    - acessibilidade basica.
 6. Para slices com UI, valide a rota/tela principal por browser, preview ou evidencia HTTP quando disponivel.
 7. Rode ou solicite comandos de teste definidos nos standards.
@@ -76,6 +78,8 @@ Antes de atualizar um arquivo acumulado, leia o conteudo atual e regrave preserv
 - Nao sobrescreva `_appgen_work/test-plan.md` nem `_appgen_work/qa-report.md` com apenas a slice atual.
 - Se `_appgen_work/slices/<SLICE_ID>/dev-log.md` nao existir ou nao listar comandos/arquivos, registre `TEST_GAP` e devolva para `appgen-coder` completar rastreabilidade antes de aprovar QA.
 - O QA report da slice deve declarar explicitamente quais criterios de aceite foram cobertos, quais nao foram cobertos e por que.
+- Para UI, registre como `IMPLEMENTATION_BUG` quando faltar botao/link de voltar ou cancelar em fluxo secundario, quando houver navegacao falsa, ou quando a tela ficar visualmente rudimentar apesar de a spec exigir fluxo final.
+- Verifique que `apps/web` nao importa Prisma, `@prisma/client`, services/repositories do backend ou clientes de banco. Se importar, classifique como `IMPLEMENTATION_BUG`.
 - Sempre que informar resultado de teste, falha, classificacao ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-qa --event=agent-message --message="..." --summary="..." --slice=<ID> --command="<comando>" --file=<arquivo> --decision="<decisao>"`.
 - Use `node .appgen/bin/appgen.js loop --event=qa-passed --slice=<ID> --agent=appgen-qa --report=_appgen_work/slices/<ID>/qa-report.md` quando a slice passar em QA.
 - Use `node .appgen/bin/appgen.js loop --event=qa-failed --slice=<ID> --agent=appgen-qa --report=_appgen_work/slices/<ID>/qa-report.md` quando houver falha.

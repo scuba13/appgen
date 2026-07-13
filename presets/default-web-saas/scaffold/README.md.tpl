@@ -9,7 +9,7 @@ App corporativo gerado pelo AppGen.
 - NestJS
 - TypeScript
 - PostgreSQL
-- Prisma
+- Prisma no backend/API
 - pnpm workspace
 
 ## Comandos
