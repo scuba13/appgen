@@ -234,11 +234,17 @@ test('log command records user-facing agent message in activity log', () => {
     assert.match(activityLog, /Mensagem Ao Usuario/);
     assert.match(activityLog, /Slice S001 concluida/);
     assert.match(activityLog, /Quality aprovou S001/);
+    assert.match(activityLog, /Estado Do Fluxo/);
+    assert.match(activityLog, /app_root: app/);
     assert.match(activityLog, /slice: S001/);
     assert.match(activityLog, /files: app\/apps\/web\/src\/app\/page\.tsx/);
     assert.match(activityLog, /commands: pnpm test/);
     assert.match(activityLog, /decisions: pausar antes da proxima slice/);
     assert.match(activityLog, /next_step: aguardar confirmacao/);
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_work', 'progress.jsonl'), 'utf8'),
+      /"event":"agent-message"/
+    );
 
     appendActivityObjectFixture(projectRoot);
     const updatedActivityLog = readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8');
@@ -450,6 +456,10 @@ test('scaffold can generate the default app from an installed fixture project', 
     assert.doesNotMatch(
       readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8'),
       /scaffold-file-created/
+    );
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8'),
+      /- app\/playwright\.config\.ts/
     );
     assert.match(
       readFileSync(join(projectRoot, '_appgen_work', 'progress.jsonl'), 'utf8'),
