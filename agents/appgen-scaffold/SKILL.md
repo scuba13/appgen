@@ -42,10 +42,13 @@ Retorne para o agente responsavel pela proxima spec pendente.
 7. Crie configs base.
 8. Crie scripts obrigatorios.
 9. Crie arquivos minimos de app.
-10. Crie setup de testes conforme standards.
-11. Crie setup de lint/typecheck/build.
-12. Registre arquivos criados.
-13. Execute ou solicite hooks `after-scaffold`.
+10. Crie base de observabilidade e erros para o coder reaproveitar:
+   - backend: logger estruturado, erro de aplicacao e filtro HTTP global;
+   - frontend: logger estruturado, erro de API, helper HTTP com correlation id e error boundary.
+11. Crie setup de testes conforme standards.
+12. Crie setup de lint/typecheck/build.
+13. Registre arquivos criados.
+14. Execute ou solicite hooks `after-scaffold`.
 
 ## Saidas
 
@@ -70,6 +73,7 @@ scaffold.tasks[]
 - Nao apagar arquivos existentes sem confirmacao explicita.
 - Nao criar estrutura fora de `app_root`, `.appgen/`, `_appgen_specs/` e `_appgen_work/`.
 - Nao implementar features completas aqui. O scaffold cria base, nao produto final.
+- Nao deixe o coder sem caminho padrao para logs e erros. O scaffold deve gerar helpers reaproveitaveis em backend e frontend.
 - Registre progresso em JSONL append-only.
 - Nao subir Docker Compose aqui. Preview tecnico pertence ao gate `appgen-preview-validation` dentro do implementation-loop.
 - Mostre tarefas em linguagem de negocio. Prefira "criar base inicial da app" a "gerar estrutura fisica".

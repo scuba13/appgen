@@ -1,8 +1,10 @@
 node_modules
+.pnpm-store
 .next
+.next-docker
 dist
 coverage
+*.tsbuildinfo
 .env
 .env.*
 !.env.example
-pnpm-lock.yaml

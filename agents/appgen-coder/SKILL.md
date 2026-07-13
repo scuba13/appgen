@@ -33,10 +33,13 @@ Voce implementa slices em codigo seguindo arquitetura e standards.
    - validacoes;
    - testes minimos;
    - observabilidade minima.
-8. Atualize `_appgen_work/slices/<SLICE_ID>/dev-log.md` durante a implementacao, nao apenas no fim.
-9. Atualize status do slice.
-10. Registre progresso em `_appgen_work/progress.jsonl` e a fala/resumo em `_appgen_work/activity-log.md` usando `node .appgen/bin/appgen.js log --agent=appgen-coder --event=agent-message --message="..." --summary="..." --slice=<SLICE_ID> --file=<arquivo> --command="<comando>" --decision="<decisao>"`.
-11. Pare ao encontrar falha real.
+8. Reaproveite os helpers do scaffold antes de criar padroes novos:
+   - backend: `apps/api/src/common/logger.ts`, `apps/api/src/common/app-error.ts`, `apps/api/src/common/http-error.filter.ts`;
+   - frontend: `apps/web/src/lib/logger.ts`, `apps/web/src/lib/api-error.ts`, `apps/web/src/lib/http.ts`, `apps/web/src/app/error.tsx`.
+9. Atualize `_appgen_work/slices/<SLICE_ID>/dev-log.md` durante a implementacao, nao apenas no fim.
+10. Atualize status do slice.
+11. Registre progresso em `_appgen_work/progress.jsonl` e a fala/resumo em `_appgen_work/activity-log.md` usando `node .appgen/bin/appgen.js log --agent=appgen-coder --event=agent-message --message="..." --summary="..." --slice=<SLICE_ID> --file=<arquivo> --command="<comando>" --decision="<decisao>"`.
+12. Pare ao encontrar falha real.
 
 ## Saidas
 
@@ -79,6 +82,9 @@ _appgen_work/slices/<SLICE_ID>/dev-log.md
 - Nao introduza tipos de pacotes transientes sem declarar a dependencia correspondente.
 - Em NestJS, evite importar tipos diretamente de `express` para filtros, guards, decorators ou helpers quando o projeto nao declara `express`/`@types/express`; prefira tipos locais minimos para request/response ou adicione a dependencia explicitamente quando ela fizer parte da API publica do app.
 - Nao use `ValidationPipe` global se `class-validator` e `class-transformer` nao estiverem declarados e usados. No preset default, prefira validacao explicita por Zod/schema nos endpoints e services.
+- Use `AppError` para erro esperado de dominio/validacao/permissao no backend e preserve `code` estavel para o frontend tratar.
+- Use `appLogger.decision`, `appLogger.info`, `appLogger.warn` e `appLogger.failure` nos pontos de decisao relevantes; nao adicione `console.log` solto.
+- Use `fetchJson` no frontend para chamadas API novas, preservando `x-correlation-id` entre web e API.
 - Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Nunca comece uma nova slice se o loop estiver aguardando confirmacao do usuario entre slices.
 - Sempre que informar progresso, bloqueio, comandos executados ou handoff ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log` incluindo `--slice=<ID>`, um `--file=` para cada arquivo relevante, um `--command=` para cada comando executado e `--decision=` para decisoes tecnicas relevantes.
