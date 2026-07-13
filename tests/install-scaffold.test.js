@@ -7,6 +7,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { completeStep } from '../lib/runtime/flow.js';
 import { initImplementationLoop, updateImplementationLoop } from '../lib/runtime/implementation-loop.js';
+import { appendActivityLog } from '../lib/runtime/activity-log.js';
+import { writeAcceptanceGuide } from '../lib/runtime/business-experience.js';
 
 const repoRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const cli = join(repoRoot, 'bin', 'appgen.js');
@@ -221,6 +223,10 @@ test('log command records user-facing agent message in activity log', () => {
       '--event=agent-message',
       '--message=Slice S001 concluida. Vou parar aqui para voce decidir se seguimos.',
       '--summary=Quality aprovou S001 e pausou antes da proxima slice.',
+      '--slice=S001',
+      '--file=app/apps/web/src/app/page.tsx',
+      '--command=pnpm test',
+      '--decision=pausar antes da proxima slice',
       '--next-step=aguardar confirmacao',
     ]);
 
@@ -228,7 +234,91 @@ test('log command records user-facing agent message in activity log', () => {
     assert.match(activityLog, /Mensagem Ao Usuario/);
     assert.match(activityLog, /Slice S001 concluida/);
     assert.match(activityLog, /Quality aprovou S001/);
+    assert.match(activityLog, /slice: S001/);
+    assert.match(activityLog, /files: app\/apps\/web\/src\/app\/page\.tsx/);
+    assert.match(activityLog, /commands: pnpm test/);
+    assert.match(activityLog, /decisions: pausar antes da proxima slice/);
     assert.match(activityLog, /next_step: aguardar confirmacao/);
+
+    appendActivityObjectFixture(projectRoot);
+    const updatedActivityLog = readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8');
+    assert.match(updatedActivityLog, /```json/);
+    assert.match(updatedActivityLog, /"name": "docker compose config"/);
+    assert.doesNotMatch(updatedActivityLog, /\[object Object\]/);
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
+function appendActivityObjectFixture(projectRoot) {
+  const state = readJson(join(projectRoot, '.appgen', 'state.json'));
+  appendActivityLog(projectRoot, state, {
+    agent: 'appgen-preview-validation',
+    event: 'preview-validation',
+    checks: [
+      {
+        name: 'docker compose config',
+        status: 'passed',
+      },
+    ],
+  });
+}
+
+test('acceptance guide focuses on business-visible flows and filters technical slices', () => {
+  const projectRoot = makeProject();
+
+  try {
+    mkdirSync(join(projectRoot, '_appgen_specs'), { recursive: true });
+    mkdirSync(join(projectRoot, '.appgen'), { recursive: true });
+    writeFileSync(
+      join(projectRoot, '.appgen', 'state.json'),
+      JSON.stringify({
+        project: 'Acceptance Fixture',
+        work_folder: '_appgen_work',
+        output_folder: '_appgen_specs',
+        app_root: 'app',
+      }, null, 2),
+      'utf8'
+    );
+    writeFileSync(
+      join(projectRoot, '_appgen_specs', 'product.md'),
+      [
+        '# Produto',
+        '',
+        '## Perfis',
+        '',
+        '- Gestor financeiro que aprova solicitacoes.',
+        '',
+        '## Regras',
+        '',
+        '- Solicitacoes acima do limite exigem justificativa.',
+      ].join('\n'),
+      'utf8'
+    );
+    writeFileSync(
+      join(projectRoot, '_appgen_specs', 'feature-slices.md'),
+      [
+        '# Feature Slices',
+        '',
+        '| ID | Nome | Objetivo | Dependencias | Paralelo | Status |',
+        '|---|---|---|---|---|---|',
+        '| S001 | Fundacao tecnica | Criar base, config e scaffold | - | Nao | done |',
+        '| S002 | Aprovacao de solicitacao | Permitir aprovar ou reprovar solicitacoes pendentes | S001 | Nao | done |',
+        '| S003 | Polimento final | Validacao final e ajustes tecnicos | S002 | Nao | todo |',
+        '',
+      ].join('\n'),
+      'utf8'
+    );
+
+    const guide = writeAcceptanceGuide(projectRoot, readJson(join(projectRoot, '.appgen', 'state.json')));
+    const content = readFileSync(join(projectRoot, guide.path), 'utf8');
+    assert.match(content, /Perfis Para Testar/);
+    assert.match(content, /Gestor financeiro/);
+    assert.match(content, /Fluxos Por Persona/);
+    assert.match(content, /Aprovacao de solicitacao/);
+    assert.doesNotMatch(content, /Fundacao tecnica/);
+    assert.doesNotMatch(content, /Polimento final/);
+    assert.match(content, /Sinais De Problema Para Reportar/);
   } finally {
     cleanup(projectRoot);
   }
@@ -488,11 +578,13 @@ test('implementation loop pauses for user confirmation between slices', () => {
 
   try {
     mkdirSync(join(projectRoot, '.appgen'), { recursive: true });
+    mkdirSync(join(projectRoot, '_appgen_specs'), { recursive: true });
     writeFileSync(
       join(projectRoot, '.appgen', 'state.json'),
       JSON.stringify({
         project: 'Pause Fixture',
         work_folder: '_appgen_work',
+        output_folder: '_appgen_specs',
         phase: 'implementation-loop',
         runtime: {
           pause_between_slices: true,
@@ -508,6 +600,28 @@ test('implementation loop pauses for user confirmation between slices', () => {
       }, null, 2),
       'utf8'
     );
+    writeFileSync(
+      join(projectRoot, '_appgen_specs', 'feature-slices.md'),
+      [
+        '# Feature Slices',
+        '',
+        '| ID | Nome | Objetivo | Dependencias | Paralelo | Status |',
+        '|---|---|---|---|---|---|',
+        '| S001 | First | First slice | Scaffold | Nao | todo |',
+        '| S002 | Second | Second slice | S001 | Nao | todo |',
+        '',
+      ].join('\n'),
+      'utf8'
+    );
+
+    updateImplementationLoop(projectRoot, {
+      startSlice: 'S001',
+      agent: 'appgen-coder',
+    });
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_specs', 'feature-slices.md'), 'utf8'),
+      /\| S001 \| First \| First slice \| Scaffold \| Nao \| in_progress \|/
+    );
 
     const result = updateImplementationLoop(projectRoot, {
       completeSlice: 'S001',
@@ -520,6 +634,10 @@ test('implementation loop pauses for user confirmation between slices', () => {
     assert.deepEqual(result.loop.done_slices, ['S001']);
     assert.deepEqual(result.loop.open_slices, ['S002']);
     assert.match(result.loop.next_recommended_action, /Pause aqui/);
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_specs', 'feature-slices.md'), 'utf8'),
+      /\| S001 \| First \| First slice \| Scaffold \| Nao \| done \|/
+    );
   } finally {
     cleanup(projectRoot);
   }

@@ -88,6 +88,7 @@ Para cada agente:
 5. Registre no activity log o que voce acabou de dizer ao usuario e o que aconteceu:
    - use `node .appgen/bin/appgen.js log --agent=<agente> --event=agent-message --message="mensagem mostrada ao usuario" --summary="resumo objetivo"`;
    - o campo `--message` deve conter a fala real apresentada ao usuario, nao apenas um evento tecnico;
+   - no implementation-loop, inclua `--slice=<ID>`, `--file=<arquivo>`, `--command="<comando>"` e `--decision="<decisao>"` para cada item relevante;
    - inclua comandos relevantes, reports gerados, bloqueios e proximo passo no resumo quando houver.
 6. Marque o item como concluido em `.appgen/plan.md`.
 7. Mostre um resumo curto do resultado, evitando jargao tecnico.
@@ -127,9 +128,10 @@ Nao construa se o usuario apontar que esse resumo esta errado.
 - Ao iniciar `implementation-loop`, rode `node .appgen/bin/appgen.js loop --init` e, antes da primeira slice, rode `node .appgen/bin/appgen.js preview-validation` para subir/validar o preview tecnico inicial quando Docker estiver pronto. Se falhar por ambiente, registre blocker de ambiente; se falhar por problema tecnico do scaffold, corrija antes de chamar `appgen-coder`.
 - Entre uma slice e outra no `implementation-loop`, pare obrigatoriamente. Depois que `appgen-quality` aprovar uma slice e `node .appgen/bin/appgen.js loop --complete-slice=<ID>` registrar `waiting_user_decision`, apresente resumo da slice, links para `_appgen_work/activity-log.md` e reports, sugira limpar contexto se estiver grande, e aguarde o usuario pedir para seguir antes de iniciar a proxima slice.
 - Durante `implementation-loop`, os reports gerais `_appgen_work/test-plan.md`, `_appgen_work/qa-report.md` e `_appgen_work/quality-report.md` sao acumulados append-only. Nunca substitua conteudo de slices anteriores. Cada slice tambem deve ter reports isolados em `_appgen_work/slices/<SLICE_ID>/`.
+- Durante `implementation-loop`, cada slice deve ter `_appgen_work/slices/<SLICE_ID>/dev-log.md` com arquivos alterados, comandos executados, decisoes, erros/correcoes, evidencia de preview/smoke e pendencias. QA e Quality nao devem aprovar uma slice sem esse log.
 - `implementation-loop` so termina quando slices obrigatorias estiverem concluidas ou bloqueadas com justificativa em `_appgen_work/blockers.md` e o gate `appgen-preview-validation` tiver passado ou registrado blocker de ambiente.
 - `appgen-acceptance` so termina quando `_appgen_work/user-acceptance.md` registrar aceite explicito do usuario. Feedback deve ser preservado em `_appgen_work/user-feedback.md` e `_appgen_work/acceptance-history.jsonl`.
-- `appgen-acceptance` deve entregar `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio antes de pedir aceite.
+- `appgen-acceptance` deve entregar `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio, organizado por perfil/fluxo, antes de pedir aceite.
 - `appgen-docs` so termina quando `app/docs/README.md` e `app/docs/project.html` existirem, ou o equivalente no `app_root` configurado.
 - `appgen-handoff` so termina quando `_appgen_work/handoff.md` existir e nao houver `BLOCKER` aberto em `_appgen_work/quality-report.md`.
 - Se o usuario pedir scaffold antes das specs, explique o bloqueio e continue pela proxima spec pendente.

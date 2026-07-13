@@ -37,11 +37,11 @@ Garantir que a app foi testada por uma pessoa e recebeu aceite explicito. Se o u
    - explique a instalacao recomendada;
    - peca autorizacao explicita antes de qualquer tentativa de instalar;
    - se a autorizacao nao vier, registre blocker de ambiente.
-7. Gere e entregue `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio.
+7. Gere e entregue `_appgen_work/acceptance-test-guide.md` com roteiro de teste em linguagem de negocio, orientado por perfis, fluxos e regras visiveis.
 8. Quando o preview tecnico estiver validado, entregue URLs ao usuario:
    - Web: `http://localhost:3000`
    - API health: `http://localhost:3001/health`
-9. Peça ao usuario para seguir o roteiro, conferindo fluxo principal e regras importantes.
+9. Peça ao usuario para seguir o roteiro, conferindo fluxo principal, regras importantes e sinais de problema.
 10. Se o usuario aprovar, registre `node .appgen/bin/appgen.js acceptance --ok`.
 11. Se o usuario reprovar, registre feedback:
    - `node .appgen/bin/appgen.js acceptance --feedback-type=technical --feedback="..."`
@@ -91,6 +91,7 @@ app/docker-compose.yml
 - Nao avance para `appgen-docs` sem aceite explicito do usuario.
 - Nao entregue URLs ao usuario se `preview_validation.status` estiver `failed`, `needs_attention`, `blocked_environment` ou sem validacao equivalente em `_appgen_work/preview-report.md`.
 - Nao pedir para o usuario "testar livremente" sem roteiro. Entregue passos claros para negocio validar.
+- O roteiro nao pode ser uma lista tecnica de slices, comandos ou criterios internos. Ele deve explicar o que cada perfil de usuario deve tentar fazer, qual resultado esperar e que tipo de problema reportar.
 - Nao apague historico de feedback anterior.
 - Se o feedback for funcional, nao trate como bug tecnico.
 - Se o feedback for tecnico, volte para coder/QA/quality conforme o caso.

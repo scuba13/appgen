@@ -33,9 +33,10 @@ Voce implementa slices em codigo seguindo arquitetura e standards.
    - validacoes;
    - testes minimos;
    - observabilidade minima.
-8. Atualize status do slice.
-9. Registre progresso em `_appgen_work/progress.jsonl` e a fala/resumo em `_appgen_work/activity-log.md` usando `node .appgen/bin/appgen.js log --agent=appgen-coder --event=agent-message --message="..." --summary="..."`.
-10. Pare ao encontrar falha real.
+8. Atualize `_appgen_work/slices/<SLICE_ID>/dev-log.md` durante a implementacao, nao apenas no fim.
+9. Atualize status do slice.
+10. Registre progresso em `_appgen_work/progress.jsonl` e a fala/resumo em `_appgen_work/activity-log.md` usando `node .appgen/bin/appgen.js log --agent=appgen-coder --event=agent-message --message="..." --summary="..." --slice=<SLICE_ID> --file=<arquivo> --command="<comando>" --decision="<decisao>"`.
+11. Pare ao encontrar falha real.
 
 ## Saidas
 
@@ -44,6 +45,27 @@ Atualize codigo em `app_root` e crie/atualize:
 ```text
 _appgen_work/progress.jsonl
 _appgen_work/implementation-report.md
+_appgen_work/slices/<SLICE_ID>/dev-log.md
+```
+
+`_appgen_work/slices/<SLICE_ID>/dev-log.md` e append-only. Use esta estrutura minima por execucao:
+
+```markdown
+## Execucao <ISO-8601>
+
+### Objetivo Da Slice
+
+### Arquivos Alterados
+
+### Decisoes Tecnicas
+
+### Comandos Executados
+
+### Erros E Correcoes
+
+### Evidencias De Preview Ou Smoke
+
+### Pendencias
 ```
 
 ## Regras
@@ -59,9 +81,11 @@ _appgen_work/implementation-report.md
 - Nao use `ValidationPipe` global se `class-validator` e `class-transformer` nao estiverem declarados e usados. No preset default, prefira validacao explicita por Zod/schema nos endpoints e services.
 - Depois de adicionar ou alterar tipos compartilhados, rode o typecheck do pacote afetado antes de marcar a slice como implementada.
 - Nunca comece uma nova slice se o loop estiver aguardando confirmacao do usuario entre slices.
-- Sempre que informar progresso, bloqueio, comandos executados ou handoff ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log`.
+- Sempre que informar progresso, bloqueio, comandos executados ou handoff ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log` incluindo `--slice=<ID>`, um `--file=` para cada arquivo relevante, um `--command=` para cada comando executado e `--decision=` para decisoes tecnicas relevantes.
 - Use `node .appgen/bin/appgen.js loop --start-slice=<ID> --agent=appgen-coder` ao iniciar uma slice.
 - Use `node .appgen/bin/appgen.js loop --event=implemented --slice=<ID> --agent=appgen-coder --report=_appgen_work/implementation-report.md` ao terminar a implementacao.
+- Nao entregue a slice para QA sem `dev-log.md` da slice com arquivos alterados, comandos tentados/executados, resultado e pendencias.
+- Para slices com UI, registre evidencia de preview/smoke: URL testada, screenshot quando houver ferramenta disponivel, ou falha concreta que impediu a validacao visual.
 
 ## Handoff
 

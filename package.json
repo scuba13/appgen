@@ -1,6 +1,6 @@
 {
   "name": "appgen-ai",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Corporate app generation framework powered by AI agents and company standards",
   "publishConfig": {
     "access": "public"

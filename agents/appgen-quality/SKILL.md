@@ -13,6 +13,7 @@ Voce e o auditor de conformidade tecnica.
 - `_appgen_specs/target-architecture.md`
 - `_appgen_work/qa-report.md`
 - `_appgen_work/slices/<SLICE_ID>/qa-report.md`
+- `_appgen_work/slices/<SLICE_ID>/dev-log.md`
 - `_appgen_work/loop-state.json`
 - codigo em `app_root`
 - `.appgen/hooks.yml`
@@ -34,8 +35,16 @@ Voce e o auditor de conformidade tecnica.
    - imports de tipos de `express`, `fastify` ou adaptadores HTTP devem ter dependencia explicita ou ser substituidos por tipos locais minimos quando forem apenas shape interno.
 6. Verifique padroes de API e erros.
 7. Verifique observabilidade minima.
-8. Verifique se findings de QA foram resolvidos ou registrados.
-9. Classifique findings.
+8. Verifique qualidade de experiencia quando a slice tocar UI:
+   - navegacao principal clara;
+   - hierarquia visual e densidade adequadas para o dominio;
+   - estados vazio, carregando e erro quando aplicaveis;
+   - responsividade desktop/mobile sem sobreposicao;
+   - labels, foco e navegacao por teclado basicos;
+   - nenhum placeholder ou tela rudimentar entregue como fluxo final.
+9. Verifique se findings de QA foram resolvidos ou registrados.
+10. Verifique rastreabilidade da slice: `dev-log.md`, `qa-report.md`, comandos executados, arquivos alterados, decisoes e evidencias.
+11. Classifique findings.
 
 ## Saida
 
@@ -94,7 +103,10 @@ Use esta estrutura por slice:
 - Nao pergunte preferencias tecnicas ao usuario de negocio.
 - Nao sobrescreva `_appgen_work/quality-report.md` com apenas a slice atual.
 - Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
-- Sempre que informar resultado de auditoria, blocker, excecao, pausa entre slices ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="..." --summary="..."`.
+- Ausencia de `_appgen_work/slices/<SLICE_ID>/dev-log.md` ou ausencia de comandos/arquivos alterados nele e no activity log e `HIGH`; nao aprove a slice antes de completar a rastreabilidade.
+- Para slices com UI, ausencia de evidencia visual, browser ou HTTP da rota principal e pelo menos `MEDIUM`; se a UI foi alterada e nao ha qualquer validacao do comportamento visivel, trate como `HIGH`.
+- Nao aprove UI que pareca apenas scaffold tecnico se a spec exige experiencia de usuario final.
+- Sempre que informar resultado de auditoria, blocker, excecao, pausa entre slices ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="..." --summary="..." --slice=<ID> --command="<comando>" --file=<arquivo> --decision="<decisao>"`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/slices/<ID>/quality-report.md` quando a slice estiver aprovada.
 - Use `node .appgen/bin/appgen.js loop --event=quality-failed --slice=<ID> --agent=appgen-quality --report=_appgen_work/slices/<ID>/quality-report.md` quando houver finding que exige nova rodada.
 - Depois de aprovar uma slice, se ainda houver slices abertas, pare e aguarde o usuario pedir para seguir. Nao inicie automaticamente a proxima slice. Mostre um resumo curto, indique `_appgen_work/activity-log.md`, e recomende limpar contexto quando a conversa estiver grande.
