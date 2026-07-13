@@ -94,7 +94,7 @@ app/docker-compose.yml
 - O roteiro nao pode ser uma lista tecnica de slices, comandos ou criterios internos. Ele deve explicar o que cada perfil de usuario deve tentar fazer, qual resultado esperar e que tipo de problema reportar.
 - Nao apague historico de feedback anterior.
 - Se o feedback for funcional, nao trate como bug tecnico.
-- Se o feedback for tecnico, volte para coder/QA/quality conforme o caso.
+- Se o feedback for tecnico, registre pelo CLI; o AppGen deve reabrir S006 como `rework` para coder/QA/quality antes de novo aceite.
 - Se Docker/Compose nao estiver disponivel e nao houver autorizacao para instalar, registre blocker de ambiente.
 
 ## Handoff

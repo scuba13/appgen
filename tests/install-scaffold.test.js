@@ -324,6 +324,83 @@ test('acceptance guide focuses on business-visible flows and filters technical s
   }
 });
 
+test('technical acceptance feedback reopens final slice for rework', () => {
+  const projectRoot = makeProject();
+
+  try {
+    runAppgen(projectRoot, [
+      'install',
+      '--yes',
+      '--engine=codex',
+      '--project-name',
+      'Feedback Fixture',
+      '--user-name',
+      'Eduardo',
+    ]);
+
+    mkdirSync(join(projectRoot, '_appgen_specs'), { recursive: true });
+    mkdirSync(join(projectRoot, '_appgen_work'), { recursive: true });
+    writeFileSync(
+      join(projectRoot, '_appgen_specs', 'feature-slices.md'),
+      [
+        '# Feature Slices',
+        '',
+        '| ID | Nome | Objetivo | Dependencias | Paralelo | Status |',
+        '|---|---|---|---|---|---|',
+        '| S006 | Polimento operacional | Ajustar UX e gates finais | S005 | Nao | done |',
+        '',
+      ].join('\n'),
+      'utf8'
+    );
+
+    const statePath = join(projectRoot, '.appgen', 'state.json');
+    const state = readJson(statePath);
+    state.phase = 'acceptance';
+    state.output_folder = '_appgen_specs';
+    state.work_folder = '_appgen_work';
+    state.app_root = 'app';
+    state.implementation_loop = {
+      status: 'complete',
+      current_slice: null,
+      open_slices: [],
+      done_slices: ['S006'],
+      blocked_slices: [],
+    };
+    writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
+    writeFileSync(
+      join(projectRoot, '_appgen_work', 'loop-state.json'),
+      JSON.stringify(state.implementation_loop, null, 2),
+      'utf8'
+    );
+
+    runInstalledAppgen(projectRoot, [
+      'acceptance',
+      '--feedback-type=technical',
+      '--feedback=UX ainda precisa de ajuste visual.',
+    ]);
+
+    const updatedState = readJson(statePath);
+    const loop = readJson(join(projectRoot, '_appgen_work', 'loop-state.json'));
+    assert.equal(updatedState.phase, 'implementation-loop');
+    assert.equal(updatedState.acceptance.status, 'changes_requested');
+    assert.equal(updatedState.acceptance.next_step, 'implementation-loop');
+    assert.equal(loop.status, 'ready');
+    assert.deepEqual(loop.open_slices, ['S006']);
+    assert.deepEqual(loop.done_slices, []);
+    assert.match(loop.next_recommended_action, /Retome S006/);
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_specs', 'feature-slices.md'), 'utf8'),
+      /\| S006 \| Polimento operacional \| Ajustar UX e gates finais \| S005 \| Nao \| rework \|/
+    );
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_work', 'progress.jsonl'), 'utf8'),
+      /slice-reopened/
+    );
+  } finally {
+    cleanup(projectRoot);
+  }
+});
+
 test('scaffold can generate the default app from an installed fixture project', () => {
   const projectRoot = makeProject();
 
@@ -347,15 +424,36 @@ test('scaffold can generate the default app from an installed fixture project', 
 
     const packageJson = readJson(join(projectRoot, 'app', 'package.json'));
     assert.equal(packageJson.name, 'finance-ops');
+    assert.equal(packageJson.scripts['test:e2e'], 'playwright test');
+    assert.equal(packageJson.scripts['test:e2e:install'], 'playwright install chromium');
+    assert.equal(packageJson.devDependencies['@playwright/test'], '^1.49.1');
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'package.json')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'src', 'main.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'api', 'vitest.config.ts')));
     assert.ok(existsSync(join(projectRoot, 'app', 'packages', 'shared', 'src', 'index.ts')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'playwright.config.ts')));
+    assert.ok(existsSync(join(projectRoot, 'app', 'tests', 'e2e', 'preview-smoke.spec.ts')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'build-summary.md')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'activity-log.md')));
     assert.match(
       readFileSync(join(projectRoot, '_appgen_work', 'scaffold-report.md'), 'utf8'),
       /Created files: [1-9]\d*/
+    );
+    assert.match(
+      readFileSync(join(projectRoot, 'app', '.gitignore'), 'utf8'),
+      /playwright-report/
+    );
+    assert.doesNotMatch(
+      readFileSync(join(projectRoot, 'app', '.gitignore'), 'utf8'),
+      /pnpm-lock\.yaml/
+    );
+    assert.doesNotMatch(
+      readFileSync(join(projectRoot, '_appgen_work', 'activity-log.md'), 'utf8'),
+      /scaffold-file-created/
+    );
+    assert.match(
+      readFileSync(join(projectRoot, '_appgen_work', 'progress.jsonl'), 'utf8'),
+      /scaffold-file-created/
     );
 
     const state = readJson(join(projectRoot, '.appgen', 'state.json'));

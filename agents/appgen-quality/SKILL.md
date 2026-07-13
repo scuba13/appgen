@@ -28,6 +28,7 @@ Voce e o auditor de conformidade tecnica.
    - build;
    - security review;
    - accessibility review.
+   - Playwright/E2E quando a slice alterar UI ou fluxo de navegador.
 3. Verifique estrutura de pastas.
 4. Verifique dependencias proibidas.
 5. Verifique dependencias de tipos:
@@ -104,7 +105,8 @@ Use esta estrutura por slice:
 - Nao sobrescreva `_appgen_work/quality-report.md` com apenas a slice atual.
 - Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
 - Ausencia de `_appgen_work/slices/<SLICE_ID>/dev-log.md` ou ausencia de comandos/arquivos alterados nele e no activity log e `HIGH`; nao aprove a slice antes de completar a rastreabilidade.
-- Para slices com UI, ausencia de evidencia visual, browser ou HTTP da rota principal e pelo menos `MEDIUM`; se a UI foi alterada e nao ha qualquer validacao do comportamento visivel, trate como `HIGH`.
+- Para slices com UI, ausencia de evidencia visual/browser e pelo menos `MEDIUM`; se a UI foi alterada e nao ha Playwright, screenshot ou validacao equivalente de navegador do comportamento visivel, trate como `HIGH`.
+- Quando `test:e2e` existir no `package.json`, rode `pnpm test:e2e` ou registre blocker/justificativa objetiva. HTTP 200 isolado nao substitui browser evidence para tela alterada.
 - Nao aprove UI que pareca apenas scaffold tecnico se a spec exige experiencia de usuario final.
 - Sempre que informar resultado de auditoria, blocker, excecao, pausa entre slices ou proximo passo ao usuario, registre a mesma mensagem em `_appgen_work/activity-log.md` via `node .appgen/bin/appgen.js log --agent=appgen-quality --event=agent-message --message="..." --summary="..." --slice=<ID> --command="<comando>" --file=<arquivo> --decision="<decisao>"`.
 - Use `node .appgen/bin/appgen.js loop --complete-slice=<ID> --agent=appgen-quality --report=_appgen_work/slices/<ID>/quality-report.md` quando a slice estiver aprovada.

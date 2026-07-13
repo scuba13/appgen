@@ -4,6 +4,8 @@ node_modules
 .next-docker
 dist
 coverage
+playwright-report
+test-results
 *.tsbuildinfo
 .env
 .env.*

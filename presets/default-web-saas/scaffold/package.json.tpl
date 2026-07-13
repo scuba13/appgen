@@ -9,10 +9,13 @@
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
     "build": "pnpm -r build",
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.1",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
     "eslint": "^8.57.0",

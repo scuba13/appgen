@@ -45,7 +45,7 @@ Retorne para o agente responsavel pela proxima spec pendente.
 10. Crie base de observabilidade e erros para o coder reaproveitar:
    - backend: logger estruturado, erro de aplicacao e filtro HTTP global;
    - frontend: logger estruturado, erro de API, helper HTTP com correlation id e error boundary.
-11. Crie setup de testes conforme standards.
+11. Crie setup de testes conforme standards, incluindo Playwright para E2E/browser smoke.
 12. Crie setup de lint/typecheck/build.
 13. Registre arquivos criados.
 14. Execute ou solicite hooks `after-scaffold`.
@@ -74,6 +74,7 @@ scaffold.tasks[]
 - Nao criar estrutura fora de `app_root`, `.appgen/`, `_appgen_specs/` e `_appgen_work/`.
 - Nao implementar features completas aqui. O scaffold cria base, nao produto final.
 - Nao deixe o coder sem caminho padrao para logs e erros. O scaffold deve gerar helpers reaproveitaveis em backend e frontend.
+- O scaffold deve gerar `playwright.config.ts`, `tests/e2e/` e scripts `test:e2e`/`test:e2e:install` para que Quality consiga validar UI real no navegador.
 - Registre progresso em JSONL append-only.
 - Nao subir Docker Compose aqui. Preview tecnico pertence ao gate `appgen-preview-validation` dentro do implementation-loop.
 - Mostre tarefas em linguagem de negocio. Prefira "criar base inicial da app" a "gerar estrutura fisica".

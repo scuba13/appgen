@@ -20,6 +20,8 @@ pnpm dev
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:e2e:install
+pnpm test:e2e
 pnpm build
 ```
 
@@ -43,3 +45,8 @@ O scaffold ja inclui helpers para as slices usarem desde o primeiro codigo:
 - Frontend: `apps/web/src/app/error.tsx` para registrar falhas de render e permitir tentar novamente.
 
 Ao implementar novas slices, reaproveite esses arquivos antes de criar novos padroes de log ou erro.
+
+## Testes E2E
+
+O scaffold inclui Playwright para validar a UI real no navegador.
+Antes de rodar `pnpm test:e2e`, suba o preview web em `http://localhost:3000` ou defina `PLAYWRIGHT_BASE_URL`.
