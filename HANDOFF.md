@@ -570,6 +570,7 @@ d4f50c1 Add scaffold observability helpers
 e3eaf49 Improve AppGen rework and E2E gates
 ad08557 Improve AppGen activity log observability
 8d38711 Tighten frontend boundaries and UX gates
+9b1ad64 Run Playwright validation through Docker
 ```
 
 Principais mudancas aplicadas:
@@ -580,9 +581,12 @@ Principais mudancas aplicadas:
 - Scaffold agora inclui Playwright:
   - `playwright.config.ts`;
   - `tests/e2e/preview-smoke.spec.ts`;
-  - scripts `test:e2e` e `test:e2e:install`;
+  - scripts `test:e2e`, `test:e2e:docker` e `test:e2e:local:install`;
   - `.gitignore` cobre `playwright-report` e `test-results`.
-- `appgen-quality` agora cobra evidencia de browser/Playwright para slices com UI.
+- `app/docker-compose.yml` gerado por preview/acceptance agora inclui servico `e2e` com imagem `mcr.microsoft.com/playwright:v1.49.1-jammy`.
+- QA/Quality devem preferir `pnpm test:e2e:docker` ou `docker compose run --rm e2e`; instalacao local de browser Playwright e apenas fallback.
+- `appgen-preview-validation` roda `docker compose run --rm e2e` quando o preview sobe e a web responde.
+- `appgen-quality` agora cobra evidencia de browser/Playwright containerizado para slices com UI.
 - Feedback tecnico em `appgen-acceptance` reabre a slice final `S006` como `rework`, volta o estado para `implementation-loop` e registra `slice-reopened`.
 - `loop/status` separam `Work rounds` de `Slice runs` para evitar confundir tentativas de slice com limite global.
 - `_appgen_work/activity-log.md` ficou mais util para reavaliacao:
@@ -614,7 +618,7 @@ Validacoes executadas:
 - no app gerado, `pnpm install`, `pnpm typecheck` e `pnpm build` passaram;
 - busca confirmou Prisma ausente de `apps/web` e presente apenas no backend/API;
 - `pnpm exec playwright test --list` encontrou 1 teste E2E;
-- execucao real de Playwright/screenshot nao foi feita porque o Chromium do Playwright nao estava instalado no ambiente;
+- execucao real de Playwright containerizado nao foi feita porque o Docker daemon nao estava ativo (`docker.sock` indisponivel);
 - `npm --cache /private/tmp/appgen-npm-cache-verify pack --dry-run` confirmou que os templates `src/app` entram no tarball.
 
 Estado de teste externo:
