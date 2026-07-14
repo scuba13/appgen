@@ -1,10 +1,24 @@
 import { expect, test } from "@playwright/test";
 
-test("preview home loads without browser runtime errors", async ({ page }) => {
+test("preview home loads without browser runtime errors", async ({ page, request }) => {
   const pageErrors: string[] = [];
   page.on("pageerror", error => {
     pageErrors.push(error.message);
   });
+
+  await expect
+    .poll(
+      async () => {
+        try {
+          const response = await request.get("/");
+          return response.ok();
+        } catch {
+          return false;
+        }
+      },
+      { timeout: 60_000 }
+    )
+    .toBe(true);
 
   const response = await page.goto("/");
 

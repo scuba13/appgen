@@ -34,6 +34,7 @@ Se passar, o implementation-loop pode liberar `appgen-acceptance`.
    - `docker compose up -d --build`;
    - API health em `http://localhost:3001/health`;
    - Web em `http://localhost:3000`.
+   - Playwright no servico Docker `e2e` com `docker compose run --rm e2e`.
 5. Se houver erro tecnico, registre o erro e reabra o loop.
 6. Se Docker/Compose nao estiver pronto, registre blocker de ambiente.
 7. Se passar, registre que o usuario pode seguir para acceptance.
@@ -53,3 +54,4 @@ app/docker-compose.yml
 - Nao instalar Docker sem autorizacao explicita.
 - Nao tratar erro tecnico como feedback de negocio.
 - Preservar logs e checks no state e no report.
+- Browser/E2E deve rodar no ambiente containerizado quando `app/docker-compose.yml` existir; nao exigir instalacao de browser Playwright no host como caminho principal.

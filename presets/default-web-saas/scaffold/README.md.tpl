@@ -20,8 +20,7 @@ pnpm dev
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm test:e2e:install
-pnpm test:e2e
+pnpm test:e2e:docker
 pnpm build
 ```
 
@@ -49,4 +48,12 @@ Ao implementar novas slices, reaproveite esses arquivos antes de criar novos pad
 ## Testes E2E
 
 O scaffold inclui Playwright para validar a UI real no navegador.
-Antes de rodar `pnpm test:e2e`, suba o preview web em `http://localhost:3000` ou defina `PLAYWRIGHT_BASE_URL`.
+QA e Quality devem preferir o ambiente Docker:
+
+```bash
+docker compose up -d --build
+pnpm test:e2e:docker
+```
+
+O comando usa o servico `e2e` do Compose com browser ja instalado na imagem Playwright.
+Para execucao local fora do Docker, use `pnpm test:e2e:local:install` uma vez e depois `pnpm test:e2e`.

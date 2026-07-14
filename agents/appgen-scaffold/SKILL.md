@@ -74,7 +74,7 @@ scaffold.tasks[]
 - Nao criar estrutura fora de `app_root`, `.appgen/`, `_appgen_specs/` e `_appgen_work/`.
 - Nao implementar features completas aqui. O scaffold cria base, nao produto final.
 - Nao deixe o coder sem caminho padrao para logs e erros. O scaffold deve gerar helpers reaproveitaveis em backend e frontend.
-- O scaffold deve gerar `playwright.config.ts`, `tests/e2e/` e scripts `test:e2e`/`test:e2e:install` para que Quality consiga validar UI real no navegador.
+- O scaffold deve gerar `playwright.config.ts`, `tests/e2e/` e scripts `test:e2e`/`test:e2e:docker` para que Quality consiga validar UI real no navegador pelo ambiente Docker. Instalacao local de browser e apenas fallback.
 - Registre progresso em JSONL append-only.
 - Nao subir Docker Compose aqui. Preview tecnico pertence ao gate `appgen-preview-validation` dentro do implementation-loop.
 - Mostre tarefas em linguagem de negocio. Prefira "criar base inicial da app" a "gerar estrutura fisica".

@@ -431,8 +431,9 @@ test('scaffold can generate the default app from an installed fixture project', 
     const packageJson = readJson(join(projectRoot, 'app', 'package.json'));
     assert.equal(packageJson.name, 'finance-ops');
     assert.equal(packageJson.scripts['test:e2e'], 'playwright test');
-    assert.equal(packageJson.scripts['test:e2e:install'], 'playwright install chromium');
-    assert.equal(packageJson.devDependencies['@playwright/test'], '^1.49.1');
+    assert.equal(packageJson.scripts['test:e2e:docker'], 'docker compose run --rm e2e');
+    assert.equal(packageJson.scripts['test:e2e:local:install'], 'playwright install chromium');
+    assert.equal(packageJson.devDependencies['@playwright/test'], '1.49.1');
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'package.json')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'layout.tsx')));
     assert.ok(existsSync(join(projectRoot, 'app', 'apps', 'web', 'src', 'app', 'globals.css')));
@@ -555,8 +556,13 @@ test('environment and preview-validation record container readiness reports', ()
     runAppgen(projectRoot, ['preview-validation', '--prepare-only']);
 
     state = readJson(join(projectRoot, '.appgen', 'state.json'));
+    const compose = readFileSync(join(projectRoot, 'app', 'docker-compose.yml'), 'utf8');
     assert.ok(existsSync(join(projectRoot, 'app', 'docker-compose.yml')));
     assert.ok(existsSync(join(projectRoot, '_appgen_work', 'preview-report.md')));
+    assert.match(compose, /e2e:/);
+    assert.match(compose, /mcr\.microsoft\.com\/playwright:v1\.49\.1-jammy/);
+    assert.match(compose, /PLAYWRIGHT_BASE_URL: http:\/\/web:3000/);
+    assert.match(compose, /pnpm test:e2e/);
     assert.match(state.preview_validation.status, /^(ready_for_user_test|needs_attention)$/);
     assert.equal(state.preview_validation.report, '_appgen_work/preview-report.md');
     assert.deepEqual(

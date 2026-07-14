@@ -28,7 +28,7 @@ Voce e o auditor de conformidade tecnica.
    - build;
    - security review;
    - accessibility review.
-   - Playwright/E2E quando a slice alterar UI ou fluxo de navegador.
+   - Playwright/E2E containerizado quando a slice alterar UI ou fluxo de navegador.
 3. Verifique estrutura de pastas.
 4. Verifique dependencias proibidas.
 5. Verifique dependencias de tipos:
@@ -108,7 +108,8 @@ Use esta estrutura por slice:
 - Falha de typecheck por tipo ausente ou pacote nao declarado e `BLOCKER` e deve voltar para `appgen-coder`.
 - Ausencia de `_appgen_work/slices/<SLICE_ID>/dev-log.md` ou ausencia de comandos/arquivos alterados nele e no activity log e `HIGH`; nao aprove a slice antes de completar a rastreabilidade.
 - Para slices com UI, ausencia de evidencia visual/browser e pelo menos `MEDIUM`; se a UI foi alterada e nao ha Playwright, screenshot ou validacao equivalente de navegador do comportamento visivel, trate como `HIGH`.
-- Quando `test:e2e` existir no `package.json`, rode `pnpm test:e2e` ou registre blocker/justificativa objetiva. HTTP 200 isolado nao substitui browser evidence para tela alterada.
+- Quando `test:e2e:docker` existir no `package.json`, rode `pnpm test:e2e:docker` ou `docker compose run --rm e2e` depois do preview subir. Use `pnpm test:e2e` local apenas como fallback explicito. HTTP 200 isolado nao substitui browser evidence para tela alterada.
+- Nao reprove por falta de browser Playwright instalado no host se o servico Docker `e2e` estiver disponivel; reprove somente se o E2E containerizado falhar ou estiver objetivamente bloqueado.
 - Nao aprove UI que pareca apenas scaffold tecnico se a spec exige experiencia de usuario final.
 - Nao aprove frontend que acesse persistencia diretamente ou traga Prisma para `apps/web`; isso e `BLOCKER` por quebra de fronteira.
 - Para UI, ausencia de voltar/cancelar em detalhe/criacao/edicao/revisao/confirmacao e no minimo `HIGH`; se bloquear o usuario no fluxo, trate como `BLOCKER`.
