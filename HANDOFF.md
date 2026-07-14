@@ -550,6 +550,100 @@ Proxima acao recomendada:
 3. Chamar `appgen` ou `$appgen` no chat e continuar o fluxo manual.
 4. Se precisar reinstalar do zero, usar uma pasta fora de `/Users/eduardonascimento/Github/appgen` para evitar o `npx` resolver o `package.json` do repo pai.
 
+## Atualizacao 2026-07-14 - Observabilidade, E2E, Rework e UX
+
+Esta secao supera os blocos anteriores que citam `appgen-ai@0.2.9` como estado mais recente.
+
+Status atual:
+
+- branch `main` enviada para o remoto HTTPS `https://github.com/scuba13/appgen.git`;
+- ultimo commit remoto confirmado: `8d38711 Tighten frontend boundaries and UX gates`;
+- versao local no `package.json`: `0.2.10`;
+- estas mudancas ainda nao foram publicadas no npm;
+- para teste real via `npx appgen-ai install`, publicar nova versao antes do teste.
+
+Commits recentes enviados para `main`:
+
+```text
+8fe36ee Improve AppGen slice observability and acceptance guide
+d4f50c1 Add scaffold observability helpers
+e3eaf49 Improve AppGen rework and E2E gates
+ad08557 Improve AppGen activity log observability
+8d38711 Tighten frontend boundaries and UX gates
+```
+
+Principais mudancas aplicadas:
+
+- Scaffold agora gera helpers estruturados de log/erro para backend e frontend:
+  - backend: logger estruturado, `AppError`, filtro HTTP global;
+  - frontend: logger do browser, erro de API, `fetchJson` com `x-correlation-id`, error boundary.
+- Scaffold agora inclui Playwright:
+  - `playwright.config.ts`;
+  - `tests/e2e/preview-smoke.spec.ts`;
+  - scripts `test:e2e` e `test:e2e:install`;
+  - `.gitignore` cobre `playwright-report` e `test-results`.
+- `appgen-quality` agora cobra evidencia de browser/Playwright para slices com UI.
+- Feedback tecnico em `appgen-acceptance` reabre a slice final `S006` como `rework`, volta o estado para `implementation-loop` e registra `slice-reopened`.
+- `loop/status` separam `Work rounds` de `Slice runs` para evitar confundir tentativas de slice com limite global.
+- `_appgen_work/activity-log.md` ficou mais util para reavaliacao:
+  - instrucoes curtas de leitura;
+  - snapshot `Estado Do Fluxo`;
+  - listas longas em bullets;
+  - eventos mecanicos de arquivo criado ficam no `progress.jsonl`;
+  - `appgen log` grava tambem no `progress.jsonl`, nao somente no Markdown.
+- Prisma foi restringido ao backend/API:
+  - standards e agentes proibem Prisma, `@prisma/client`, repositories/services do backend ou cliente de banco em `apps/web`;
+  - frontend deve consumir API/helpers/contratos compartilhados.
+- UX foi reforcado:
+  - Architect/Specs precisam declarar navegacao, acoes primaria/secundarias e voltar/cancelar;
+  - Coder deve entregar UI usavel, nao scaffold cru;
+  - QA/Quality devem reprovar fluxo sem `Voltar`/`Cancelar`, navegacao falsa, UI rudimentar ou frontend acessando persistencia.
+- Corrigido `.gitignore`:
+  - antes `app/` ignorava qualquer pasta chamada `app`, inclusive templates em `presets/.../src/app`;
+  - agora usa `/app/` e `/test/`, permitindo versionar templates do Next App Router.
+- Templates frontend agora estao versionados e entram no pacote:
+  - `presets/default-web-saas/scaffold/apps/web/src/app/layout.tsx.tpl`;
+  - `presets/default-web-saas/scaffold/apps/web/src/app/globals.css.tpl`;
+  - `presets/default-web-saas/scaffold/apps/web/src/app/page.tsx.tpl`;
+  - tela inicial inclui sidebar, header com `Voltar`, `Cancelar`, acao primaria, cards, tabela, estado informativo e responsividade.
+
+Validacoes executadas:
+
+- `npm test` passou com 12/12 testes apos as mudancas;
+- scaffold temporario gerado em `/private/tmp`;
+- no app gerado, `pnpm install`, `pnpm typecheck` e `pnpm build` passaram;
+- busca confirmou Prisma ausente de `apps/web` e presente apenas no backend/API;
+- `pnpm exec playwright test --list` encontrou 1 teste E2E;
+- execucao real de Playwright/screenshot nao foi feita porque o Chromium do Playwright nao estava instalado no ambiente;
+- `npm --cache /private/tmp/appgen-npm-cache-verify pack --dry-run` confirmou que os templates `src/app` entram no tarball.
+
+Estado de teste externo:
+
+- pasta indicada pelo usuario para proximo teste: `/Users/eduardonascimento/Github/AppGenTest/codex`;
+- no momento da ultima checagem, essa pasta estava vazia e sem `_appgen_work`;
+- artefatos do teste anterior nao estavam mais disponiveis nessa pasta.
+
+Proxima acao recomendada:
+
+1. Publicar uma nova versao npm com essas mudancas, pois o teste real sera via `npx appgen-ai install`.
+2. Limpar/usar `/Users/eduardonascimento/Github/AppGenTest/codex`.
+3. Rodar `npx appgen-ai install` a partir da versao publicada.
+4. Executar o fluxo AppGen ate gerar scaffold e pelo menos uma rodada de implementation-loop.
+5. Avaliar principalmente:
+   - `_appgen_work/activity-log.md`;
+   - `_appgen_work/progress.jsonl`;
+   - `_appgen_work/slices/<ID>/dev-log.md`;
+   - `_appgen_work/slices/<ID>/qa-report.md`;
+   - `_appgen_work/slices/<ID>/quality-report.md`;
+   - se `apps/web` nao tem Prisma;
+   - se a UI gerada tem navegacao, voltar/cancelar, acoes claras e layout aceitavel.
+
+Nao fazer agora:
+
+- nao assumir que `latest` no npm contem essas mudancas antes de publicar nova versao;
+- nao testar via `npx appgen-ai install` esperando os commits locais sem publicacao;
+- nao apagar feedback/logs do novo teste antes de analisar.
+
 ## Proximos Passos Recomendados
 
 1. Aguardar o usuario rodar os testes manuais em `test/claude/` e `test/codex/`.
